@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chesney Signage Footer</title>
+    <style>
+        /* Footer container styling */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+            color: #fff; /* White text */
+            padding: 20px 0; 
+            text-align: center; /* Center align text */
+            position: relative; /* Relative positioning for layout */
+            transition: background-color 0.3s; /* Smooth transition */
+            background-image: url('images/signage-background.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire footer */
+            background-position: center; /* Center the image */
+        }
+
+        /* Footer container */
+        .footer-container {
+            display: flex;
+            flex-direction: column; /* Column layout */
+            align-items: center; /* Center align items */
+            max-width: 1500px; /* Max width for the footer */
+            margin: 0 auto; /* Center the footer */
+            padding: 20px; 
+        }
+
+        /* Logo styling */
+        .footer-logo {
+            height: 60px; /* Increased logo height */
+            margin-bottom: 15px; /* Space below logo */
+            transition: transform 0.3s; /* Logo hover effect */
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.1); /* Slightly enlarge the logo on hover */
+        }
+
+        /* Tagline styling */
+        .tagline {
+            font-size: 20px; /* Font size for tagline */
+            margin: 10px 0; /* Space above and below */
+            font-weight: bold; /* Bold font */
+            color: #ffcc00; /* Gold color for tagline */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        }
+
+        /* Footer column styling */
+        .footer-columns {
+            display: flex;
+            justify-content: space-between; /* Space between columns */
+            flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+            width: 100%; /* Full width for the footer columns */
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .footer-column {
+            flex: 1; /* Flex-grow to take equal space */
+            min-width: 220px; /* Minimum width for columns */
+            margin: 10px; /* Space between columns */
+            text-align: left; /* Left align text */
+        }
+
+        .footer-column h3 {
+            margin-bottom: 10px; /* Space below headings */
+            color: #ff0000; /* Red color for headings */
+        }
+
+        /* List styling */
+        ul {
+            list-style: none; /* Remove bullets from lists */
+            padding: 0; /* Remove padding */
+        }
+
+        ul li {
+            margin: 5px 0; /* Space between list items */
+        }
+
+        ul li a {
+            text-decoration: none; /* Remove underline */
+            color: #fff; /* White color for links */
+            transition: color 0.3s; /* Smooth transition for color */
+        }
+
+        ul li a:hover {
+            color: #ff0000; /* Change color on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Button styling */
+        .inquiry-btn {
+            padding: 10px 15px;
+            border: none;
+            background-color: #ff0000; /* Red background */
+            color: #fff; /* White text */
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s; /* Transition for button */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+
+        .inquiry-btn:hover {
+            background-color: #cc0000; /* Darker red on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Social links styling */
+        .social-links {
+            margin-top: 20px; /* Space above social links */
+        }
+
+        .social-links a {
+            margin: 0 10px; /* Space between icons */
+        }
+
+        .social-links img {
+            width: 30px; /* Size for social icons */
+            transition: transform 0.3s; /* Transition for hover effect */
+        }
+
+        .social-links img:hover {
+            transform: scale(1.1); /* Slightly enlarge icons on hover */
+        }
+
+        .map-container {
+            margin-top: 20px; /* Space above map */
+            width: 100%; /* Full width for the map container */
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space between images and map */
+            align-items: center; /* Center align items vertically */
+        }
+
+        .image-container {
+            display: flex; /* Use flexbox for images and map */
+            justify-content: center; /* Center align children */
+            align-items: center; /* Center vertically */
+            width: 100%; /* Full width */
+        }
+
+        .side-image {
+            width: 400px; /* Width for side images */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 10px; /* Space between images and map */
+            border-radius: 5px;
+        }
+
+        iframe {
+            width: 60%; /* Reduce the width of the map */
+            height: 200px; /* Fixed height for the iframe */
+            border: 0; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+
+        /* Contact info styling */
+        .contact-info {
+            margin-top: 10px; /* Space above contact info */
+            font-size: 14px; /* Smaller font for contact info */
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .footer-columns {
+                flex-direction: column; /* Stack columns on small screens */
+                align-items: center; /* Center align columns */
+            }
+
+            .footer-column {
+                text-align: center; /* Center align text for small screens */
+            }
+        }
+
+        /* General styling for small devices like phones */
+@media (max-width: 600px) {
+    .footer-columns {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center; /* Center align columns */
+    }
+
+    .footer-column {
+        text-align: center; /* Center align text */
+        margin: 10px 0; /* Add space between columns */
+    }
+
+    .image-container {
+        flex-direction: column; /* Stack the images and map vertically */
+        align-items: center;
+    }
+
+    .side-image, iframe {
+        width: 90%; /* Adjust width for small screens */
+        margin: 10px 0; /* Space between images and map */
+    }
+
+    .footer-logo {
+        height: 50px; /* Adjust logo size for small screens */
+    }
+
+    .tagline {
+        font-size: 18px; /* Adjust tagline size for better readability */
+    }
+
+    .inquiry-btn {
+        width: 80%; /* Make the button take up more space */
+    }
+}
+
+/* Styling for tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .footer-columns {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center; /* Center align columns */
+    }
+
+    .footer-column {
+        text-align: center; /* Center align text */
+        margin: 15px 0; /* Add space between columns */
+    }
+
+    .image-container {
+        flex-direction: column; /* Stack images and map vertically */
+        align-items: center;
+    }
+
+    .side-image, iframe {
+        width: 80%; /* Adjust width for tablet screens */
+        margin: 15px 0; /* Space between images and map */
+    }
+
+    .footer-logo {
+        height: 55px; /* Adjust logo size */
+    }
+
+    .tagline {
+        font-size: 20px; /* Adjust tagline size */
+    }
+
+    .inquiry-btn {
+        width: 70%; /* Adjust button size */
+    }
+}
+
+/* Styling for laptops and larger screens */
+@media (min-width: 1025px) {
+    .footer-columns {
+        flex-direction: row; /* Display columns side by side */
+        justify-content: space-between; /* Distribute space between columns */
+    }
+
+    .footer-column {
+        text-align: left; /* Left align text */
+        margin: 0 20px; /* Space between columns */
+    }
+
+    .image-container {
+        flex-direction: row; /* Align images and map horizontally */
+        align-items: center; /* Center align vertically */
+    }
+
+    .side-image {
+        width: 350px; /* Adjust image width for larger screens */
+    }
+
+    iframe {
+        width: 60%; /* Keep the map a bit larger for bigger screens */
+    }
+
+    .footer-logo {
+        height: 60px; /* Default size for larger screens */
+    }
+
+    .tagline {
+        font-size: 22px; /* Larger font for tagline */
+    }
+
+    .inquiry-btn {
+        width: auto; /* Default width for button */
+    }
+}
+
+    </style>
+</head>
+<body>
+    <footer>
+        <div class="footer-container">
+            <img src="images/logo 2.png" alt="Chesney Signage Logo" class="footer-logo">
+            <!-- <h3><span class="highlight">Chesney Enterprises Private Limited</span></h3> -->
+            <p class="tagline">Engineers way of advertising</p>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Registration</h3>
+                    <ul>
+                        <li><a href="#">Sign up</a></li>
+                        <li><a href="#">Sign in</a></li>
+                        <li><a href="#">Forgot password?</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Explore</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact us</h3>
+                    <button class="inquiry-btn">Send inquiry</button>
+                    <p class="contact-info">
+                        Phone: +91-8971734481<br>
+                        Email: <a href="mailto:enquiry@chesneyindia.online" style="color: #fff; text-decoration: none;">enquiry@chesneyindia.online</a>
+                    </p>
+                    <p>No spam. We promise.</p>
+                </div>
+            </div>
+
+           
+            <!-- Iframe for Google Maps -->
+            <div class="map-container">
+                <div class="image-container">
+                    <img src="work/1.jpg" alt="Left Image" class="side-image left-image">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.2082217467223!2d77.66013727507732!3d13.022408287297617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6d72eb3ea2f5%3A0xe681a95c30ac4bc4!2sChesney%20Enterprise%20Private%20Limited!5e0!3m2!1sen!2sin!4v1728888655166!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <img src="work/outside.png" alt="Right Image" class="side-image right-image">
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="#"><img src="images/youtube.svg" alt="YouTube"></a>
+                <a href="#"><img src="images/instagram.svg" alt="Instagram"></a>
+            </div>
+            <p>&copy; 2024 Chesney Enterprises Private Limited. All rights reserved.</p>
+    </footer>
+</body>
+</html>
