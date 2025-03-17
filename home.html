@@ -16,9 +16,10 @@
             /* gap: 10px; */
             height: 600px;
             background: rgba(255, 255, 255, 0.1); 
-            border-radius: 15px;
+            border-radius: 30px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             
         }
 
@@ -31,13 +32,12 @@
             color: white;
             font-weight: bold;
             text-align: center;
-            border-radius: 15px;
+            border-radius: 30px;
             background-size: cover;
             background-position: center;
             margin: 10px;
         }
-
-        .item-text {
+          .item-text {
             position: absolute;
             bottom: 20px;
             left: 20px;
@@ -74,6 +74,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 20px;
+            border-radius: 30px;
         }
 
         .logo-img {
@@ -117,7 +118,7 @@
             border-radius: 5px;
         }
 
-        .standees {
+        .connect-screen {
             background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
             background-color: #f0f0f0;
         }
@@ -139,13 +140,13 @@
         }
         .led-wall{
             grid-column: span 2;
+            grid-row: span 2;
             background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
             background-color: #2196F3;
         }
-        .digital-standee{
+        .gallery{
           background-image: url('https://media.istockphoto.com/id/1439868974/photo/3d-add-image-in-gallery-picture-with-plus-mark-button-to-upload-new-photo-mountains-and-sun.jpg?s=1024x1024&w=is&k=20&c=_MrOvIGuXOEpBVazEvR2DVAf1BFbHe-sXIhu6PxeSYo=');
-            background-color: #4CAF50;
-        }
+          }
         .chesney-logo{
           background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
           background-color: #4CAF50;
@@ -198,6 +199,28 @@
                 left: 10px;
             }
         }
+
+          .dashboard-card {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 50px;
+            
+          }
+
+
+          .dash-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: white;
+            background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
+            border: 2px solid #fff;
+          }
+          .card-icon {
+            font-size: 30px;
+          }
   </style>
 </head>
 <body>
@@ -208,15 +231,17 @@
 
  
   <div class="dashboard-container">
-
     <div class="dashboard-card welcome-card">
       <div class="welcome-content">
-        <img src="./images/logo.png" alt="Logo" class="logo">
-      
+        <img src="./images/logoblue.png" alt="Logo" class="logo">
         <h2 class="welcome-text">WELCOME USER NAME</h2>
       </div>
+      <button onclick="location.href='dashboard.html'" class="dash-button">
+        <i class="fa-solid fa-user card-icon"></i>
+        <!-- <span>PROFILE</span> -->
+      </button>
     </div>
-
+  </div>
 <!-- 
 
     <button onclick="location.href='dashboard.html'" class="dashboard-button">
@@ -269,33 +294,34 @@
     
     </button>
 -->
-</div> 
+
 <div class="container">
   <!-- First row -->
   <div class="grid-item led-wall">
-     <a href="connect.html"><div class="overlay">
-      
-     </div></a> 
+     <div class="overlay">
+      </div> 
       <div class="item-text">LED VIDEO WALL</div>
   </div>
   
-  <div class="grid-item digital-standee">
-      <div class="overlay">
-   
-      </div>
+  
+    
+    <button onclick="location.href='media.html'" class="grid-item gallery">
+      <div class="overlay"></div>
       <div class="item-text">GALLERY</div>
-  </div>
+    </button>
 
-  <div class="grid-item digital-billboard">
+
+  <!-- <div class="grid-item digital-billboard">
       <div class="overlay"></div>
       <div class="item-text">DIGITAL BILLBOARD</div>
-  </div>
+  </div> -->
 
   <!-- Second row -->
-  <div class="grid-item standees">
+  <button onclick="location.href='connect.html'" class="grid-item connect-screen">
       <div class="overlay"></div>
       <div class="item-text">CONNECT SCREEN</div>
-  </div>
+    </button>
+
   <div class="grid-item building-ad">
       <div class="overlay"></div>
       <div class="item-text">MANAGE SCREEN</div>
