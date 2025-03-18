@@ -65,8 +65,8 @@ function createDeviceCard(device, deviceId) {
   const card = document.createElement("div");
   card.className = "device-card";
   card.innerHTML = `
-    <h4>${device.deviceName || "Unnamed Device"}</h4>
-    <p>Status: <span>${device.status || "Unknown"}</span></p>
+    <h4>${device.deviceCode || "Unnamed Device"}</h4>
+    
     <p>Media Queue: ${device.currentMedia?.length || 0} items</p>
     <button class="manage-btn" data-id="${deviceId}">Manage</button>
   `;
@@ -96,7 +96,7 @@ function createGroupCard(group, groupId) {
   card.className = "group-card";
   card.innerHTML = `
     <h4>${group.name || "Unnamed Group"}</h4>
-    <p>Group ID: ${groupId}</p>
+  
     <p>${group.devices.length} Devices</p>
     <button class="manage-group-btn" data-id="${groupId}">Manage</button>
   `;
@@ -119,8 +119,8 @@ function openGroupPopup(group, groupId) {
   document.getElementById("push-media-btn").onclick = () => pushMediaToGroup(group.devices);
   document.getElementById("push-playlist-btn").onclick = () => pushPlaylistToGroup(group.devices);
   document.getElementById("clear-restart-btn").onclick = () => clearAndRestartGroup(group.devices);
-  document.getElementById("clear-media").onclick = () => clearMedia(group.devices);
-  document.getElementById("close-popup").onclick = () => closePopup(popup);
+
+
 }
 
 // Push Media to Group with Orientation, Resize Mode, Delay, and Audio
@@ -352,70 +352,6 @@ async function clearAndRestartGroup(deviceIds) {
 
 
 
-
-async function clearMedia(deviceIds) {
-  try {
-    for (const deviceId of deviceIds) {
-      const deviceRef = doc(db, "devices", deviceId);
-
-      // Set commands to true
-      await updateDoc(deviceRef, {
-        currentMedia: null,
-        commands: {
-          clearContent: true,
-          // restartApp: true,
-        },
-      });
-
-      // Wait for 1 second then reset commands
-      setTimeout(async () => {
-        await updateDoc(deviceRef, {
-          commands: {
-            clearContent: false,
-            // restartApp: false,
-          },
-        });
-      }, 1000);
-    }
-
-    alert("Media cleared and restart command sent to all devices in the group!");
-  } catch (error) {
-    console.error("Error clearing and restarting group devices:", error);
-  }
-}
-
-async function clearMediaa(deviceId) {
-  try {
-    const deviceRef = doc(db, "devices", deviceId);
-
-    // Set commands to true
-    await updateDoc(deviceRef, {
-      currentMedia: null,
-      commands: {
-        clearContent: true,
-        // restartApp: true,
-      },
-    });
-
-    // Wait for 1 second
-    setTimeout(async () => {
-      await updateDoc(deviceRef, {
-        commands: {
-          clearContent: false,
-          // restartApp: false,
-        },
-      });
-    }, 1000);
-
-    alert("Media cleared and restart command sent!");
-  } catch (error) {
-    console.error("Error clearing and restarting device:", error);
-  }
-}
-
-
-
-
 // Push Media with Orientation, Resize Mode, Delay, and Audio
 function pushMedia(deviceId) {
   const selectedMedia = document.querySelector(".media-item.selected");
@@ -474,10 +410,6 @@ function pushPlaylist(deviceId) {
     .catch((error) => console.error("Error pushing playlist:", error));
 }
 
-// Close Popup
-function closePopup(popup) {
-  popup.style.display = "none";
-}
 
 
 
