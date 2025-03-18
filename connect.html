@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connect Devices</title>
   <link rel="stylesheet" href="connect.css">
- <style>
- 
-
- 
- </style>
 </head>
 <body>
   
@@ -23,8 +18,10 @@
     </div>
 
     <!-- Red Box -->
+     
     <div class="red-box">
-      <h2>Enter your device code to connect.</h2> 
+     <button onclick="location.href='home.html'" class="cut-button">X</button>
+    <h2>Enter your device code to connect.</h2> 
       <form id="connect-form">
         <input type="text" id="device-id" placeholder="Enter Device ID" required />
         <button type="submit">Connect Device</button>
@@ -172,7 +169,7 @@
                <p>${deviceData.deviceCode || "Unnamed Device"}</p>
            
               
-             <p>${new Date(deviceData.connectedAt).toLocaleDateString()}</p>
+             <h4>${new Date(deviceData.connectedAt).toLocaleDateString()}</h4>
               <button class="disconnect-btn" data-id="${doc.id}">Disconnect</button>
             `;
             deviceList.appendChild(deviceItem);
