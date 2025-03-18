@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,229 +8,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="home.css">
   <style>
-     .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            /* gap: 10px; */
-            height: 600px;
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            
-        }
 
-        .grid-item {
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 30px;
-            background-size: cover;
-            background-position: center;
-            margin: 10px;
-        }
-          .item-text {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 24px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            z-index: 2;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        /* Specific grid items */
-        .led-wall {
-            grid-column: span 2;
-            background-image: url('/api/placeholder/640/320');
-            background-color: #3a1c71;
-        }
-
-        .digital-standee {
-            background-color: #ffc107;
-            background-image: url('/api/placeholder/300/300');
-        }
-
-        .chesney-logo {
-            background-color: #d4af37;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            border-radius: 30px;
-        }
-
-        .logo-img {
-            width: 80%;
-            margin: 0 auto;
-        }
-
-        .about-us {
-            background-color: #d4af37;
-            color: white;
-            font-size: 24px;
-            text-align: center;
-        }
-        .analytics {
-            background-color: #d4af37;
-            color: white;
-            font-size: 24px;
-            text-align: center;
-        }
-
-        .qr-code {
-            background-color: #d4af37;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-image: url('https://www.itctech.com.cn/Public/upload/2021-04-27/1619494588.4619_wm_2969.gif');
-        }
-
-        .qr-text {
-            font-size: 32px;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .qr-img {
-            width: 70%;
-            height: auto;
-            background-color: white;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .connect-screen {
-            background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-            background-color: #f0f0f0;
-        }
-
-        .building-ad {
-            background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-            background-color: #9c27b0;
-        }
-
-        .led-cabinets {
-            background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-            background-color: #4CAF50;
-        }
-
-        .digital-billboard {
-            grid-row: span 2;
-            background-image: url('https://cdn.pixabay.com/animation/2023/03/08/10/44/10-44-51-50_512.gif');
-            background-color: #2196F3;
-        }
-        .led-wall{
-            grid-column: span 2;
-            grid-row: span 2;
-            background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
-            background-color: #2196F3;
-        }
-        .gallery{
-          background-image: url('https://media.istockphoto.com/id/1439868974/photo/3d-add-image-in-gallery-picture-with-plus-mark-button-to-upload-new-photo-mountains-and-sun.jpg?s=1024x1024&w=is&k=20&c=_MrOvIGuXOEpBVazEvR2DVAf1BFbHe-sXIhu6PxeSYo=');
-          }
-        .chesney-logo{
-          background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
-          background-color: #4CAF50;
-        }
-        .analytics{
-          background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/e1a05434083016.56c37784793c9.gif');
-          background-color: #4CAF50;
-        }
-        .about-us{
-          background-image: url('https://www.lg.com/content/dam/channel/wcms/uk/images/business/digital-signage/43ht3wn-b_aek_eeuk_uk_b/feature/43HT3WJ-06-Adjustable-Height-One-Quick-Digital-Signage-ID-M.gif');
-          background-color: #4CAF50;
-        }
-
-        /* Logo text styling */
-        .logo-text {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-
-        .logo-subtext {
-            font-size: 14px;
-            color: white;
-            text-align: center;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(4, 1fr);
-                height: auto;
-            }
-            
-            .led-wall, .digital-billboard {
-                grid-column: span 2;
-                grid-row: span 1;
-                height: 200px;
-            }
-            
-            .grid-item {
-                height: 200px;
-            }
-            
-            .item-text {
-                font-size: 18px;
-                bottom: 10px;
-                left: 10px;
-            }
-        }
-
-          .dashboard-card {
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-right: 50px;
-            
-          }
-
-
-          .dash-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            color: white;
-            background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
-            border: 2px solid #fff;
-          }
-          .card-icon {
-            font-size: 30px;
-          }
   </style>
 </head>
-<body>
-  <!-- Logout Button -->
-  <!-- <div class="logout-container">
-    <button id="logout-btn" class="logout-btn">Logout</button>
-  </div> -->
 
- 
+<body>
   <div class="dashboard-container">
     <div class="dashboard-card welcome-card">
       <div class="welcome-content">
@@ -238,120 +21,72 @@
       </div>
       <button onclick="location.href='dashboard.html'" class="dash-button">
         <i class="fa-solid fa-user card-icon"></i>
-        <!-- <span>PROFILE</span> -->
+
       </button>
     </div>
   </div>
-<!-- 
-
-    <button onclick="location.href='dashboard.html'" class="dashboard-button">
-      <i class="fa-solid fa-user card-icon"></i>
-      <span>PROFILE</span>
-    </button>
-
-    <button onclick="location.href='connect.html'" class="dashboard-button">
-      <i class="fa-solid fa-desktop card-icon"></i>
-      <span>CONNECT SCREEN</span>
-    </button>
-
-    <button onclick="location.href='manage.html'" class="dashboard-button">
-      <i class="fa-solid fa-tv card-icon"></i>
-      <span>MANAGE SCREEN</span>
-    </button>
-
-
-
-    <button onclick="location.href='media.html'" class="dashboard-button">
-      <i class="fa-solid fa-image card-icon"></i>
-      <span>GALLERY</span>
-    </button>
-
-    <button onclick="location.href='playlist.html'" class="dashboard-button">
-      <i class="fa-solid fa-play card-icon"></i>
-      <span>PLAYLIST</span>
-    </button>
-    <button onclick="location.href='groups.html'" class="dashboard-button ">
-      <i class="fa-solid fa-users card-icon"></i>
-      <span>GROUPS ASSIGNED</span>
-    </button>
-
-    <button onclick="alert('Tutorials section is under development!');" class="dashboard-button coming-soon">
-      <i class="fa-solid fa-circle-play card-icon"></i>
-      <span>WATCH TUTORIALS</span>
-      <div class="maintenance-overlay">Under Maintenance</div>
-</button>
-    </button>
-
-    <button onclick="location.href='comingsoon.html'" class="dashboard-button coming-soon">
-      <i class="fa-solid fa-hourglass-half card-icon"></i>
-      <span>Grid and Layout</span>
-      <div class="maintenance-overlay">Under Maintenance</div>
-    </button>
-
-    <button onclick="location.href='comingsoon.html'" class="dashboard-button coming-soon">
-      <i class="fa-solid fa-hourglass-half card-icon"></i>
-      <span>ADS</span>
-    
-    </button>
--->
-
-<div class="container">
-  <!-- First row -->
-  <div class="grid-item led-wall">
-     <div class="overlay">
-      </div> 
+  <div class="container">
+    <!-- First row -->
+    <div class="grid-item led-wall">
+      <div class="overlay">
+      </div>
       <div class="item-text">LED VIDEO WALL</div>
-  </div>
-  
-  
-    
+    </div>
+
+
+
     <button onclick="location.href='media.html'" class="grid-item gallery">
       <div class="overlay"></div>
       <div class="item-text">GALLERY</div>
     </button>
 
 
-  <!-- <div class="grid-item digital-billboard">
+    <!-- <div class="grid-item digital-billboard">
       <div class="overlay"></div>
       <div class="item-text">DIGITAL BILLBOARD</div>
   </div> -->
 
-  <!-- Second row -->
-  <button onclick="location.href='connect.html'" class="grid-item connect-screen">
+    <!-- Second row -->
+    <button onclick="location.href='connect.html'" class="grid-item connect-screen">
       <div class="overlay"></div>
       <div class="item-text">CONNECT SCREEN</div>
-    </button>
 
-  <div class="grid-item building-ad">
-      <div class="overlay"></div>
-      <div class="item-text">MANAGE SCREEN</div>
-  </div>
-  <div class="grid-item led-cabinets">
-      <div class="overlay"></div>
-      <div class="item-text">PLAYLIST</div>
-  </div>
 
-  <!-- Logo and QR section in right column -->
-  <div class="grid-item chesney-logo">
-      <div>
+      <button onclick="location.href='manage.html'" class="grid-item manage-screen">
+        <div class="overlay"></div>
+        <div class="item-text">MANAGE SCREEN</div>
+      </button>
+
+      <button onclick="location.href='playlist.html'" class="grid-item playlist">
+        <div class="overlay"></div>
+        <div class="item-text">PLAYLIST</div>
+      </button>
+
+      <!-- Logo and QR section in right column -->
+      <div class="grid-item chesney-logo">
+        <div>
           <div class="logo-text">CHESNEY</div>
           <div class="logo-subtext">ENGINEERS WAY OF ADVERTISING</div>
+        </div>
       </div>
+
+      <div class="grid-item contact-us">
+        <div class="overlay"></div>
+        <div class="item-text">CONTACT US</div>
+      </div>
+
+      <div class="grid-item analytics">
+        <div class="overlay"></div>
+        <div class="item-text">ANALYTICS/USAGE</div>
+      </div>
+
+      <button onclick="location.href='groups.html'" class="grid-item groups ">
+        <div class="">
+          <div class="overlay"></div>
+          <div class="item-text">GROUP DEVICES</div>
+      </button>
   </div>
-  <div class="grid-item analytics">Analytics</div>
-  <div class="grid-item about-us">ABOUT US</div>
-  <div class="grid-item qr-code">
-      <div class="qr-text">SCAN ME</div>
-      <!-- <div class="qr-img">
-       
-          <img src="/api/placeholder/120/120" alt="QR Code">
-      </div> -->
   </div>
-</div>
-
-
-
-
 
   <!-- JavaScript -->
   <script type="module">
@@ -379,21 +114,8 @@
           window.location.href = "login.html";
         }
       });
-
-      document.getElementById("logout-btn").addEventListener("click", async () => {
-        if (confirm("Are you sure you want to log out?")) {
-          try {
-            await signOut(auth);
-            window.location.href = "login.html";
-          } catch (error) {
-            alert("Failed to log out. Please try again.");
-          }
-        }
-      });
     });
   </script>
-
-
-
 </body>
+
 </html>

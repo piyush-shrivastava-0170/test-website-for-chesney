@@ -16,11 +16,8 @@ body {
 /* Dashboard Grid Layout */
 .dashboard-container {
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
-  /* gap: 20px; */
   width: 91.5%;
   max-width: 1200px;
-  /* padding: 20px */
   padding-bottom: 20px;
   box-sizing: border-box;
 }
@@ -63,121 +60,217 @@ body {
   align-items: center;
   
 }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  /* gap: 10px; */
+  height: 600px;
+  background: rgba(255, 255, 255, 0.1); 
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  
+}
 
-/* .welcome-arrow {
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #fff;
-} */
-
-/* Dashboard Buttons */
-.dashboard-button {
-  border: none;
-  border-radius: 14px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
+.grid-item {
+  position: relative;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  height: 160px;
-  color: #fff;
-  position: relative;
-  backdrop-filter: blur(10px);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  margin: 10px;
+  cursor: pointer;
 }
-
-/* Different card styles to match gradient */
-.dashboard-button:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.dashboard-button:nth-child(even) {
-  background: #cd0303fe;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dashboard-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Button Icons */
-.dashboard-button .icon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.dashboard-button .title {
-  margin: 0;
-}
-
-.dashboard-button .add-icon {
+.item-text {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
+  bottom: 20px;
+  left: 20px;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
-/* "Coming Soon" Card */
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .dashboard-container {
-    grid-template-columns: 1fr;
-  }
-
-  .welcome-card {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-.card-icon {
-  font-size: 3rem; /* Increased size */
-  margin-bottom: 10px;
-}
-
-
-
-/* this code is for under maintenance*/
-
-.coming-soon {
-  background: #2c2c2c; /* Darker background to signify maintenance */
-  color: #ffffff;
-  opacity: 0.8; /* Slight transparency */
-  cursor: not-allowed; /* Pointer indicates non-clickable button */
-  position: relative;
-}
-
-/* Maintenance Overlay */
-.maintenance-overlay {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(118, 58, 58, 0.7); 
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  opacity: 1;
-  z-index: 2;
-  pointer-events: none; 
-  border-radius: 14px;/* Prevents interaction with the overlay */
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
-/* Hover effect removed for maintenance buttons */
-.coming-soon:hover {
-  transform: none;
-  box-shadow: none;
+
+/* Specific grid items */
+.led-wall {
+  grid-column: span 2;
+  background-image: url('/api/placeholder/640/320');
+  background-color: #3a1c71;
+}
+
+.digital-standee {
+  background-color: #ffc107;
+  background-image: url('/api/placeholder/300/300');
+}
+
+.chesney-logo {
+  background-color: #d4af37;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 30px;
+}
+
+.logo-img {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.about-us {
+  background-color: #d4af37;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+.analytics {
+  background-color: #d4af37;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+
+.qr-code {
+  background-color: #d4af37;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://www.itctech.com.cn/Public/upload/2021-04-27/1619494588.4619_wm_2969.gif');
+}
+
+.qr-text {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.qr-img {
+  width: 70%;
+  height: auto;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.connect-screen {
+  background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-color: #f0f0f0;
+}
+
+.manage-screen {
+  background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+}
+
+.playlist {
+  background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-color: #4CAF50;
+}
+
+
+.led-wall{
+  grid-column: span 2;
+  grid-row: span 2;
+  background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
+  background-color: #2196F3;
+}
+.gallery{
+background-image: url('https://media.istockphoto.com/id/1439868974/photo/3d-add-image-in-gallery-picture-with-plus-mark-button-to-upload-new-photo-mountains-and-sun.jpg?s=1024x1024&w=is&k=20&c=_MrOvIGuXOEpBVazEvR2DVAf1BFbHe-sXIhu6PxeSYo=');
+}
+.chesney-logo{
+background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
+background-color: #4CAF50;
+}
+.analytics{
+background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/e1a05434083016.56c37784793c9.gif');
+background-color: #4CAF50;
+}
+.contact-us{
+background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+
+}
+.groups{
+background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+}
+
+/* Logo text styling */
+.logo-text {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.logo-subtext {
+  font-size: 14px;
+  color: white;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      height: auto;
+  }
+  
+  .led-wall, .digital-billboard {
+      grid-column: span 2;
+      grid-row: span 1;
+      height: 200px;
+  }
+  
+  .grid-item {
+      height: 200px;
+  }
+  
+  .item-text {
+      font-size: 18px;
+      bottom: 10px;
+      left: 10px;
+  }
+}
+
+.dashboard-card {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 50px;
+  
+}
+
+
+.dash-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
+  border: 2px solid #fff;
+}
+.card-icon {
+  margin-top: 8px;
+  font-size: 30px;
 }
