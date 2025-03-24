@@ -52,6 +52,7 @@
     <div class="right-section">
       <h2 class="section-title">Connected Devices</h2>
       <button onclick="location.href='home.html'" class="cut-button">X</button>
+    
 
       <!-- Device Grid -->
       <div class="device-grid" id="device-grid">
@@ -61,12 +62,11 @@
       <h2 class="section-title">Groups</h2>
 
       <!-- Groups Grid -->
-        <div class="groups-grid" id="groups-list"></div>
-              
+      <div class="groups-grid" id="groups-list">
+        <!-- Dynamically added device cards will appear here -->
+      </div>
 
-     
-
-       <!-- Media Popup -->
+      <!-- Media Popup -->
       <div id="media-popup" class="popup" style="display: none;">
         <button onclick="location.href='manage.html'" class="cut-button">X</button>
         <div class="popup-content">
@@ -76,7 +76,6 @@
             <p><em id="device-id">(Device/Group ID)</em></p>
             <p>Status: <span id="device-status">Offline</span></p>
           </div>
-
 
           <!-- Device Settings -->
           <div class="device-settings">
@@ -111,45 +110,56 @@
                 <option value="unmute">Unmute</option>
               </select>
             </div>
-
-            <div>
-              <label for="grid-select">Grid:</label>
-              <select id="grid-select">
-                <option value="gridyes">Yes</option>
-                <option value="gridno">No</option>
-              </select>
-            </div>
           </div>
 
-
-
-
-          <!-- Media List -->
+          <!-- Media Type Selection -->
           <div>
-            <h4 style="color: #800020;">Select Media</h4>
+            <h4 style="color: #800020;">Select Type of Your Media</h4>
+            <select id="media-type-select" class="media-type-dropdown">
+              <option value="image">Image</option>
+              <option value="video">Video</option>
+              <option value="playlist">Playlist</option>
+              <option value="url">URL</option>
+              <option value="grid">Grid</option>
+            </select>
+
+            <!-- URL input container (initially hidden) -->
+            <div id="url-input-container" style="display: none; margin-top: 10px;">
+              <input type="text" id="url-input" placeholder="Enter media URL" class="url-input">
+              <button id="add-url-btn" class="modal-btn">Add URL</button>
+            </div>
+
+            <!-- Grid configuration container (initially hidden) -->
+            <div id="grid-config-container" style="display: none; margin-top: 10px;">
+              <div>
+                <label for="grid-rows">Rows:</label>
+                <input type="number" id="grid-rows" min="1" max="4" value="2">
+              </div>
+              <div>
+                <label for="grid-columns">Columns:</label>
+                <input type="number" id="grid-columns" min="1" max="4" value="2">
+              </div>
+              <button id="configure-grid-btn" class="modal-btn">Configure Grid</button>
+            </div>
+
+            <!-- Media list container -->
             <ul id="media-list" class="media-list">
               <!-- Dynamically loaded media thumbnails will appear here -->
             </ul>
-          </div>
 
-          <!-- Playlist Section -->
-          <div>
-            <h4 style="color: #800020;">Select Playlist</h4>
-            <select id="playlist-select">
-              <option value="">Select Playlist</option>
-            </select>
-            <button id="push-playlist-btn" class="modal-btn">Push Playlist</button>
+            <!-- Playlist container (initially hidden) -->
+            <div id="playlists-container" style="display: none; margin-top: 10px;">
+              <select id="media-playlist-select">
+                <option value="">Select Playlist</option>
+              </select>
+            </div>
           </div>
 
           <!-- Action Buttons -->
           <div class="modal-buttons">
             <button id="push-media-btn" class="modal-btn">Push Media</button>
-
-            <!-- <button id="clear-media" class="modal-btn">Clear Media</button> -->
             <button id="clear-restart-btn" class="modal-btn">Clear App Data</button>
           </div>
-
-
         </div>
       </div>
     </div>
