@@ -15,11 +15,10 @@ body {
 }
 
 /* Common Styles */
-.connect-screen-box, .device-item, .left-section, .right-section, .device-card, .group-card, .popup {
+.left-section, .right-section, .device-card, .group-card, .popup {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -67,21 +66,6 @@ button:hover {
   align-items: center;
 }
 
-.sidebar-btn {
-  background: #800020;
-  color: #f6f6e9;
-  padding: 15px 25px; 
-  font-size: 1rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 30px;
-  margin: 10px auto;
-}
 
 .sidebar-btn:hover {
   background: #5e0018;
@@ -92,10 +76,6 @@ button:hover {
   transform: translateY(1px);
 }
 
-.connect-text {
-  font-size: 1.6rem;
-  margin: 20px 0;
-}
 
 .connect-image {
   width: 100%;
@@ -140,26 +120,7 @@ button:hover {
   color: #f5f5dc;
 }
 
-/* Container Styling */
-.devices-container, .groups-container {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  overflow-x: auto;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
-#device-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 
 .device-item, .device-card, .group-card {
   padding: 0 25px;
@@ -190,21 +151,6 @@ button:hover {
   color: white;
 }
 
-/* Table Header */
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr;
-  gap: 16px;
-  padding: 12px;
-  margin-bottom: 8px;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 30px;
-  color: #f5f5dc;
-  font-size: 1rem;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
 
 /* Button Style */
 .device-item button, .manage-btn, .manage-group-btn {
@@ -229,14 +175,14 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
-  height: 91%;
+  width: 95%;
+  height: 93%;
   max-width: 720px;
   padding: 24px;
   border-radius: 30px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow-y: scroll; /* Enables vertical scrolling */
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
   background: radial-gradient(circle at 50% 50%, #6bb1c6, #388db1);
   z-index: 1000;
 
@@ -276,8 +222,7 @@ button:hover {
 }
 
 /* Buttons in Popup */
-.modal-btn,
-.close-btn {
+.modal-btn{
   background: #CF3434FF;
   color: #f5f5dc;
   border: none;
@@ -286,31 +231,25 @@ button:hover {
   border-radius: 30px;
 }
 
-.modal-btn:hover,
-.close-btn:hover {
+.modal-btn:hover{
   background: #5e0018;
 }
 
 /* Media List */
 .media-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex !important;
+  flex-wrap: wrap !important;
   gap: 10px;
   justify-content: center;
 }
 
 .media-list .media-item {
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.1);
+  width: 60px;
+  height: 60px;
   border-radius: 5px;
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-  /* overflow: hidden; */
   transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+
 }
 
 /* Media Image */
@@ -318,7 +257,8 @@ button:hover {
 .media-list .media-item video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill ;
+  border-radius: 5px;
 }
 
 /* Radio Button Instead of Select */
@@ -327,9 +267,6 @@ button:hover {
   bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
-  /* width: 12px;
-  height: 12px; */
-  /* accent-color: #f5f5dc; */
 }
 
 /* Adjusting Button Alignment */
@@ -368,14 +305,14 @@ button:hover {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.1);
-  color: #f5f5dc;
+  /* color: #f5f5dc; */
 }
 
 .cut-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #ec2027bd; /* Red color */
+  background-color: #CF3434FF; /* Red color */
   color: white;
   border: none;
   font-size: 18px;
@@ -398,59 +335,42 @@ button:hover {
 .cut-button:active {
   transform: scale(0.95);
 }
+.media-item.selected {
+  /* filter: brightness(0.7); */
+  border: 3px solid #CF3434FF;
 
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .main-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .left-section {
-    width: 100%;
-  }
-
-  .right-section {
-    height: auto;
-    padding: 15px;
-  }
-
-  .connect-text {
-    font-size: 1.4rem;
-  }
-
-  form input,
-  form button {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
 }
 
-@media (max-width: 768px) {
-  .connect-text {
-    font-size: 1.2rem;
-  }
-
-  .section-title {
-    font-size: 1.4rem;
-  }
-
-  .device-item, .device-card, .group-card, .table-header {
-    grid-template-columns: 1fr;
-    text-align: left;
-  }
-
-  .device-item button, .manage-btn, .manage-group-btn {
-    justify-self: flex-start;
-  }
-
-  .device-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .device-item button {
-    align-self: flex-end;
-  }
+.select-media-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
 }
+
+.media-type-dropdown {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.url-input {
+  width: 70%;
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.grid-create-button {
+  margin: 15px 0;
+  text-align: center;
+}
+
+#media-type-select[value="grid"] ~ #media-list .media-item.selected .thumbnail {
+  border: 3px solid #007bff;
+ 
+}
+
+

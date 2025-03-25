@@ -6,36 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Devices and Groups</title>
   <link rel="stylesheet" href="manage.css">
-  <style>
-    /* .media-item {
-      position: relative;
-      display: inline-block;
-      margin: 10px;
-    } */
 
-    .select-media-btn {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      outline: none;
-    }
-
-    /* .thumbnail {
-      width: 100px;
-      height: 100px;
-      border-radius: 8px;
-      object-fit: cover;
-      transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
-    } */
-
-    /* Selection effect */
-    .media-item.selected {
-      filter: brightness(0.7);
-      border: 3px solid #007bff;
-    
-    }
-  </style>
 </head>
 
 <body>
@@ -51,7 +22,7 @@
     <!-- Right Section -->
     <div class="right-section">
       <h2 class="section-title">Connected Devices</h2>
-      <button onclick="location.href='home.html'" class="cut-button">X</button>
+      <button class="cut-button" id="home-button">X</button>
     
 
       <!-- Device Grid -->
@@ -68,13 +39,13 @@
 
       <!-- Media Popup -->
       <div id="media-popup" class="popup" style="display: none;">
-        <button onclick="location.href='manage.html'" class="cut-button">X</button>
+        <button class="cut-button" id="close-popup-button">X</button>
         <div class="popup-content">
           <h3>Manage</h3>
-          <div id="device-details" style="color: #800020;">
+          <div id="device-details" style="color: #CF3434FF;">
             <p><strong id="device-name">Device/Group Name</strong></p>
             <p><em id="device-id">(Device/Group ID)</em></p>
-            <p>Status: <span id="device-status">Offline</span></p>
+          
           </div>
 
           <!-- Device Settings -->
@@ -125,12 +96,12 @@
 
             <!-- URL input container (initially hidden) -->
             <div id="url-input-container" style="display: none; margin-top: 10px;">
-              <input type="text" id="url-input" placeholder="Enter media URL" class="url-input">
+              <input type="text" id="url-input" placeholder="Enter Website URL" class="url-input">
               <button id="add-url-btn" class="modal-btn">Add URL</button>
             </div>
 
             <!-- Grid configuration container (initially hidden) -->
-            <div id="grid-config-container" style="display: none; margin-top: 10px;">
+            <!-- <div id="grid-config-container" style="display: none; margin-top: 10px;">
               <div>
                 <label for="grid-rows">Rows:</label>
                 <input type="number" id="grid-rows" min="1" max="4" value="2">
@@ -140,12 +111,15 @@
                 <input type="number" id="grid-columns" min="1" max="4" value="2">
               </div>
               <button id="configure-grid-btn" class="modal-btn">Configure Grid</button>
-            </div>
+            </div> -->
 
             <!-- Media list container -->
-            <ul id="media-list" class="media-list">
+
+            <div id="media-list" class="media-list">
+            <ul>
               <!-- Dynamically loaded media thumbnails will appear here -->
             </ul>
+          </div>
 
             <!-- Playlist container (initially hidden) -->
             <div id="playlists-container" style="display: none; margin-top: 10px;">

@@ -69,8 +69,13 @@ function createDeviceCard(device, deviceId) {
     <p>Media Queue: ${device.currentMedia?.length || 0} items</p>
     <button class="manage-btn" data-id="${deviceId}">Manage</button>
   `;
-  card.querySelector(".manage-btn").addEventListener("click", () => openDevicePopup(device, deviceId));
-  return card;
+  const manageBtn = card.querySelector(".manage-btn");
+  if (manageBtn) {
+    manageBtn.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevents unwanted event bubbling
+      openDevicePopup(device, deviceId);
+    });
+  }  return card;
 }
 
 // Load Groups
@@ -176,7 +181,7 @@ function setupMediaTypeSelection() {
   });
 }
 
-// Function to load media by type from Firebase
+
 // Function to load media by type from Firebase
 async function loadMediaByType(mediaType) {
   const mediaList = document.getElementById("media-list");
@@ -322,9 +327,9 @@ function openDevicePopup(device, deviceId) {
   const popup = document.getElementById("media-popup");
   popup.style.display = "flex";
 
-  document.getElementById("device-name").textContent = device.deviceName || "Unnamed Device";
+  document.getElementById("device-name").textContent = device.deviceCode || "Unnamed Device";
   document.getElementById("device-id").textContent = `Device ID: ${deviceId}`;
-  document.getElementById("device-status").textContent = device.status || "Unknown";
+
   document.getElementById("orientation-select").value = device.orientation || "landscape";
   document.getElementById("resize-select").value = device.resizeMode || "contain";
   document.getElementById("delay-input").value = device.delay || 5;
@@ -357,7 +362,7 @@ function openGroupPopup(group, groupId) {
 
   document.getElementById("device-name").textContent = group.name || "Unnamed Group";
   document.getElementById("device-id").textContent = `Group ID: ${groupId}`;
-  document.getElementById("device-status").textContent = `${group.devices.length} Devices`;
+  
 
   // Initialize with "image" type selected
   document.getElementById("media-type-select").value = "image";
@@ -571,48 +576,103 @@ function pushMediaByTypeToGroup(deviceIds) {
   alert("Media pushed to all devices in the group!");
 }
 
-// Add CSS for new elements
-function addMediaTypeStyles() {
-  const style = document.createElement('style');
-  style.textContent = `
-    .media-type-dropdown {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Get references to the buttons
+  const homeButton = document.getElementById('home-button');
+  const closePopupButton = document.getElementById('close-popup-button');
+  
+  // Add event listeners
+  if (homeButton) {
+    homeButton.addEventListener('click', function() {
+      location.href = 'home.html';
+    });
+  }
+  
+  if (closePopupButton) {
+    closePopupButton.addEventListener('click', function() {
+      // Get the popup element
+      const popup = document.getElementById('media-popup');
+      
+      // Hide the popup by setting display to none
+      if (popup) {
+        popup.style.display = 'none';
+      }
+    });
+  }
+
+});
+
+async function clearAndRestart(deviceId) {
+  try {
+    const userConfirmed = confirm("All media in the application will be deleted. Do you want to proceed?");
+    
+    if (!userConfirmed) {
+      return; // Exit if the user cancels
     }
-    .url-input {
-      width: 70%;
-      padding: 8px;
-      margin-right: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+
+    const deviceRef = doc(db, "devices", deviceId);
+
+    // Set commands to true
+    await updateDoc(deviceRef, {
+      currentMedia: null,
+      commands: {
+        clearContent: true,
+        restartApp: true,
+      },
+    });
+
+    // Wait for 1 second before resetting commands
+    setTimeout(async () => {
+      await updateDoc(deviceRef, {
+        commands: {
+          clearContent: false,
+          restartApp: false,
+        },
+      });
+    }, 1000);
+
+    alert("Media cleared and restart command sent!");
+  } catch (error) {
+    console.error("Error clearing and restarting device:", error);
+  }
+}
+async function clearAndRestartGroup(deviceIds) {
+  try {
+    const userConfirmed = confirm(
+      "All media in the application will be deleted for all selected devices. Do you want to proceed?"
+    );
+
+    if (!userConfirmed) {
+      return; // Exit if the user cancels
     }
-    .grid-create-button {
-      margin: 15px 0;
-      text-align: center;
+
+    for (const deviceId of deviceIds) {
+      const deviceRef = doc(db, "devices", deviceId);
+
+      // Set commands to true
+      await updateDoc(deviceRef, {
+        currentMedia: null,
+        commands: {
+          clearContent: true,
+          restartApp: true,
+        },
+      });
+
+      // Wait for 1 second then reset commands
+      setTimeout(async () => {
+        await updateDoc(deviceRef, {
+          commands: {
+            clearContent: false,
+            restartApp: false,
+          },
+        });
+      }, 1000);
     }
-    /* For grid mode, allow multiple selection */
-    #media-type-select[value="grid"] ~ #media-list .media-item.selected .thumbnail {
-      border: 3px solid #007bff;
-      filter: brightness(0.7);
-    }
-  `;
-  document.head.appendChild(style);
+
+    alert("Media cleared and restart command sent to all devices in the group!");
+  } catch (error) {
+    console.error("Error clearing and restarting group devices:", error);
+  }
 }
 
-// Update the setup function to include our new media type selection
-// function setupEventListeners() {
-//   document.getElementById("logout-btn").addEventListener("click", async () => {
-//     try {
-//       await signOut(auth);
-//       window.location.href = "login.html";
-//     } catch (error) {
-//       console.error("Error logging out:", error);
-//     }
-//   });
-
-  // Add styles for new elements
-  addMediaTypeStyles();
-// }
