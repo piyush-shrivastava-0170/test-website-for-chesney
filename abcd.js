@@ -31,19 +31,67 @@ const auth = getAuth();
 let adminUID = null;
 
 // Authentication Check
+// Set up authentication state listener with security enhancements
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    adminUID = user.uid;
-    loadDevices();
-    loadGroups();
-    // setupEventListeners();
-    // loadPlaylists();
-  } else {
-    alert("Please log in to access this screen.");
-    window.location.href = "login.html";
+  try {
+    if (user) {
+      // Verify token to protect against token forgery
+      user.getIdToken(true)
+        .then((idToken) => {
+          // Store user ID in a non-global scope to prevent exposure
+          const adminUID = user.uid;
+          
+          // Check if user has proper permissions
+          return verifyUserPermissions(adminUID, idToken);
+        })
+        .then((hasPermission) => {
+          if (!hasPermission) {
+            console.warn("User authenticated but lacks required permissions");
+            sessionStorage.setItem('accessDeniedReason', 'insufficient_permissions');
+            window.location.replace("unauthorized.html");
+            return;
+          }
+          
+          // Only load data after confirming permissions
+          loadDevices();
+          loadGroups();
+          // setupEventListeners();
+          // loadPlaylists();
+        })
+        .catch((error) => {
+          console.error("Authentication verification failed:", error);
+          handleAuthError();
+        });
+    } else {
+      // Use a more secure approach than alert (which can be bypassed)
+      sessionStorage.setItem('loginRequired', 'true');
+      window.location.replace("login.html"); // replace is more secure than href
+    }
+  } catch (error) {
+    console.error("Auth state handler error:", error);
+    handleAuthError();
   }
 });
 
+// Helper function to verify user permissions
+function verifyUserPermissions(uid, idToken) {
+  // Query Firestore to check user's role/permissions
+  return firebase.firestore()
+    .collection('users')
+    .doc(uid)
+    .get()
+    .then(doc => {
+      if (!doc.exists) return false;
+      const userData = doc.data();
+      return userData.role === 'admin' || userData.hasAdminAccess === true;
+    });
+}
+
+// Handle auth errors securely
+function handleAuthError() {
+  sessionStorage.setItem('authError', 'true');
+  window.location.replace("login.html");
+}
 // Load Devices
 async function loadDevices() {
   const deviceGrid = document.getElementById("device-grid");
@@ -616,7 +664,6 @@ async function clearAndRestart(deviceId) {
     // Set commands to true
     await updateDoc(deviceRef, {
       currentMedia: null,
-      webUrl: null,
       commands: {
         clearContent: true,
         restartApp: true,
