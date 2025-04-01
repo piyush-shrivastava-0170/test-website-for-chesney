@@ -6,7 +6,7 @@ body {
   padding: 0;
   font-family: 'League Spartan', Arial, sans-serif;
   background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
-  color: #f5f5dc;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,13 +78,13 @@ button:hover {
   font-size: 1.6rem;
   margin: 20px 0;
   font-weight: bold;
-  color: #f5f5dc;
+  color: white;
 }
 
 .add-media-button {
   width: 80%;
   margin: 10px 0;
-  background: #f5f5dc;
+  background: white;
   color: #00689a;
   padding: 12px 20px;
   font-size: 1rem;
@@ -106,13 +106,24 @@ button:hover {
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(10px);
+  height: 90%;
+  /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for Internet Explorer and Edge */
+  -ms-overflow-style: none;
 }
 
 .red-box h2 {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #f5f5dc;
+  color: white;
 }
 
 /* Media Grid */
@@ -185,7 +196,7 @@ button:hover {
 }
 
 .close-modal {
-  color: #f5f5dc;
+  color: white;
   position: absolute;
   top: 15px;
   right: 25px;
@@ -234,7 +245,7 @@ button:hover {
 .new-playlist-section h4 {
   margin-top: 0;
   font-size: 1.3rem;
-  color: #f5f5dc;
+  color: white;
 }
 
 #new-playlist-name {
@@ -244,7 +255,7 @@ button:hover {
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.2);
-  color: #f5f5dc;
+  color: white;
   font-size: 1rem;
   box-sizing: border-box;
 }
@@ -265,7 +276,7 @@ button:hover {
   z-index: 20;
   justify-content: center;
   align-items: center;
-  color: #f5f5dc;
+  color: white;
   font-size: 1.5rem;
   font-weight: bold;
   backdrop-filter: blur(8px);

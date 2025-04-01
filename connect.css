@@ -151,6 +151,17 @@ form button:hover {
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(10px);
+
+  /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for Internet Explorer and Edge */
+  -ms-overflow-style: none;
   /* background: linear-gradient(to bottom, rgba(0, 104, 154, 0.6), rgba(0, 104, 154, 0.8)); */
 }
 
