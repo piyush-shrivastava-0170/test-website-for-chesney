@@ -359,3 +359,18 @@ label {
     padding: 10px;
   }
 }
+
+.close-modal {
+  color: white;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  /* margin-top: 25px; */
+}
+
+.close-modal:hover {
+  color: #d9cfc4;
+}

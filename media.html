@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Media Management</title>
   <link rel="stylesheet" href="media.css">
+
 </head>
 <body>
   <div class="main-container">
@@ -14,13 +15,14 @@
         <p class="gallery-text">GALLERY</p>
         <button id="add-media-btn" class="add-media-button">+ Add Media</button>
         <button id="open-playlist-modal" class="add-media-button">Add to Playlist</button>
-        <button id="delete-selected-media" class="add-media-button" style="background-color: #ff4d4d; color: white;">Delete Selected</button>
+        <button id="delete-selected-media" class="add-media-button" style="background-color: #FF0000; color: white;">Delete Selected</button>
         <input id="file-upload" type="file" style="display: none;" multiple />
       </div>
     </div>
 
     <div class="red-box">
       <h2>Your Media</h2>
+      <span id="close-view-popup" class="close-modal">&times;</span>
       <div id="media-grid" class="media-grid"></div>
     </div>
 

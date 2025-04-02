@@ -124,6 +124,7 @@ button:hover {
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
+  /* margin-top: 20px; */
 }
 
 /* Media Grid */
@@ -135,14 +136,6 @@ button:hover {
   margin-bottom: 20px;
 }
 
-.media-item {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.15);
-  transition: transform 0.3s ease;
-}
 
 .media-item:hover {
   transform: scale(1.03);
@@ -152,21 +145,122 @@ button:hover {
   width: 100%;
   height: 160px;
   object-fit: cover;
+  pointer-events: none; /* Prevents clicking on the video */
   display: block;
 }
 
-.media-actions {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
+/* Media item container */
+.media-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Media thumbnails */
+.media-thumbnail {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* File item styling */
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid #2c2c2c;
+}
+
+/* File icon styling */
+.file-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  color: #aaa;
+}
+
+/* Image file icon */
+.file-icon:contains("image") {
+  color: #6bbbff;
+}
+
+/* Video file icon */
+.file-icon:contains("video") {
+  color: #ff7b7b;
+}
+
+/* File name styling */
+.file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+/* Actions container */
+.media-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px;
+  background-color: #2a2a2a;
+}
+
+/* Checkbox styling */
 .select-media-checkbox {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  accent-color: #4e8cff;
   cursor: pointer;
 }
+
+/* Media grid layout */
+#mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+
+video.media-thumbnail {
+  /* Ensures videos appear like static thumbnails */
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: #000;
+}
+
+/* Hide video controls explicitly */
+video.media-thumbnail::-webkit-media-controls {
+  display: none !important;
+}
+
+video.media-thumbnail::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+video.media-thumbnail::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  #mediaGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .file-name {
+    max-width: 120px;
+  }
+}
+
+
 
 /* Modal popup */
 .modal {
@@ -195,19 +289,7 @@ button:hover {
   position: relative;
 }
 
-.close-modal {
-  color: white;
-  position: absolute;
-  top: 15px;
-  right: 25px;
-  font-size: 35px;
-  font-weight: bold;
-  cursor: pointer;
-}
 
-.close-modal:hover {
-  color: #d9cfc4;
-}
 
 /* Playlist Options */
 .playlist-options {
@@ -339,4 +421,19 @@ button:hover {
     top: 10px;
     right: 15px;
   }
+}
+
+.close-modal {
+  color: white;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  /* margin-top: 25px; */
+}
+
+.close-modal:hover {
+  color: #d9cfc4;
 }

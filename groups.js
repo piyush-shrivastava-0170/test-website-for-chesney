@@ -271,3 +271,23 @@ async function deleteGroup(groupId, groupName) {
     alert("Error deleting group. Please try again.");
   }
 }
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the close button element by its ID
+  const closeButton = document.getElementById('close-view-popup');
+  
+  // Add a click event listener to the close button
+  if (closeButton) {
+      closeButton.addEventListener('click', function() {
+          // Navigate to the home page
+          window.location.href = 'home.html';
+          
+          // Alternative approaches:
+          // window.location.replace('/'); // Replaces current history entry
+          // window.location.assign('/');  // Same as window.location.href = '/'
+      });
+  } else {
+      console.error('Close button element with ID "close-view-popup" not found');
+  }
+});

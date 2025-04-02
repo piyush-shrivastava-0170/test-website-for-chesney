@@ -51,33 +51,91 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Load media for user
+  // async function loadMedia(userId) {
+  //   mediaGrid.innerHTML = "";
+  //   const mediaRef = collection(db, "users", userId, "media");
+  //   const mediaSnapshot = await getDocs(mediaRef);
+
+  //   mediaSnapshot.forEach(async (doc) => {
+  //     const mediaData = doc.data();
+  //     const mediaItem = document.createElement("div");
+  //     mediaItem.classList.add("media-item");
+
+  //     try {
+  //       const mediaRef = ref(storage, mediaData.mediaUrl);
+  //       await getDownloadURL(mediaRef); 
+
+  //       const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
+  //       mediaItem.innerHTML = `
+  //         ${isImage ? `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
+  //           `<video src="${mediaData.mediaUrl}" class="media-thumbnail" controls></video>`}
+  //         <div class="media-actions">
+  //           <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
+  //         </div>
+  //       `;
+
+  //       mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
+  //         toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
+  //       });
+
+  //       mediaGrid.appendChild(mediaItem);
+  //     } catch (error) {
+  //       if (error.code === "storage/object-not-found") {
+  //         // Delete the document from Firestore if file does not exist in storage
+  //         await deleteDoc(doc.ref);
+  //       } else {
+  //         console.error("Error verifying media file existence:", error);
+  //       }
+  //     }
+  //   });
+  // }
+
   async function loadMedia(userId) {
     mediaGrid.innerHTML = "";
     const mediaRef = collection(db, "users", userId, "media");
     const mediaSnapshot = await getDocs(mediaRef);
-
+  
     mediaSnapshot.forEach(async (doc) => {
       const mediaData = doc.data();
       const mediaItem = document.createElement("div");
       mediaItem.classList.add("media-item");
-
+  
       try {
         const mediaRef = ref(storage, mediaData.mediaUrl);
-        await getDownloadURL(mediaRef); // Check if file exists in storage
-
+        await getDownloadURL(mediaRef); 
+  
+        // Extract and decode the filename from the URL path
+        const urlParts = mediaData.mediaUrl.split('%2F');
+        const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+        
         const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
+        // Add appropriate icon based on file type
+        let fileIcon = '';
+        if (isImage) {
+          fileIcon = '<span class="material-icons file-icon">image</span>';
+        } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
+          fileIcon = '<span class="material-icons file-icon">video</span>';
+        } else {
+          fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+        }
+  
         mediaItem.innerHTML = `
-          ${isImage ? `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
-            `<video src="${mediaData.mediaUrl}" class="media-thumbnail" controls></video>`}
+          ${isImage ? 
+            `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
+            `<video src="${mediaData.mediaUrl}" class="media-thumbnail" preload="metadata"></video>`}
+          <div class="file-item">
+            ${fileIcon}
+            <span class="file-name">${fileName}</span>
+          </div>
           <div class="media-actions">
             <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
           </div>
         `;
-
+  
         mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
           toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
         });
-
+  
         mediaGrid.appendChild(mediaItem);
       } catch (error) {
         if (error.code === "storage/object-not-found") {
@@ -90,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  
   // Load playlists for user
   async function loadPlaylists(userId) {
     playlistOptions.innerHTML = "";
@@ -263,4 +322,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   closeModalBtn.addEventListener("click", closeModal);
+});
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the close button element by its ID
+    const closeButton = document.getElementById('close-view-popup');
+    
+    // Add a click event listener to the close button
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            // Navigate to the home page
+            window.location.href = 'home.html';
+            
+            // Alternative approaches:
+            // window.location.replace('/'); // Replaces current history entry
+            // window.location.assign('/');  // Same as window.location.href = '/'
+        });
+    } else {
+        console.error('Close button element with ID "close-view-popup" not found');
+    }
 });

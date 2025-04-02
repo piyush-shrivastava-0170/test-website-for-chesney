@@ -116,9 +116,9 @@ button:hover {
 
 .playlist-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
   gap: 20px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .playlist-box {

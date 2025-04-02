@@ -20,7 +20,7 @@
     <!-- Red Box -->
      
     <div class="red-box">
-     <button onclick="location.href='home.html'" class="cut-button">X</button>
+      <span id="close-view-popup" class="close-modal">&times;</span>
     <h2>Enter your device code to connect.</h2> 
       <form id="connect-form">
         <input type="text" id="device-id" placeholder="Enter Device ID" required />
@@ -217,6 +217,26 @@
         }
       });
     });
+
+    // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the close button element by its ID
+    const closeButton = document.getElementById('close-view-popup');
+    
+    // Add a click event listener to the close button
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            // Navigate to the home page
+            window.location.href = 'home.html';
+            
+            // Alternative approaches:
+            // window.location.replace('/'); // Replaces current history entry
+            // window.location.assign('/');  // Same as window.location.href = '/'
+        });
+    } else {
+        console.error('Close button element with ID "close-view-popup" not found');
+    }
+});
   </script>
 </body>
 </html>
