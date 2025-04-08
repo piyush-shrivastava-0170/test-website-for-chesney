@@ -4,99 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #800020, #f5f5e9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background-color: #800020;
-      border-radius: 10px;
-      padding: 20px;
-      width: 800px;
-      height: 50%;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
-    }
-
-    .container h2 {
-      color: #fff;
-      margin-bottom: 20px;
-      margin-top: 80px;
-    }
-
-    .container input {
-      width: 93%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: none;
-      background-color: #430817;
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .container button {
-      width: 95%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #f5f5e9;
-      color: #800020;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .container button:hover {
-      background-color: #f0e8d9;
-    }
-
-    .success-message, .error-message {
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-      text-align: center;
-      display: none;
-    }
-
-    .success-message {
-      color: #28a745;
-      background: #f5f5e9;
-    }
-
-    .error-message {
-      color: #f5f5e9;
-      background: #b30000;
-    }
-
-    .back-to-login {
-      margin-top: 20px;
-    }
-
-    .back-to-login a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      background-color: #800020;
-      padding: 10px 20px;
-      border-radius: 5px;
-      border: 2px solid #f5f5e9;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    .back-to-login a:hover {
-      background-color: #f0e8d9;
-      color: #800020;
-    }
-  </style>
+  <link rel="stylesheet" href="reset.css">
 </head>
 <body>
   <div class="container">
@@ -118,7 +26,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-    import { getAuth, sendPasswordResetEmail, confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    import { getAuth, sendPasswordResetEmail, confirmPasswordReset, verifyPasswordResetCode, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB5WjXzmGNUWUCr-_-PDPagpUfYaTmjjGY",
@@ -131,6 +40,7 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     const emailForm = document.getElementById('email-form');
     const successMessage = document.getElementById('success-message');
@@ -146,16 +56,89 @@
     emailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
-
+      
+      // Show loading state
+      const submitButton = emailForm.querySelector('button');
+      const originalButtonText = submitButton.textContent;
+      submitButton.textContent = 'Checking...';
+      submitButton.disabled = true;
+      
       try {
+        // First, explicitly check if the email exists in Firestore
+        let emailExists = false;
+        
+        // Option 1: Check in Firestore users collection
+        try {
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("email", "==", email));
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            emailExists = true;
+          }
+        } catch (firestoreError) {
+          console.log("Firestore check error:", firestoreError);
+          // Continue to option 2 if Firestore check fails
+        }
+        
+        // Option 2: Check using Firebase Auth methods if Firestore check didn't find the email
+        if (!emailExists) {
+          try {
+            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+            if (signInMethods.length > 0) {
+              emailExists = true;
+            }
+          } catch (authCheckError) {
+            console.log("Auth check error:", authCheckError);
+            // If both checks fail, we'll proceed with the assumption the email might not exist
+          }
+        }
+        
+        // If email doesn't exist in either place, show error
+        if (!emailExists) {
+          errorMessage.textContent = "Error: No account found with this email address. Please check your email and try again.";
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+          
+          // Reset button state
+          submitButton.textContent = originalButtonText;
+          submitButton.disabled = false;
+          return;
+        }
+        
+        // If email exists, send the password reset email
         await sendPasswordResetEmail(auth, email, {
-          url: 'http://localhost:5500/reset.html',
+          url: window.location.origin + window.location.pathname,
         });
+        
+        // Reset button state
+        submitButton.textContent = originalButtonText;
+        submitButton.disabled = false;
+        
+        // Show success message
         successMessage.textContent = 'Verification link sent to your email.';
         successMessage.style.display = 'block';
         errorMessage.style.display = 'none';
       } catch (error) {
-        errorMessage.textContent = `Error: ${error.message}`;
+        console.log("Error code:", error.code, "Error message:", error.message);
+        
+        // Reset button state
+        submitButton.textContent = originalButtonText;
+        submitButton.disabled = false;
+        
+        // Handle specific error codes
+        if (error.code === 'auth/invalid-email') {
+          errorMessage.textContent = "Error: Invalid email format.";
+        } else if (error.code === 'auth/user-not-found') {
+          errorMessage.textContent = "Error: No account found with this email address.";
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage.textContent = "Error: Network error. Please check your internet connection.";
+        } else if (error.code === 'auth/too-many-requests') {
+          errorMessage.textContent = "Error: Too many attempts. Please try again later.";
+        } else {
+          errorMessage.textContent = `Error: ${error.message}`;
+        }
+        
         errorMessage.style.display = 'block';
         successMessage.style.display = 'none';
       }
@@ -175,8 +158,24 @@
           successMessage.textContent = 'Password successfully changed!';
           successMessage.style.display = 'block';
           errorMessage.style.display = 'none';
+          
+          // Show back to login button more prominently after successful reset
+          document.getElementById('back-to-login').style.marginTop = '20px';
+          
+          // Hide the new password section
+          newPasswordSection.style.display = 'none';
         } catch (error) {
-          errorMessage.textContent = `Error: ${error.message}`;
+          // Handle specific password reset errors
+          if (error.code === 'auth/expired-action-code') {
+            errorMessage.textContent = "Error: The reset link has expired. Please request a new one.";
+          } else if (error.code === 'auth/invalid-action-code') {
+            errorMessage.textContent = "Error: Invalid reset link. Please request a new one.";
+          } else if (error.code === 'auth/weak-password') {
+            errorMessage.textContent = "Error: Password is too weak. Please use a stronger password.";
+          } else {
+            errorMessage.textContent = `Error: ${error.message}`;
+          }
+          
           errorMessage.style.display = 'block';
           successMessage.style.display = 'none';
         }

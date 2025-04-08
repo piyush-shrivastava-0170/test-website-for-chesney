@@ -1,0 +1,157 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Container */
+  .container {
+    width: 90%;
+    max-width: 450px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    border-radius: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Title */
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: white;
+    font-weight: 600;
+  }
+  
+  /* Form elements */
+  form, #new-password-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 14px 15px;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    border-radius: 0;
+    outline: none;
+    color: #B40000;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+  
+  input[type="email"]::placeholder,
+  input[type="password"]::placeholder {
+    color: #B40000;
+    opacity: 0.7;
+  }
+  
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-bottom-color: white;
+  }
+  
+  input[type="email"]:focus::placeholder,
+  input[type="password"]:focus::placeholder {
+    opacity: 0.3;
+  }
+  
+  button {
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    margin-top: 20px;
+    background: white;
+    color: #B40000;
+  }
+  
+  button:hover {
+    background: #f1f1f1;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Success and Error messages */
+  .success-message, 
+  .error-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    display: none;
+  }
+  
+  .success-message {
+    background: rgba(46, 204, 113, 0.2);
+    border: 1px solid rgba(46, 204, 113, 0.5);
+    color: #2ecc71;
+  }
+  
+  .error-message {
+    background: rgba(231, 76, 60, 0.2);
+    border: 1px solid rgba(231, 76, 60, 0.5);
+    color: #e74c3c;
+  }
+  
+  /* Back to Login Link */
+  .back-to-login {
+    margin-top: 30px;
+  }
+  
+  .back-to-login a {
+    color: #B40000;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-size: 0.9rem;
+  }
+  
+  .back-to-login a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 500px) {
+    .container {
+      width: 90%;
+      padding: 30px 20px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+    }
+    
+    input[type="email"],
+    input[type="password"],
+    button {
+      padding: 12px 15px;
+      font-size: 0.9rem;
+    }
+    
+    .back-to-login {
+      margin-top: 20px;
+    }
+  }

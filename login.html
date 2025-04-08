@@ -4,85 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chesney Signage</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="login.css">
-  <style>
-    .google-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 20px;
-      padding: 12px;
-      font-size: 1rem;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 45%;
-      margin: 20px 0;
-      margin-left: 150px;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    .google-button:hover {
-      background: #f0f0f0;
-    }
-
-    .google-icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    .or-text {
-      text-align: center;
-      font-size: 1rem;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: 5px;
-    }
-
-    .forgot-password {
-      display: block;
-      text-align: center;
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-
-    .forgot-password a {
-      color: #800020;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .forgot-password a:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
     <div class="content">
-      <h1>FREE, SIMPLE AND EASY SOLUTION WITH<br>CHESNEY SIGNAGE</h1>
+      <h1>Manage, Create, and Share content effortlessly with <span class="chesneyy">CHESNEY </span>Signage</h1>
+
       <div class="social-icons">
-        <i class="fa-brands fa-instagram"></i>
-        <i class="fa-brands fa-facebook-f"></i>
-        <img src="images/rb_45422.png" alt="X Logo" class="icon">
+        <a href="https://www.facebook.com/" target="_blank">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        
+        <a href="https://www.instagram.com/" target="_blank">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        
+        <a href="https://www.linkedin.com/" target="_blank">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        
+        <a href="https://x.com/" target="_blank">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        
+        <a href="https://www.youtube.com/" target="_blank">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        
+        <a href="https://wa.me/+916363245799" target="_blank"> 
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+
+        <!-- <a href="https://www.pinterest.com/your-profile" target="_blank">
+          <i class="fa-brands fa-pinterest-p"></i> 
+        </a>
+        <a href="https://g.co/kgs/Z75SBxg">
+          <i class="fa-solid fa-location-dot" ></i>
+        </a> -->
+        
       </div>
     </div>
     <div class="form-container">
-      <h2>LOGIN HERE</h2>
+      <h2>Welcome Back</h2>
 
       <!-- Google Signup Button -->
       <button class="google-button google-btn">
-        <img src="images/google-logo.avif" alt="Google Icon" class="google-icon">
+        <img src="images/google.png" alt="Chesney Google Icon" class="google-icon">
         Sign in with Google
       </button>
 
@@ -90,12 +61,29 @@
       <p class="or-text">OR</p>
 
       <!-- Login Form -->
-      <form id="login-form">
-        <input type="email" id="email" placeholder="EMAIL" class="input red-input" required>
+      <!-- <form id="login-form">
+        <input type="email" id="email" placeholder="Email Address" class="input red-input" required>
         <div class="error-message" id="login-error"></div>
-        <input type="password" id="password" placeholder="PASSWORD" class="input red-input" required>
+        <input type="password" id="password" placeholder="Password" class="input red-input" required>
+        <button type="submit" class="button white-button">LOGIN</button>
+      </form> -->
+
+      <form id="login-form">
+        <div class="form-group">
+          <input type="email" id="email" class="input red-input" placeholder=" " required>
+          <label for="email">Email Address</label>
+        </div>
+        
+        <div class="error-message" id="login-error"></div>
+        
+        <div class="form-group">
+          <input type="password" id="password" class="input red-input" placeholder=" " required>
+          <label for="password">Password</label>
+        </div>
+        
         <button type="submit" class="button white-button">LOGIN</button>
       </form>
+
 
       <!-- Forgot Password Section -->
       <p class="forgot-password">
@@ -104,7 +92,7 @@
 
       <!-- New 'Not a member?' section -->
       <p class="signup-text">Not a member? <a href="signup.html" class="signup-link">SIGNUP</a></p>
-      <p class="website">WWW.CHESNEY.IN</p>
+      <p class="website">WWW.CHESNEYINDIA.COM</p>
     </div>
   </div>
 
@@ -122,6 +110,7 @@
       messagingSenderId: "731368175146",
       appId: "1:731368175146:web:b2fd024d600c930373f553",
     };
+
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
