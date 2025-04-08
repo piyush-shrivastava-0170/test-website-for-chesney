@@ -23,6 +23,34 @@ const auth = getAuth();
 let userId = null;
 let selectedMediaUrls = [];
 
+// Video compression settings
+const compressionSettings = {
+  video: {
+    width: 1920,
+    height: 1080,
+    fps: 30,
+    bitrate: 2500000, // 2.5 Mbps
+  }
+};
+
+// Helper function to get file size in KB/MB format
+async function getFileSize(url) {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    const contentLength = response.headers.get('content-length');
+    const sizeInBytes = parseInt(contentLength, 10);
+    
+    if (sizeInBytes < 1024 * 1024) {
+      return `${(sizeInBytes / 1024).toFixed(2)} KB`;
+    } else {
+      return `${(sizeInBytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+  } catch (error) {
+    console.error("Error getting file size:", error);
+    return "Unknown size";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const mediaGrid = document.getElementById("media-grid");
@@ -30,6 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteSelectedMediaBtn = document.getElementById("delete-selected-media");
   const fileUploadInput = document.getElementById("file-upload");
   const uploadOverlay = document.getElementById("upload-overlay");
+  const uploadProgress = document.getElementById("upload-progress");
+  const uploadStatus = document.getElementById("upload-status");
+  const uploadMessage = document.getElementById("upload-message");
   const openPlaylistModalBtn = document.getElementById("open-playlist-modal");
   const playlistModal = document.getElementById("playlist-modal");
   const playlistOptions = document.getElementById("playlist-options");
@@ -50,34 +81,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Load media for user
   // async function loadMedia(userId) {
   //   mediaGrid.innerHTML = "";
   //   const mediaRef = collection(db, "users", userId, "media");
   //   const mediaSnapshot = await getDocs(mediaRef);
-
+  
   //   mediaSnapshot.forEach(async (doc) => {
   //     const mediaData = doc.data();
   //     const mediaItem = document.createElement("div");
   //     mediaItem.classList.add("media-item");
-
+  
   //     try {
   //       const mediaRef = ref(storage, mediaData.mediaUrl);
   //       await getDownloadURL(mediaRef); 
-
+  
+  //       // Extract and decode the filename from the URL path
+  //       const urlParts = mediaData.mediaUrl.split('%2F');
+  //       const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+        
   //       const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
+  //       const isVideo = mediaData.mediaType && mediaData.mediaType.startsWith("video");
+        
+  //       // Add appropriate icon based on file type
+  //       let fileIcon = '';
+  //       if (isImage) {
+  //         fileIcon = '<span class="material-icons file-icon">image</span>';
+  //       } else if (isVideo) {
+  //         fileIcon = '<span class="material-icons file-icon">video</span>';
+  //       } else {
+  //         fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+  //       }
+  
+  //       // Add file size if available
+  //       const fileSize = mediaData.fileSize ? `<span class="file-size">${mediaData.fileSize}</span>` : '';
+  
   //       mediaItem.innerHTML = `
-  //         ${isImage ? `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
-  //           `<video src="${mediaData.mediaUrl}" class="media-thumbnail" controls></video>`}
+  //         ${isImage ? 
+  //           `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
+  //           isVideo ?
+  //           `<video src="${mediaData.mediaUrl}" class="media-thumbnail" preload="metadata"></video>` :
+  //           `<div class="generic-file-thumbnail"></div>`}
+  //         <div class="file-item">
+  //           ${fileIcon}
+  //           <span class="file-name">${fileName}</span>
+  //           ${fileSize}
+  //         </div>
   //         <div class="media-actions">
   //           <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
   //         </div>
   //       `;
-
+  
   //       mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
   //         toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
   //       });
-
+  
   //       mediaGrid.appendChild(mediaItem);
   //     } catch (error) {
   //       if (error.code === "storage/object-not-found") {
@@ -89,7 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //     }
   //   });
   // }
-
   async function loadMedia(userId) {
     mediaGrid.innerHTML = "";
     const mediaRef = collection(db, "users", userId, "media");
@@ -148,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  
   // Load playlists for user
   async function loadPlaylists(userId) {
     playlistOptions.innerHTML = "";
@@ -185,6 +240,300 @@ document.addEventListener("DOMContentLoaded", () => {
     newPlaylistInput.value = "";
     selectedMediaUrls = [];
   }
+
+// Video compression function with audio preservation
+async function compressVideo(file, userId) {
+  return new Promise((resolve, reject) => {
+    try {
+      // Create video element to get metadata
+      const video = document.createElement('video');
+      video.muted = true;
+      video.src = URL.createObjectURL(file);
+      
+      video.onloadedmetadata = async () => {
+        uploadStatus.textContent = "Processing video...";
+        
+        // Determine if compression is needed
+        const needsCompression = video.videoHeight > compressionSettings.video.height;
+        
+        if (!needsCompression) {
+          // If no compression needed, upload the original file directly
+          uploadStatus.textContent = "Video doesn't need compression, uploading directly...";
+          URL.revokeObjectURL(video.src);
+          
+          const fileName = `${Date.now()}_${file.name}`;
+          const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+          const uploadTask = uploadBytesResumable(fileRef, file);
+          
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploadProgress.value = progress;
+              uploadStatus.textContent = `Uploading video: ${Math.round(progress)}%`;
+            },
+            (error) => {
+              console.error("Error uploading video:", error);
+              reject(error);
+            }
+          );
+          
+          await new Promise((resolve) => {
+            uploadTask.on('state_changed', null, null, resolve);
+          });
+          
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+          return;
+        }
+        
+        try {
+          // We'll use MediaRecorder with audio stream
+          uploadStatus.textContent = "Using MediaRecorder API with audio stream...";
+          
+          // Create a MediaStream from video element with both audio and video tracks
+          const videoStream = video.captureStream();
+          
+          // Create canvas for video resizing
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // Calculate aspect ratio
+          const aspectRatio = video.videoWidth / video.videoHeight;
+          const targetWidth = Math.min(compressionSettings.video.width, 
+                                      Math.round(compressionSettings.video.height * aspectRatio));
+          const targetHeight = Math.min(compressionSettings.video.height,
+                                        Math.round(compressionSettings.video.width / aspectRatio));
+          
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+          
+          // Capture canvas stream for video
+          const canvasStream = canvas.captureStream(compressionSettings.video.fps);
+          
+          // Create a new MediaStream with canvas video track and original audio tracks
+          const combinedStream = new MediaStream();
+          
+          // Add the video track from canvas
+          canvasStream.getVideoTracks().forEach(track => {
+            combinedStream.addTrack(track);
+          });
+          
+          // Extract audio from original file using AudioContext
+          const audioContext = new AudioContext();
+          const audioSource = audioContext.createMediaElementSource(video);
+          const audioDestination = audioContext.createMediaStreamDestination();
+          audioSource.connect(audioDestination);
+          
+          // Add audio track from the destination stream
+          audioDestination.stream.getAudioTracks().forEach(track => {
+            combinedStream.addTrack(track);
+          });
+          
+          // Set up MediaRecorder to capture the combined stream
+          const mediaRecorder = new MediaRecorder(combinedStream, {
+            mimeType: 'video/webm;codecs=vp9',
+            videoBitsPerSecond: compressionSettings.video.bitrate
+          });
+          
+          const chunks = [];
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) {
+              chunks.push(e.data);
+            }
+          };
+          
+          let uploadPromiseResolve;
+          const uploadPromise = new Promise(resolve => {
+            uploadPromiseResolve = resolve;
+          });
+          
+          mediaRecorder.onstop = async () => {
+            audioContext.close(); // Close audio context when done
+            
+            const compressedBlob = new Blob(chunks, { type: 'video/webm' });
+            
+            // Upload compressed video
+            const fileName = `${Date.now()}_${file.name.replace(/\.[^/.]+$/, "")}.webm`;
+            const compressedRef = ref(storage, `users/${userId}/media/${fileName}`);
+            
+            const uploadTask = uploadBytesResumable(compressedRef, compressedBlob);
+            
+            uploadTask.on('state_changed', 
+              (snapshot) => {
+                const progress = 50 + (snapshot.bytesTransferred / snapshot.totalBytes) * 50; // First 50% for compression
+                uploadProgress.value = progress;
+                uploadStatus.textContent = `Uploading compressed video: ${Math.round((progress - 50) * 2)}%`;
+              },
+              (error) => {
+                console.error("Error uploading compressed video:", error);
+                uploadPromiseResolve(null);
+              },
+              async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                uploadPromiseResolve(downloadURL);
+              }
+            );
+          };
+          
+          // Start recording
+          mediaRecorder.start(1000);
+          
+          // Process the video
+          video.currentTime = 0;
+          video.muted = false; // Unmute to capture audio
+          await video.play();
+          
+          const processFrame = async () => {
+            if (video.ended || video.paused) {
+              mediaRecorder.stop();
+              video.pause();
+              URL.revokeObjectURL(video.src);
+              return;
+            }
+            
+            ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+            
+            // Update upload status with current position - this represents the first 50% (compression stage)
+            const progressPercent = (video.currentTime / video.duration) * 50;
+            uploadProgress.value = progressPercent;
+            uploadStatus.textContent = `Video compression: ${Math.round(progressPercent * 2)}%`;
+            
+            // Continue processing
+            requestAnimationFrame(processFrame);
+          };
+          
+          // Start processing frames
+          processFrame();
+          
+          // Return the upload promise result
+          const compressedUrl = await uploadPromise;
+          resolve(compressedUrl);
+        } catch (mediaRecorderError) {
+          console.error("Error with MediaRecorder API:", mediaRecorderError);
+          // Fallback: just upload the original if there's an issue with compression
+          uploadStatus.textContent = "Compression failed, uploading original video...";
+          
+          const fileName = `${Date.now()}_${file.name}`;
+          const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+          const uploadTask = uploadBytesResumable(fileRef, file);
+          
+          uploadTask.on('state_changed', 
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploadProgress.value = progress;
+              uploadStatus.textContent = `Uploading original video: ${Math.round(progress)}%`;
+            },
+            (error) => {
+              console.error("Error uploading original video as fallback:", error);
+              reject(error);
+            }
+          );
+          
+          await new Promise((resolve) => {
+            uploadTask.on('state_changed', null, null, resolve);
+          });
+          
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+        }
+      };
+      
+      video.onerror = (error) => {
+        console.error("Error loading video for compression:", error);
+        reject(error);
+      };
+      
+      video.load();
+    } catch (error) {
+      console.error("Error during video compression:", error);
+      reject(error);
+    }
+  });
+}
+
+  // Modify the file input handler to only downscale videos
+  fileUploadInput.addEventListener("change", async (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      alert("No files selected.");
+      return;
+    }
+
+    uploadOverlay.style.display = "flex";
+    uploadProgress.value = 0;
+    uploadStatus.textContent = "Preparing files...";
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      uploadMessage.textContent = `Processing ${i + 1} of ${files.length}: ${file.name}`;
+      
+      try {
+        // Determine file type
+        const mediaType = file.type;
+        const isVideo = mediaType.startsWith("video");
+        
+        // Variable to store the final media URL
+        let mediaUrl = null;
+        
+        if (isVideo) {
+          // Only compress videos
+          uploadStatus.textContent = "Compressing video...";
+          mediaUrl = await compressVideo(file, userId);
+        } else {
+          // For all other file types, upload directly without compression
+          uploadStatus.textContent = "Uploading file...";
+          const fileName = `${Date.now()}_${file.name}`;
+          const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+          const uploadTask = uploadBytesResumable(fileRef, file);
+          
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploadProgress.value = progress;
+              uploadStatus.textContent = `Uploading file: ${Math.round(progress)}%`;
+            },
+            (error) => {
+              console.error("Error uploading file:", error);
+              uploadStatus.textContent = `Error: ${error.message}`;
+            }
+          );
+          
+          // Wait for upload to complete
+          await new Promise((resolve, reject) => {
+            uploadTask.on("state_changed", null, reject, resolve);
+          });
+          
+          mediaUrl = await getDownloadURL(uploadTask.snapshot.ref);
+        }
+        
+        if (!mediaUrl) {
+          throw new Error("Failed to get media URL after processing");
+        }
+
+        // Store metadata in Firestore
+        const mediaRef = collection(db, "users", userId, "media");
+        await addDoc(mediaRef, {
+          mediaUrl: mediaUrl,
+          mediaType: mediaType,
+          fileSize: await getFileSize(mediaUrl),
+          uploadedAt: new Date().toISOString(),
+        });
+
+        uploadProgress.value = 100;
+        uploadStatus.textContent = `${file.name} processed and uploaded successfully.`;
+      } catch (error) {
+        console.error("File processing failed:", error);
+        uploadStatus.textContent = `Failed to process ${file.name}: ${error.message}`;
+      }
+
+      // Small delay before processing next file
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    uploadOverlay.style.display = "none";
+    loadMedia(userId);
+  });
 
   // Event Listeners
   openPlaylistModalBtn.addEventListener("click", () => {
@@ -277,52 +626,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fileUploadInput.click();
   });
 
-  fileUploadInput.addEventListener("change", async (event) => {
-    const files = event.target.files;
-    if (!files || files.length === 0) {
-      alert("No files selected.");
-      return;
-    }
-
-    uploadOverlay.style.display = "flex";
-
-    for (const file of files) {
-      try {
-        const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        await new Promise((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            null,
-            (error) => reject(error),
-            async () => {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              const mediaType = file.type;
-
-              const mediaRef = collection(db, "users", userId, "media");
-              await addDoc(mediaRef, {
-                mediaUrl: downloadURL,
-                mediaType: mediaType,
-                uploadedAt: new Date().toISOString(),
-              });
-
-              resolve();
-            }
-          );
-        });
-      } catch (error) {
-        console.error("File upload failed:", error);
-        alert(`Failed to upload ${file.name}: ${error.message}`);
-      }
-    }
-
-    uploadOverlay.style.display = "none";
-    loadMedia(userId);
-  });
-
   closeModalBtn.addEventListener("click", closeModal);
 });
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Get the close button element by its ID
@@ -333,10 +639,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeButton.addEventListener('click', function() {
             // Navigate to the home page
             window.location.href = 'home.html';
-            
-            // Alternative approaches:
-            // window.location.replace('/'); // Replaces current history entry
-            // window.location.assign('/');  // Same as window.location.href = '/'
         });
     } else {
         console.error('Close button element with ID "close-view-popup" not found');
