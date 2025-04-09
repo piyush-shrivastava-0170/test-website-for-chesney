@@ -16,12 +16,12 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB5WjXzmGNUWUCr-_-PDPagpUfYaTmjjGY",
-  authDomain: "cheney-25352.firebaseapp.com",
-  projectId: "cheney-25352",
-  storageBucket: "cheney-25352.appspot.com",
-  messagingSenderId: "731368175146",
-  appId: "1:731368175146:web:b2fd024d600c930373f553",
-};
+      authDomain: "cheney-25352.firebaseapp.com",
+      projectId: "cheney-25352",
+      storageBucket: "cheney-25352.appspot.com",
+      messagingSenderId: "731368175146",
+      appId: "1:731368175146:web:b2fd024d600c930373f553",
+    };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -579,15 +579,10 @@ function pushMediaByTypeToGroup(deviceIds) {
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function () {
   // Get references to the buttons
-  const homeButton = document.getElementById('home-button');
+
   const closePopupButton = document.getElementById('close-popup-button');
 
-  // Add event listeners
-  if (homeButton) {
-    homeButton.addEventListener('click', function () {
-      location.href = 'home.html';
-    });
-  }
+ 
 
   if (closePopupButton) {
     closePopupButton.addEventListener('click', function () {
@@ -677,3 +672,30 @@ async function clearAndRestartGroup(deviceIds) {
   }
 }
 
+ // Wait for the DOM to be fully loaded
+ document.addEventListener('DOMContentLoaded', function() {
+  // Get the close button element by its ID
+  const closeButton = document.getElementById('close-view-popup');
+  
+  // Add a click event listener to the close button
+  if (closeButton) {
+      closeButton.addEventListener('click', function() {
+          // Navigate to the home page
+          window.location.href = 'home.html';
+          
+          // Alternative approaches:
+          // window.location.replace('/'); // Replaces current history entry
+          // window.location.assign('/');  // Same as window.location.href = '/'
+      });
+  } else {
+      console.error('Close button element with ID "close-view-popup" not found');
+  }
+});
+
+
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function(e) {
+  if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+    return false;
+  }
+};

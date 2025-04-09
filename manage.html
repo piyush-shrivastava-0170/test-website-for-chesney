@@ -6,9 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Devices and Groups</title>
   <link rel="stylesheet" href="manage.css">
-  <style>
-    
-  </style>
 
 </head>
 
@@ -25,7 +22,7 @@
     <!-- Right Section -->
     <div class="right-section">
       <h2 class="section-title">Connected Devices</h2>
-      <button class="cut-button" id="home-button">X</button>
+      <span id="close-view-popup" class="close-modal">&times;</span>
     
 
       <!-- Device Grid -->
@@ -42,7 +39,7 @@
 
       <!-- Media Popup -->
       <div id="media-popup" class="popup" style="display: none;">
-        <button class="cut-button" id="close-popup-button">X</button>
+        <span id="close-popup-button" class="close-modal">&times;</span>
         <div class="popup-content">
           <h3>Manage</h3>
           <div id="device-details" style="color: #CF3434FF;">
@@ -102,19 +99,6 @@
               <input type="text" id="url-input" placeholder="Enter Website URL" class="url-input">
               <button id="add-url-btn" class="modal-btn">Add URL</button>
             </div>
-
-            <!-- Grid configuration container (initially hidden) -->
-            <!-- <div id="grid-config-container" style="display: none; margin-top: 10px;">
-              <div>
-                <label for="grid-rows">Rows:</label>
-                <input type="number" id="grid-rows" min="1" max="4" value="2">
-              </div>
-              <div>
-                <label for="grid-columns">Columns:</label>
-                <input type="number" id="grid-columns" min="1" max="4" value="2">
-              </div>
-              <button id="configure-grid-btn" class="modal-btn">Configure Grid</button>
-            </div> -->
 
             <!-- Media list container -->
 

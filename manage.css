@@ -260,6 +260,34 @@ button:hover {
   object-fit: fill ;
   border-radius: 5px;
 }
+/* Media Thumbnail Styling */
+.media-list .media-item img,
+.media-list .media-item video  {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Prevents clicking on the video */
+  display: block;
+}
+
+/* Video Thumbnail Styling */
+video.media-list .media-item img,
+.media-list .media-item video  {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: #000;
+}
+
+/* Hide video controls */
+video.media-list .media-item img,
+.media-list .media-item video ::-webkit-media-controls,
+video.media-list .media-item img,
+.media-list .media-item video ::-webkit-media-controls-enclosure,
+video.media-list .media-item img,
+.media-list .media-item video ::-webkit-media-controls-panel {
+  display: none !important;
+}
 
 /* Radio Button Instead of Select */
 .media-list .media-item input[type="radio"] {
@@ -308,11 +336,12 @@ button:hover {
   /* color: #f5f5dc; */
 }
 
+
 .cut-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #CF3434FF; /* Red color */
+  background-color: #EC2027; /* Red color */
   color: white;
   border: none;
   font-size: 18px;
@@ -334,6 +363,21 @@ button:hover {
 
 .cut-button:active {
   transform: scale(0.95);
+}
+
+.close-modal {
+  color: white;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  /* margin-top: 25px; */
+}
+
+.close-modal:hover {
+  color: #d9cfc4;
 }
 .media-item.selected {
   /* filter: brightness(0.7); */
