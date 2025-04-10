@@ -29,7 +29,7 @@ const compressionSettings = {
     width: 1920,
     height: 1080,
     fps: 30,
-    bitrate: 6000000, // 8 Mbps
+    bitrate: 8000000, // 8 Mbps
   }
 };
 
