@@ -23,15 +23,15 @@ const auth = getAuth();
 let userId = null;
 let selectedMediaUrls = [];
 
-// Video compression settings
-const compressionSettings = {
-  video: {
-    width: 1920,
-    height: 1080,
-    fps: 30,
-    bitrate: 6000000, // 8 Mbps
-  }
-};
+// // Video compression settings
+// const compressionSettings = {
+//   video: {
+//     width: 1920,
+//     height: 1080,
+//     fps: 30,
+//     bitrate: 6000000, // 8 Mbps
+//   }
+// };
 
 // Helper function to get file size in KB/MB format
 async function getFileSize(url) {
@@ -242,19 +242,258 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 // Video compression function with audio preservation
+// async function compressVideo(file, userId) {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       // Create video element to get metadata
+//       const video = document.createElement('video');
+//       video.muted = true;
+//       video.src = URL.createObjectURL(file);
+      
+//       video.onloadedmetadata = async () => {
+//         uploadStatus.textContent = "Processing video...";
+        
+//         // Determine if compression is needed
+//         const needsCompression = video.videoHeight > compressionSettings.video.height;
+        
+//         if (!needsCompression) {
+//           // If no compression needed, upload the original file directly
+//           uploadStatus.textContent = "Video doesn't need compression, uploading directly...";
+//           URL.revokeObjectURL(video.src);
+          
+//           const fileName = `${Date.now()}_${file.name}`;
+//           const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+//           const uploadTask = uploadBytesResumable(fileRef, file);
+          
+//           uploadTask.on('state_changed', 
+//             (snapshot) => {
+//               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+//               uploadProgress.value = progress;
+//               uploadStatus.textContent = `Uploading video: ${Math.round(progress)}%`;
+//             },
+//             (error) => {
+//               console.error("Error uploading video:", error);
+//               reject(error);
+//             }
+//           );
+          
+//           await new Promise((resolve) => {
+//             uploadTask.on('state_changed', null, null, resolve);
+//           });
+          
+//           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+//           resolve(downloadURL);
+//           return;
+//         }
+        
+//         try {
+//           // We'll use MediaRecorder with audio stream
+//           uploadStatus.textContent = "Using MediaRecorder API with audio stream...";
+          
+//           // Create a MediaStream from video element with both audio and video tracks
+//           const videoStream = video.captureStream();
+          
+//           // Create canvas for video resizing
+//           const canvas = document.createElement('canvas');
+//           const ctx = canvas.getContext('2d');
+          
+//           // Calculate aspect ratio
+//           const aspectRatio = video.videoWidth / video.videoHeight;
+//           const targetWidth = Math.min(compressionSettings.video.width, 
+//                                       Math.round(compressionSettings.video.height * aspectRatio));
+//           const targetHeight = Math.min(compressionSettings.video.height,
+//                                         Math.round(compressionSettings.video.width / aspectRatio));
+          
+//           canvas.width = targetWidth;
+//           canvas.height = targetHeight;
+          
+//           // Capture canvas stream for video
+//           const canvasStream = canvas.captureStream(compressionSettings.video.fps);
+          
+//           // Create a new MediaStream with canvas video track and original audio tracks
+//           const combinedStream = new MediaStream();
+          
+//           // Add the video track from canvas
+//           canvasStream.getVideoTracks().forEach(track => {
+//             combinedStream.addTrack(track);
+//           });
+          
+//           // Extract audio from original file using AudioContext
+//           const audioContext = new AudioContext();
+//           const audioSource = audioContext.createMediaElementSource(video);
+//           const audioDestination = audioContext.createMediaStreamDestination();
+//           audioSource.connect(audioDestination);
+          
+//           // Add audio track from the destination stream
+//           audioDestination.stream.getAudioTracks().forEach(track => {
+//             combinedStream.addTrack(track);
+//           });
+          
+//           // Set up MediaRecorder to capture the combined stream
+//           const mediaRecorder = new MediaRecorder(combinedStream, {
+//             mimeType: 'video/webm;codecs=vp9',
+//             videoBitsPerSecond: compressionSettings.video.bitrate
+//           });
+          
+//           const chunks = [];
+//           mediaRecorder.ondataavailable = (e) => {
+//             if (e.data.size > 0) {
+//               chunks.push(e.data);
+//             }
+//           };
+          
+//           let uploadPromiseResolve;
+//           const uploadPromise = new Promise(resolve => {
+//             uploadPromiseResolve = resolve;
+//           });
+          
+//           mediaRecorder.onstop = async () => {
+//             audioContext.close(); // Close audio context when done
+            
+//             const compressedBlob = new Blob(chunks, { type: 'video/webm' });
+            
+//             // Upload compressed video
+//             const fileName = `${Date.now()}_${file.name.replace(/\.[^/.]+$/, "")}.webm`;
+//             const compressedRef = ref(storage, `users/${userId}/media/${fileName}`);
+            
+//             const uploadTask = uploadBytesResumable(compressedRef, compressedBlob);
+            
+//             uploadTask.on('state_changed', 
+//               (snapshot) => {
+//                 const progress = 50 + (snapshot.bytesTransferred / snapshot.totalBytes) * 50; // First 50% for compression
+//                 uploadProgress.value = progress;
+//                 uploadStatus.textContent = `Uploading compressed video: ${Math.round((progress - 50) * 2)}%`;
+//               },
+//               (error) => {
+//                 console.error("Error uploading compressed video:", error);
+//                 uploadPromiseResolve(null);
+//               },
+//               async () => {
+//                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+//                 uploadPromiseResolve(downloadURL);
+//               }
+//             );
+//           };
+          
+//           // Start recording
+//           mediaRecorder.start(1000);
+          
+//           // Process the video
+//           video.currentTime = 0;
+//           video.muted = false; // Unmute to capture audio
+//           await video.play();
+          
+//           const processFrame = async () => {
+//             if (video.ended || video.paused) {
+//               mediaRecorder.stop();
+//               video.pause();
+//               URL.revokeObjectURL(video.src);
+//               return;
+//             }
+            
+//             ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+            
+//             // Update upload status with current position - this represents the first 50% (compression stage)
+//             const progressPercent = (video.currentTime / video.duration) * 50;
+//             uploadProgress.value = progressPercent;
+//             uploadStatus.textContent = `Video compression: ${Math.round(progressPercent * 2)}%`;
+            
+//             // Continue processing
+//             requestAnimationFrame(processFrame);
+//           };
+          
+//           // Start processing frames
+//           processFrame();
+          
+//           // Return the upload promise result
+//           const compressedUrl = await uploadPromise;
+//           resolve(compressedUrl);
+//         } catch (mediaRecorderError) {
+//           console.error("Error with MediaRecorder API:", mediaRecorderError);
+//           // Fallback: just upload the original if there's an issue with compression
+//           uploadStatus.textContent = "Compression failed, uploading original video...";
+          
+//           const fileName = `${Date.now()}_${file.name}`;
+//           const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+//           const uploadTask = uploadBytesResumable(fileRef, file);
+          
+//           uploadTask.on('state_changed', 
+//             (snapshot) => {
+//               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+//               uploadProgress.value = progress;
+//               uploadStatus.textContent = `Uploading original video: ${Math.round(progress)}%`;
+//             },
+//             (error) => {
+//               console.error("Error uploading original video as fallback:", error);
+//               reject(error);
+//             }
+//           );
+          
+//           await new Promise((resolve) => {
+//             uploadTask.on('state_changed', null, null, resolve);
+//           });
+          
+//           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+//           resolve(downloadURL);
+//         }
+//       };
+      
+//       video.onerror = (error) => {
+//         console.error("Error loading video for compression:", error);
+//         reject(error);
+//       };
+      
+//       video.load();
+//     } catch (error) {
+//       console.error("Error during video compression:", error);
+//       reject(error);
+//     }
+//   });
+// }
+
+// Improved video compression function that works better across platforms
 async function compressVideo(file, userId) {
   return new Promise((resolve, reject) => {
     try {
       // Create video element to get metadata
       const video = document.createElement('video');
       video.muted = true;
+      video.preload = "metadata"; // Only load metadata initially
       video.src = URL.createObjectURL(file);
+      
+      // Define compression settings based on platform
+      const compressionSettings = {
+        video: {
+          // More conservative settings that work well cross-platform
+          height: 720,
+          width: 1280,
+          fps: 30,
+          bitrate: 2500000, // 2.5 Mbps - more reasonable for cross-platform
+          // Add chunking size to optimize memory usage
+          chunkSize: 1000
+        }
+      };
+
+      // Add upload progress elements that should be defined elsewhere in your app
+      const uploadStatus = document.getElementById('uploadStatus') || { textContent: '' };
+      const uploadProgress = document.getElementById('uploadProgress') || { value: 0 };
       
       video.onloadedmetadata = async () => {
         uploadStatus.textContent = "Processing video...";
         
-        // Determine if compression is needed
-        const needsCompression = video.videoHeight > compressionSettings.video.height;
+        // Get video details
+        const duration = video.duration;
+        const videoWidth = video.videoWidth;
+        const videoHeight = video.videoHeight;
+        
+        // Check file size - for larger files, use more aggressive compression
+        const fileSizeMB = file.size / (1024 * 1024);
+        const isLargeFile = fileSizeMB > 50; // 50MB threshold
+        
+        // Determine if compression is needed based on resolution and file size
+        const needsCompression = videoHeight > compressionSettings.video.height || 
+                                 videoWidth > compressionSettings.video.width || 
+                                 isLargeFile;
         
         if (!needsCompression) {
           // If no compression needed, upload the original file directly
@@ -287,51 +526,97 @@ async function compressVideo(file, userId) {
         }
         
         try {
-          // We'll use MediaRecorder with audio stream
-          uploadStatus.textContent = "Using MediaRecorder API with audio stream...";
+          // Platform detection to adjust settings if needed
+          const isWindows = navigator.platform.indexOf('Win') > -1;
           
-          // Create a MediaStream from video element with both audio and video tracks
-          const videoStream = video.captureStream();
+          // Adjust settings for Windows to improve performance
+          if (isWindows) {
+            compressionSettings.video.fps = 24; // Lower framerate for Windows
+            // Use a less demanding codec on Windows
+            compressionSettings.video.codec = 'vp8'; 
+          } else {
+            compressionSettings.video.codec = 'vp9'; // Better quality on macOS
+          }
+          
+          uploadStatus.textContent = "Initializing compression...";
+          
+          // Calculate target dimensions while preserving aspect ratio
+          const aspectRatio = videoWidth / videoHeight;
+          let targetWidth, targetHeight;
+          
+          if (aspectRatio > 1) {
+            // Landscape orientation
+            targetWidth = Math.min(compressionSettings.video.width, 
+                                 Math.round(compressionSettings.video.height * aspectRatio));
+            targetHeight = Math.min(compressionSettings.video.height,
+                                  Math.round(targetWidth / aspectRatio));
+          } else {
+            // Portrait orientation
+            targetHeight = Math.min(compressionSettings.video.height, 
+                                  Math.round(compressionSettings.video.width / aspectRatio));
+            targetWidth = Math.min(compressionSettings.video.width,
+                                 Math.round(targetHeight * aspectRatio));
+          }
+          
+          // Make dimensions even (required by some codecs)
+          targetWidth = Math.floor(targetWidth / 2) * 2;
+          targetHeight = Math.floor(targetHeight / 2) * 2;
           
           // Create canvas for video resizing
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-          
-          // Calculate aspect ratio
-          const aspectRatio = video.videoWidth / video.videoHeight;
-          const targetWidth = Math.min(compressionSettings.video.width, 
-                                      Math.round(compressionSettings.video.height * aspectRatio));
-          const targetHeight = Math.min(compressionSettings.video.height,
-                                        Math.round(compressionSettings.video.width / aspectRatio));
-          
           canvas.width = targetWidth;
           canvas.height = targetHeight;
           
-          // Capture canvas stream for video
-          const canvasStream = canvas.captureStream(compressionSettings.video.fps);
+          // Check for browser support for specific codecs
+          const mimeType = `video/webm;codecs=${compressionSettings.video.codec}`;
+          if (!MediaRecorder.isTypeSupported(mimeType)) {
+            // Fallback to basic WebM if the specified codec isn't supported
+            compressionSettings.video.codec = 'vp8';
+            compressionSettings.video.mimeType = 'video/webm';
+          } else {
+            compressionSettings.video.mimeType = mimeType;
+          }
           
-          // Create a new MediaStream with canvas video track and original audio tracks
+          // Create streams and recorder with optimized settings
+          let canvasStream;
+          try {
+            // Try with the specified FPS first
+            canvasStream = canvas.captureStream(compressionSettings.video.fps);
+          } catch (e) {
+            // Fallback to default FPS if specifying FPS fails
+            canvasStream = canvas.captureStream();
+          }
+          
+          // Set up audio processing
+          const audioContext = new AudioContext();
+          const audioSource = audioContext.createMediaElementSource(video);
+          const audioDestination = audioContext.createMediaStreamDestination();
+          
+          // Add a gain node to control audio levels
+          const gainNode = audioContext.createGain();
+          gainNode.gain.value = 1.0; // Maintain original volume
+          
+          // Connect audio nodes
+          audioSource.connect(gainNode);
+          gainNode.connect(audioDestination);
+          
+          // Combine streams
           const combinedStream = new MediaStream();
           
-          // Add the video track from canvas
+          // Add video track
           canvasStream.getVideoTracks().forEach(track => {
             combinedStream.addTrack(track);
           });
           
-          // Extract audio from original file using AudioContext
-          const audioContext = new AudioContext();
-          const audioSource = audioContext.createMediaElementSource(video);
-          const audioDestination = audioContext.createMediaStreamDestination();
-          audioSource.connect(audioDestination);
-          
-          // Add audio track from the destination stream
+          // Add audio track
           audioDestination.stream.getAudioTracks().forEach(track => {
             combinedStream.addTrack(track);
           });
           
-          // Set up MediaRecorder to capture the combined stream
+          // Set up MediaRecorder with optimized settings
           const mediaRecorder = new MediaRecorder(combinedStream, {
-            mimeType: 'video/webm;codecs=vp9',
+            mimeType: compressionSettings.video.mimeType,
             videoBitsPerSecond: compressionSettings.video.bitrate
           });
           
@@ -342,25 +627,32 @@ async function compressVideo(file, userId) {
             }
           };
           
+          // Create promise for upload completion
           let uploadPromiseResolve;
           const uploadPromise = new Promise(resolve => {
             uploadPromiseResolve = resolve;
           });
           
           mediaRecorder.onstop = async () => {
-            audioContext.close(); // Close audio context when done
+            // Clean up resources
+            canvasStream.getTracks().forEach(track => track.stop());
+            audioContext.close();
             
-            const compressedBlob = new Blob(chunks, { type: 'video/webm' });
+            // Create final video blob
+            const compressedBlob = new Blob(chunks, { type: compressionSettings.video.mimeType });
+            
+            uploadStatus.textContent = `Compression complete. Original: ${Math.round(fileSizeMB * 10) / 10}MB, Compressed: ${Math.round(compressedBlob.size / 1024 / 1024 * 10) / 10}MB`;
             
             // Upload compressed video
-            const fileName = `${Date.now()}_${file.name.replace(/\.[^/.]+$/, "")}.webm`;
+            const extension = compressionSettings.video.mimeType.includes('webm') ? 'webm' : 'mp4';
+            const fileName = `${Date.now()}_${file.name.replace(/\.[^/.]+$/, "")}.${extension}`;
             const compressedRef = ref(storage, `users/${userId}/media/${fileName}`);
             
             const uploadTask = uploadBytesResumable(compressedRef, compressedBlob);
             
             uploadTask.on('state_changed', 
               (snapshot) => {
-                const progress = 50 + (snapshot.bytesTransferred / snapshot.totalBytes) * 50; // First 50% for compression
+                const progress = 50 + (snapshot.bytesTransferred / snapshot.totalBytes) * 50;
                 uploadProgress.value = progress;
                 uploadStatus.textContent = `Uploading compressed video: ${Math.round((progress - 50) * 2)}%`;
               },
@@ -375,15 +667,18 @@ async function compressVideo(file, userId) {
             );
           };
           
-          // Start recording
-          mediaRecorder.start(1000);
+          // Start recording with optimal chunk size
+          mediaRecorder.start(compressionSettings.video.chunkSize);
           
-          // Process the video
-          video.currentTime = 0;
-          video.muted = false; // Unmute to capture audio
-          await video.play();
+          // Prepare video for playback with explicit loading
+          video.muted = false;
           
-          const processFrame = async () => {
+          // Handle video playback for frame extraction
+          let frameCount = 0;
+          let lastProgressUpdate = 0;
+          
+          // Function to process video frames with optimized performance
+          const processFrame = () => {
             if (video.ended || video.paused) {
               mediaRecorder.stop();
               video.pause();
@@ -391,26 +686,84 @@ async function compressVideo(file, userId) {
               return;
             }
             
+            // Only process every other frame on Windows for better performance
+            frameCount++;
+            if (isWindows && frameCount % 2 !== 0) {
+              requestAnimationFrame(processFrame);
+              return;
+            }
+            
+            // Draw current frame to canvas
             ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
             
-            // Update upload status with current position - this represents the first 50% (compression stage)
-            const progressPercent = (video.currentTime / video.duration) * 50;
-            uploadProgress.value = progressPercent;
-            uploadStatus.textContent = `Video compression: ${Math.round(progressPercent * 2)}%`;
+            // Update progress less frequently to reduce UI overhead
+            const currentTime = video.currentTime;
+            if (currentTime - lastProgressUpdate > 0.5 || currentTime === 0) {
+              const progressPercent = (currentTime / duration) * 50;
+              uploadProgress.value = progressPercent;
+              uploadStatus.textContent = `Video compression: ${Math.round(progressPercent * 2)}%`;
+              lastProgressUpdate = currentTime;
+            }
             
-            // Continue processing
+            // Schedule next frame
             requestAnimationFrame(processFrame);
           };
           
-          // Start processing frames
-          processFrame();
+          // Start video playback and processing
+          video.currentTime = 0;
+          
+          // Handle video playing event to start processing
+          video.onplaying = () => {
+            processFrame();
+          };
+          
+          // Add error handler for video playback
+          video.onerror = (e) => {
+            console.error("Error during video playback:", e);
+            mediaRecorder.stop();
+            reject(new Error("Video playback failed during compression"));
+          };
+          
+          try {
+            await video.play();
+          } catch (playError) {
+            console.error("Could not play video:", playError);
+            // Fallback to direct upload if playback fails
+            URL.revokeObjectURL(video.src);
+            
+            uploadStatus.textContent = "Compression failed, uploading original video...";
+            const fileName = `${Date.now()}_${file.name}`;
+            const fileRef = ref(storage, `users/${userId}/media/${fileName}`);
+            const uploadTask = uploadBytesResumable(fileRef, file);
+            
+            uploadTask.on('state_changed', 
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                uploadProgress.value = progress;
+                uploadStatus.textContent = `Uploading original video: ${Math.round(progress)}%`;
+              },
+              (error) => {
+                console.error("Error uploading original video as fallback:", error);
+                reject(error);
+              }
+            );
+            
+            await new Promise((resolve) => {
+              uploadTask.on('state_changed', null, null, resolve);
+            });
+            
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(downloadURL);
+            return;
+          }
           
           // Return the upload promise result
           const compressedUrl = await uploadPromise;
           resolve(compressedUrl);
-        } catch (mediaRecorderError) {
-          console.error("Error with MediaRecorder API:", mediaRecorderError);
-          // Fallback: just upload the original if there's an issue with compression
+          
+        } catch (compressionError) {
+          console.error("Error during video compression:", compressionError);
+          // Fallback: upload the original if there's an issue with compression
           uploadStatus.textContent = "Compression failed, uploading original video...";
           
           const fileName = `${Date.now()}_${file.name}`;
@@ -445,7 +798,7 @@ async function compressVideo(file, userId) {
       
       video.load();
     } catch (error) {
-      console.error("Error during video compression:", error);
+      console.error("Error during video compression setup:", error);
       reject(error);
     }
   });
