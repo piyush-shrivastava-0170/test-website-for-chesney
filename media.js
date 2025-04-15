@@ -815,8 +815,8 @@ async function compressVideo(file, userId) {
       // Define compression settings with better Windows compatibility
       const compressionSettings = {
         video: {
-          height: 720,
-          width: 1280,
+          height: 1080,
+          width: 1920,
           fps: 24, // Lower default fps for better Windows compatibility
           bitrate: 2000000, // 2 Mbps - better for cross-platform
           chunkSize: 1000,
