@@ -1334,6 +1334,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }
 //   });
 // }
+
 /**
  * Cross-platform video compression function that works smoothly on all operating systems
  * Uses chunked processing, adaptive quality, and optimized memory management
@@ -1385,7 +1386,7 @@ async function compressVideo(file, userId) {
           height: 1080,
           width: 1920,
           fps: 30,
-          bitrate: 8000000, // 8 Mbps target
+          bitrate: 6000000, // 8 Mbps target
           chunkSize: 1000,
           // Will be determined dynamically based on browser support
           codec: null,
