@@ -822,7 +822,7 @@ async function compressVideo(file, userId) {
         video: {
           height: 1080,
           width: 1920,
-          fps: 30, // Lower default fps for better Windows compatibility
+          fps: 24, // Lower default fps for better Windows compatibility
           bitrate: 8000000, // 2 Mbps - better for cross-platform
           chunkSize: 1000,
           // Default to VP8 which has better support across platforms
