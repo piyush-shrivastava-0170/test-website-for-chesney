@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedMediaUrls = [];
   }
 
-  // Downscale video to 1080p while preserving audio
+  // Optimized video downscaling function for cross-platform compatibility
 async function downscaleVideoTo1080p(videoFile) {
   return new Promise((resolve, reject) => {
     // Create a temporary URL for the video file
@@ -156,35 +156,55 @@ async function downscaleVideoTo1080p(videoFile) {
     
     // Create video element to get video metadata
     const video = document.createElement('video');
-    video.muted = false; // Not muting to ensure we can access the audio tracks
+    video.muted = false; 
     video.autoplay = false;
+    
+    // Create elements for processing
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Temporary element storage
+    let mediaRecorder = null;
+    let processingInterval = null;
+    const chunks = [];
+    
+    // Cleanup function to prevent memory leaks
+    const cleanupResources = () => {
+      if (processingInterval) {
+        clearInterval(processingInterval);
+        processingInterval = null;
+      }
+      
+      if (video) {
+        video.pause();
+        video.src = "";
+        video.load();
+      }
+      
+      URL.revokeObjectURL(videoURL);
+    };
     
     // When video metadata is loaded
     video.onloadedmetadata = () => {
+      console.log(`Video dimensions: ${video.videoWidth}x${video.videoHeight}, duration: ${video.duration}s`);
+      
       // Check if video needs downscaling (higher than 1920x1080)
       const isHighResolution = video.videoWidth > 1920 || video.videoHeight > 1080;
       
       if (!isHighResolution) {
         console.log("Video is already 1080p or lower. Skipping downscaling.");
-        URL.revokeObjectURL(videoURL);
-        resolve(videoFile); // Return original file if it's already 1080p or lower
+        cleanupResources();
+        resolve(videoFile);
         return;
       }
       
-      console.log(`Downscaling video from ${video.videoWidth}x${video.videoHeight} to 1080p`);
-      
-      // Create canvas for processing
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
-      // Set target dimensions (maintaining aspect ratio)
+      // Calculate target dimensions (maintaining aspect ratio)
       let targetWidth, targetHeight;
       
       if (video.videoWidth > video.videoHeight) {
         // Landscape orientation
         targetWidth = Math.min(1920, video.videoWidth);
         targetHeight = Math.round((targetWidth / video.videoWidth) * video.videoHeight);
-        // Ensure height doesn't exceed 1080
         if (targetHeight > 1080) {
           targetHeight = 1080;
           targetWidth = Math.round((targetHeight / video.videoHeight) * video.videoWidth);
@@ -193,67 +213,254 @@ async function downscaleVideoTo1080p(videoFile) {
         // Portrait or square orientation
         targetHeight = Math.min(1080, video.videoHeight);
         targetWidth = Math.round((targetHeight / video.videoHeight) * video.videoWidth);
-        // Ensure width doesn't exceed 1920
         if (targetWidth > 1920) {
           targetWidth = 1920;
           targetHeight = Math.round((targetWidth / video.videoWidth) * video.videoHeight);
         }
       }
       
+      console.log(`Downscaling to: ${targetWidth}x${targetHeight}`);
+      
       // Set canvas dimensions
       canvas.width = targetWidth;
       canvas.height = targetHeight;
       
-      // Create a MediaStream from the video element to capture its audio
-      let audioTracks = [];
-      
-      // Function to check if video has audio
-      const hasAudio = () => {
-        try {
-          return video.captureStream && video.captureStream().getAudioTracks().length > 0;
-        } catch (e) {
-          console.warn("Could not determine if video has audio tracks:", e);
-          return false;
-        }
-      };
-      
-      // Try to get audio tracks if the video has them
-      if (hasAudio()) {
-        try {
-          audioTracks = video.captureStream().getAudioTracks();
-          console.log(`Found ${audioTracks.length} audio tracks in the video`);
-        } catch (e) {
-          console.warn("Error capturing audio tracks:", e);
-        }
+      // Determine if browser supports audio capture
+      let canCaptureAudio = false;
+      try {
+        canCaptureAudio = video.captureStream && video.captureStream().getAudioTracks().length > 0;
+      } catch (e) {
+        console.warn("Audio capture check failed:", e);
       }
       
-      // Create a MediaStream with both the canvas stream for video and original audio tracks
-      const canvasStream = canvas.captureStream();
-      audioTracks.forEach(track => canvasStream.addTrack(track));
+      // Choose the most efficient method based on browser capabilities and video duration
+      const useChunkedProcessing = (video.duration > 60 || navigator.userAgent.indexOf("Windows") > -1);
       
-      // Check for supported codecs
-      let mimeType = 'video/webm;codecs=vp9';
-      if (!MediaRecorder.isTypeSupported(mimeType)) {
-        mimeType = 'video/webm;codecs=vp8';
-        if (!MediaRecorder.isTypeSupported(mimeType)) {
-          mimeType = 'video/webm';
-          if (!MediaRecorder.isTypeSupported(mimeType)) {
-            console.warn("WebM format not supported, trying MP4");
-            mimeType = 'video/mp4';
-            if (!MediaRecorder.isTypeSupported(mimeType)) {
-              mimeType = '';
+      if (useChunkedProcessing) {
+        // APPROACH 1: Chunked processing for better performance on Windows and long videos
+        processVideoInChunks();
+      } else {
+        // APPROACH 2: Continuous stream for shorter videos (works better on Mac)
+        processVideoAsStream(canCaptureAudio);
+      }
+    };
+    
+    // APPROACH 1: Process video in chunks for better Windows performance
+    function processVideoInChunks() {
+      console.log("Using chunked processing method");
+      
+      // Frame extraction settings
+      const fps = 30;  // Target frames per second
+      const chunkDuration = 3; // Process 3 seconds at a time
+      const framesPerChunk = fps * chunkDuration;
+      const timePerFrame = 1 / fps;
+      
+      // Processing state
+      let currentChunk = 0;
+      const totalChunks = Math.ceil(video.duration / chunkDuration);
+      let processedFrames = 0;
+      let currentChunkFrames = [];
+      
+      // Estimate appropriate bitrate based on resolution
+      const pixelCount = targetWidth * targetHeight;
+      const baseBitrate = 4000000; // 4 Mbps base
+      const bitrate = Math.min(8000000, Math.max(baseBitrate, Math.round(pixelCount / (1920 * 1080) * baseBitrate * 1.5)));
+      
+      // Find supported mime type
+      let mimeType = getSupportedMimeType();
+      
+      // Set up the result processor
+      video.addEventListener('seeked', async function processChunk() {
+        // Skip if we're done or seeking elsewhere
+        if (currentChunk >= totalChunks) return;
+        
+        const startTime = currentChunk * chunkDuration;
+        const endTime = Math.min((currentChunk + 1) * chunkDuration, video.duration);
+        const chunkFrameCount = Math.ceil((endTime - startTime) * fps);
+        
+        console.log(`Processing chunk ${currentChunk + 1}/${totalChunks} (${startTime.toFixed(2)}s to ${endTime.toFixed(2)}s)`);
+        
+        // Clear frame array for this chunk
+        currentChunkFrames = [];
+        
+        // Extract frames for this chunk
+        for (let i = 0; i < chunkFrameCount; i++) {
+          const frameTime = startTime + (i * timePerFrame);
+          if (frameTime <= video.duration) {
+            video.currentTime = frameTime;
+            await new Promise(resolve => {
+              const onSeeked = () => {
+                // Draw frame to canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Get the frame data
+                currentChunkFrames.push(canvas.toDataURL('image/jpeg', 0.9));
+                
+                // Move on
+                video.removeEventListener('seeked', onSeeked);
+                resolve();
+              };
+              video.addEventListener('seeked', onSeeked, { once: true });
+            });
+            
+            processedFrames++;
+            
+            // Update progress (every 30 frames)
+            if (processedFrames % 30 === 0) {
+              const progress = (processedFrames / (totalChunks * framesPerChunk)) * 100;
+              console.log(`Progress: ${Math.min(100, progress.toFixed(1))}%`);
             }
           }
         }
-      }
-      
-      // Create MediaRecorder with appropriate settings
-      const mediaRecorder = new MediaRecorder(canvasStream, {
-        mimeType: mimeType || undefined,
-        videoBitsPerSecond: 8000000 // 8 Mbps for good quality
+        
+        // When all frames in chunk are processed
+        currentChunk++;
+        
+        // Process next chunk or finalize
+        if (currentChunk < totalChunks) {
+          // Process next chunk
+          video.currentTime = currentChunk * chunkDuration;
+        } else {
+          // All chunks processed, create video from frames
+          console.log("All frames extracted, creating final video...");
+          await createVideoFromFrames(currentChunkFrames, mimeType, bitrate);
+        }
       });
       
-      const chunks = [];
+      // Start processing from the beginning
+      video.currentTime = 0;
+    }
+    
+    // Create a video from extracted frames
+    async function createVideoFromFrames(frames, mimeType, bitrate) {
+      // Create a canvas element for the final video
+      const videoCanvas = document.createElement('canvas');
+      videoCanvas.width = canvas.width;
+      videoCanvas.height = canvas.height;
+      const videoCtx = videoCanvas.getContext('2d');
+      
+      // Create a stream from the canvas
+      const videoStream = videoCanvas.captureStream(30); // 30 fps
+      
+      // Try to add audio if we can extract it
+      try {
+        const audioTracks = video.mozCaptureStream ? 
+                           video.mozCaptureStream().getAudioTracks() : 
+                           (video.captureStream ? video.captureStream().getAudioTracks() : []);
+        
+        audioTracks.forEach(track => {
+          try {
+            videoStream.addTrack(track);
+            console.log("Added audio track to output");
+          } catch (e) {
+            console.warn("Could not add audio track:", e);
+          }
+        });
+      } catch (e) {
+        console.warn("Could not capture audio:", e);
+      }
+      
+      // Create and set up media recorder
+      const recorder = new MediaRecorder(videoStream, {
+        mimeType: mimeType,
+        videoBitsPerSecond: bitrate
+      });
+      
+      const videoChunks = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          videoChunks.push(e.data);
+        }
+      };
+      
+      recorder.onstop = () => {
+        const fileExt = mimeType.includes('mp4') ? '.mp4' : '.webm';
+        const outputBlob = new Blob(videoChunks, { type: mimeType.split(';')[0] });
+        
+        // Create file from blob
+        const outputFile = new File(
+          [outputBlob],
+          videoFile.name.replace(/\.[^/.]+$/, "") + "_1080p" + fileExt,
+          { type: mimeType.split(';')[0] }
+        );
+        
+        cleanupResources();
+        resolve(outputFile);
+      };
+      
+      // Start recording
+      recorder.start(1000);
+      
+      // Draw each frame at the correct time
+      let frameIndex = 0;
+      const frameInterval = 1000 / 30; // 30fps = ~33.33ms per frame
+      
+      // Function to play back frames
+      const playFrames = () => {
+        if (frameIndex < frames.length) {
+          // Create an image from the data URL
+          const img = new Image();
+          img.onload = () => {
+            // Draw the frame on the canvas
+            videoCtx.drawImage(img, 0, 0, videoCanvas.width, videoCanvas.height);
+            frameIndex++;
+            
+            // Progress reporting
+            if (frameIndex % 30 === 0) {
+              console.log(`Encoding frames: ${Math.round((frameIndex / frames.length) * 100)}%`);
+            }
+            
+            // Schedule next frame
+            setTimeout(playFrames, frameInterval);
+          };
+          img.src = frames[frameIndex];
+        } else {
+          // All frames played, stop recording
+          console.log("Finalizing video...");
+          setTimeout(() => {
+            recorder.stop();
+          }, 500); // Give some time for the last frame
+        }
+      };
+      
+      // Start playing frames
+      playFrames();
+    }
+    
+    // APPROACH 2: Process video as a continuous stream (better for Mac/shorter videos)
+    function processVideoAsStream(canCaptureAudio) {
+      console.log("Using continuous stream processing method");
+      
+      // Create a MediaStream from the canvas
+      const canvasStream = canvas.captureStream();
+      
+      // Add audio tracks if possible
+      if (canCaptureAudio) {
+        try {
+          const audioTracks = video.captureStream().getAudioTracks();
+          audioTracks.forEach(track => canvasStream.addTrack(track));
+          console.log(`Added ${audioTracks.length} audio tracks`);
+        } catch (e) {
+          console.warn("Could not add audio tracks:", e);
+        }
+      }
+      
+      // Find supported mime type
+      let mimeType = getSupportedMimeType();
+      
+      // Estimate appropriate bitrate based on resolution
+      const pixelCount = targetWidth * targetHeight;
+      const baseBitrate = 4000000; // 4 Mbps base
+      const bitrate = Math.min(8000000, Math.max(baseBitrate, Math.round(pixelCount / (1920 * 1080) * baseBitrate * 1.5)));
+      
+      console.log(`Using ${mimeType} with bitrate: ${bitrate/1000000}Mbps`);
+      
+      // Create MediaRecorder
+      mediaRecorder = new MediaRecorder(canvasStream, {
+        mimeType: mimeType,
+        videoBitsPerSecond: bitrate
+      });
+      
       mediaRecorder.ondataavailable = (e) => {
         if (e.data.size > 0) {
           chunks.push(e.data);
@@ -261,71 +468,85 @@ async function downscaleVideoTo1080p(videoFile) {
       };
       
       mediaRecorder.onstop = () => {
-        // Determine the output type based on mime type
-        const outputType = mimeType ? mimeType.split(';')[0] : 'video/webm';
-        const fileExtension = outputType.includes('mp4') ? '.mp4' : '.webm';
+        // Determine file extension based on mime type
+        const fileExt = mimeType.includes('mp4') ? '.mp4' : '.webm';
         
         // Create a new Blob from the recorded chunks
+        const outputType = mimeType.split(';')[0];
         const downscaledBlob = new Blob(chunks, { type: outputType });
         
         // Create a new File object with the same name but downscaled content
         const downscaledFile = new File(
           [downscaledBlob],
-          videoFile.name.replace(/\.[^/.]+$/, "") + "_1080p" + fileExtension,
+          videoFile.name.replace(/\.[^/.]+$/, "") + "_1080p" + fileExt,
           { type: outputType }
         );
         
-        URL.revokeObjectURL(videoURL);
+        cleanupResources();
         resolve(downscaledFile);
       };
       
-      // Log progress for debugging
-      let lastTime = 0;
-      video.ontimeupdate = () => {
-        if (video.currentTime - lastTime > 5) { // Log every 5 seconds
-          console.log(`Processing video: ${Math.round(video.currentTime)}/${Math.round(video.duration)} seconds`);
-          lastTime = video.currentTime;
-        }
-      };
+      // Process frames at a consistent rate rather than relying on requestAnimationFrame
+      processingInterval = setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      }, 1000 / 30); // Target 30fps
       
       // Start recording
       mediaRecorder.start(1000); // Capture in 1-second chunks
       
-      // Process video frames
-      video.onplay = () => {
-        console.log("Video playback started for processing");
-        const processFrame = () => {
-          if (!video.paused && !video.ended) {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            requestAnimationFrame(processFrame);
-          }
-        };
-        processFrame();
-      };
-      
-      // Start playing the video at a reasonable speed
-      // Using 1x speed is safer for audio sync, though slower
-      video.playbackRate = 1.0;
-      
+      // Play the video at normal speed
+      video.currentTime = 0;
       video.play().catch(err => {
         console.error("Error playing video for processing:", err);
-        URL.revokeObjectURL(videoURL);
+        cleanupResources();
         reject(err);
       });
       
-      // Set a timeout to stop recording after video duration
-      // Add a small buffer to ensure we capture the whole video
+      // Set a timeout to stop recording after video duration (plus a buffer)
+      const processingDuration = (video.duration * 1000) + 2000; // 2 second buffer
+      
+      // Report progress periodically
+      const progressInterval = setInterval(() => {
+        if (video.currentTime > 0) {
+          const progress = (video.currentTime / video.duration) * 100;
+          console.log(`Processing: ${Math.min(100, progress.toFixed(1))}%`);
+        }
+      }, 3000);
+      
+      // Set timeout to stop processing
       setTimeout(() => {
-        console.log("Processing complete, stopping recorder");
+        clearInterval(progressInterval);
+        clearInterval(processingInterval);
         video.pause();
         mediaRecorder.stop();
-      }, (video.duration * 1000) / video.playbackRate + 2000);
-    };
+        console.log("Processing complete");
+      }, processingDuration);
+    }
+    
+    // Get supported mime type based on browser capabilities
+    function getSupportedMimeType() {
+      // In order of preference
+      const mimeOptions = [
+        'video/webm;codecs=vp9',
+        'video/webm;codecs=vp8',
+        'video/webm',
+        'video/mp4',
+        '' // fallback to browser default
+      ];
+      
+      for (const mime of mimeOptions) {
+        if (!mime || MediaRecorder.isTypeSupported(mime)) {
+          return mime;
+        }
+      }
+      
+      return ''; // Use browser default if none supported
+    }
     
     // Handle errors
     video.onerror = (err) => {
       console.error("Error loading video for downscaling:", err);
-      URL.revokeObjectURL(videoURL);
+      cleanupResources();
       reject(err);
     };
     
