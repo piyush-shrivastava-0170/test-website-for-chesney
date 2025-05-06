@@ -4,23 +4,25 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'League Spartan', Arial, sans-serif;
-  background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
-  color: #f5f5dc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8eaff;
+  color: #333;
   height: 100vh;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
 }
 
 /* Common Styles */
 .playlist-card, .playlist-box, .modal-content {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #c4b3ff;
 }
 
 .left-section, .red-box {
@@ -29,7 +31,7 @@ body {
 
 button {
   border: none;
-  border-radius: 30px;
+  border-radius: 15px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, transform 0.2s ease;
 }
@@ -70,7 +72,7 @@ button:hover {
   width: 80%;
   height: auto;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
@@ -92,26 +94,27 @@ button:hover {
   font-size: 1.6rem;
   margin: 20px 0;
   font-weight: bold;
-  color: #f5f5dc;
+  color: white;
 }
 
 /* Right Section */
 .red-box {
   flex-grow: 1;
   padding: 24px;
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  background-color: #8b73ff;
 }
 
 .red-box h3 {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #f5f5dc;
+  color: white;
 }
 
 .playlist-grid {
@@ -127,37 +130,38 @@ button:hover {
   flex-direction: column;
   gap: 10px;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #c4b3ff;
 }
 
 .playlist-box h4 {
   margin: 0;
   font-size: 1.3rem;
-  color: #f5f5dc;
+  color: white;
   word-break: break-word;
 }
 
 .playlist-box p {
   margin: 5px 0;
   font-size: 1rem;
-  color: rgba(245, 245, 220, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .playlist-box button {
   margin-top: 5px;
-  background: #f5f5dc;
-  color: #800020;
+  background: white;
+  color: #9E77ED;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .playlist-box button:hover {
-  background: #d9cfc4;
+  background: #f8eaff;
 }
 
 .view-playlist-btn {
@@ -165,12 +169,12 @@ button:hover {
 }
 
 .delete-playlist-btn {
-  background: #800020 !important;
-  color: #f5f5dc !important;
+  background: #B692F6 !important;
+  color: white !important;
 }
 
 .delete-playlist-btn:hover {
-  background: #5e0018 !important;
+  background: #9E77ED !important;
 }
 
 /* Modal popup */
@@ -183,7 +187,7 @@ button:hover {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
+  background-color: #f8eaff;
 }
 
 .modal-content {
@@ -192,13 +196,14 @@ button:hover {
   padding: 30px;
   width: 80%;
   max-width: 900px;
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   position: relative;
+  background-color: #8b73ff;
 }
 
 .close-modal {
-  color: #f5f5dc;
+  color: white;
   position: absolute;
   top: 15px;
   right: 25px;
@@ -208,7 +213,7 @@ button:hover {
 }
 
 .close-modal:hover {
-  color: #d9cfc4;
+  color: #f8eaff;
 }
 
 .media-view-grid {
@@ -224,7 +229,7 @@ button:hover {
 
 .media-view-item {
   position: relative;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -234,7 +239,7 @@ button:hover {
   height: 150px;
   object-fit: cover;
   display: block;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .select-media-checkbox {
@@ -245,21 +250,23 @@ button:hover {
   height: 20px;
   cursor: pointer;
   z-index: 2;
+  accent-color: #9E77ED;
 }
 
 .delete-button {
-  background: #800020;
-  color: #f5f5dc;
+  background: #B692F6;
+  color: white;
   padding: 12px 24px;
   font-size: 1rem;
   margin-top: 15px;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 15px;
 }
 
 .delete-button:hover {
-  background: #5e0018;
+  background: #9E77ED;
 }
 
 /* Responsive Adjustments */

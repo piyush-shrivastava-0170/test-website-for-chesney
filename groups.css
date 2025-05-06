@@ -4,28 +4,30 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'League Spartan', Arial, sans-serif;
-  background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
-  color: #f5f5dc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8eaff;
+  color: #333;
   height: 100vh;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
 }
 
 /* Common Styles */
 .left-section, .right-section, .group-box, .device-item, .modal-content, .group-details {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #c4b3ff;
 }
 
 button {
   border: none;
-  border-radius: 30px;
+  border-radius: 15px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, transform 0.2s ease;
 }
@@ -81,11 +83,13 @@ h2 {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  accent-color: #9E77ED;
 }
 
 label {
   font-size: 1.1rem;
   cursor: pointer;
+  color: white;
 }
 
 #select-all-devices {
@@ -93,6 +97,7 @@ label {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  accent-color: #9E77ED;
 }
 
 /* Right Section - Groups */
@@ -102,6 +107,7 @@ label {
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: #8b73ff;
 }
 
 #groups-container {
@@ -109,7 +115,7 @@ label {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 30px;
+  border-radius: 15px;
 }
 
 .group-grid {
@@ -127,24 +133,25 @@ label {
   flex-direction: column;
   gap: 10px;
   background: rgba(255, 255, 255, 0.15);
+  background-color: #c4b3ff;
 }
 
 .group-box h4 {
   margin: 0;
   font-size: 1.3rem;
-  color: #f5f5dc;
+  color: white;
   word-break: break-word;
 }
 
 .group-box p {
   margin: 5px 0;
   font-size: 1rem;
-  color: rgba(245, 245, 220, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .view-group-btn, .create-group-button {
-  background: #f5f5dc;
-  color: #00689a;
+  background: white;
+  color: #9E77ED;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -152,19 +159,19 @@ label {
 }
 
 .view-group-btn:hover, .create-group-button:hover {
-  background: #d9cfc4;
+  background: #f8eaff;
 }
 
 .delete-group-btn {
-  background: #800020;
-  color: #f5f5dc;
+  background: #B692F6;
+  color: white;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
 }
 
 .delete-group-btn:hover {
-  background: #5e0018;
+  background: #9E77ED;
 }
 
 .create-group-button {
@@ -185,6 +192,7 @@ label {
   box-sizing: border-box;
   display: none;
   flex-direction: column;
+  background-color: #8b73ff;
 }
 
 .group-details.active {
@@ -203,14 +211,16 @@ label {
   padding: 12px 15px;
   margin-bottom: 10px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 10px;
   font-size: 1.1rem;
+  color: white;
+  background-color: #c4b3ff;
 }
 
 .back-button {
   align-self: flex-start;
-  background: #f5f5dc;
-  color: #00689a;
+  background: white;
+  color: #9E77ED;
   padding: 8px 16px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -218,7 +228,7 @@ label {
 }
 
 .back-button:hover {
-  background: #d9cfc4;
+  background: #f8eaff;
 }
 
 /* Modal popup */
@@ -232,6 +242,7 @@ label {
   height: 100%;
   overflow: auto;
   background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
 }
 
 .modal-content {
@@ -241,10 +252,11 @@ label {
   width: 80%;
   max-width: 600px;
   position: relative;
+  background-color: #8b73ff;
 }
 
 .close {
-  color: #f5f5dc;
+  color: white;
   position: absolute;
   top: 15px;
   right: 25px;
@@ -254,7 +266,7 @@ label {
 }
 
 .close:hover {
-  color: #d9cfc4;
+  color: #f8eaff;
 }
 
 #selectedDevicesList {
@@ -264,12 +276,14 @@ label {
   max-height: 200px;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 10px;
+  background-color: #c4b3ff;
 }
 
 #selectedDevicesList li {
   padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 #selectedDevicesList li:last-child {
@@ -283,19 +297,19 @@ label {
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  color: #f5f5dc;
-  font-family: 'League Spartan', Arial, sans-serif;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
 }
 
 #groupNameInput::placeholder {
-  color: rgba(245, 245, 220, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 #createGroupBtn {
-  background: #f5f5dc;
-  color: #00689a;
+  background: white;
+  color: #9E77ED;
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: bold;
@@ -304,7 +318,7 @@ label {
 }
 
 #createGroupBtn:hover {
-  background: #d9cfc4;
+  background: #f8eaff;
 }
 
 /* Responsive Adjustments */
@@ -372,5 +386,5 @@ label {
 }
 
 .close-modal:hover {
-  color: #d9cfc4;
+  color: #f8eaff;
 }

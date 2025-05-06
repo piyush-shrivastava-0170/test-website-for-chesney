@@ -1,255 +1,264 @@
 /* Global Styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  
-  /* Main Container */
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8eaff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-weight: 700;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 85vh;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* Left Section */
+.left-section {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 30px;
+  background-color: #c4b3ff;
+}
+
+/* Welcome Card */
+.welcome-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.welcome-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  color: white;
+}
+
+/* Menu Section */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.menu a {
+  text-decoration: none;
+  width: 100%;
+}
+
+.menu-button {
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  background-color: #9E77ED;
+}
+
+.menu-button:hover {
+  background: #8b73ff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#logout-btn {
+  margin-top: auto;
+  background: #B692F6;
+  color: white;
+}
+
+#logout-btn:hover {
+  background: #9E77ED;
+}
+
+/* Right Section */
+.right-section {
+  width: 65%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+  background-color: #8b73ff;
+}
+
+/* Info Card */
+.info-card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #c4b3ff;
+}
+
+.info-card h1 {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.info-card p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  opacity: 0.9;
+  color: white;
+}
+
+/* User Details */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.1rem;
+}
+
+.detail strong {
+  min-width: 80px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.detail span {
+  color: white;
+  font-weight: 500;
+}
+
+/* Scrollbar styling */
+.right-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.right-section::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.right-section::-webkit-scrollbar-thumb {
+  background: #9E77ED;
+  border-radius: 4px;
+}
+
+.right-section::-webkit-scrollbar-thumb:hover {
+  background: #B692F6;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
   .main-container {
-    display: flex;
-    width: 90%;
-    max-width: 1200px;
-    height: 85vh;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-    overflow: hidden;
-  }
-  
-  /* Left Section */
-  .left-section {
-    width: 35%;
-    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    background: rgba(0, 104, 154, 0.3);
-    backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 30px;
-  }
-  
-  /* Welcome Card */
-  .welcome-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .logo {
-    width: 120px;
     height: auto;
+    min-height: 100vh;
+  }
+
+  .left-section, .right-section {
+    width: 100%;
+    padding: 25px;
+  }
+
+  .left-section {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .welcome-card {
     margin-bottom: 20px;
   }
-  
-  .welcome-text {
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-align: center;
-    margin: 0;
-  }
-  
-  /* Menu Section */
+
   .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  #logout-btn {
     margin-top: 20px;
   }
-  
-  .menu a {
-    text-decoration: none;
-    width: 100%;
-  }
-  
-  .menu-button {
-    width: 100%;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 30px;
-    color: white;
-    font-size: 1rem;
-    font-weight: 500;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-  }
-  
-  .menu-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  #logout-btn {
-    margin-top: auto;
-    background: #B40000;
-    color: white;
-  }
-  
-  #logout-btn:hover {
-    background: #900000;
-  }
-  
-  /* Right Section */
-  .right-section {
-    width: 65%;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(6px);
-    overflow-y: auto;
-  }
-  
-  /* Info Card */
+
   .info-card {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
   }
-  
+
   .info-card h1 {
-    font-size: 2rem;
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: white;
+    font-size: 1.8rem;
   }
-  
+}
+
+@media (max-width: 500px) {
+  .main-container {
+    width: 95%;
+    border-radius: 15px;
+  }
+
+  .left-section, .right-section {
+    padding: 20px;
+  }
+
+  .welcome-text {
+    font-size: 1.2rem;
+  }
+
+  .menu-button {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+
+  .info-card h1 {
+    font-size: 1.5rem;
+  }
+
   .info-card p {
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-    opacity: 0.9;
+    font-size: 1rem;
   }
-  
-  /* User Details */
-  .user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
+
   .detail {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
   }
-  
-  .detail strong {
-    min-width: 80px;
-    color: rgba(255, 255, 255, 0.8);
-  }
-  
-  .detail span {
-    color: white;
-    font-weight: 500;
-  }
-  
-  /* Scrollbar styling */
-  .right-section::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .right-section::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-  }
-  
-  .right-section::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-  }
-  
-  .right-section::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 900px) {
-    .main-container {
-      flex-direction: column;
-      height: auto;
-      min-height: 100vh;
-    }
-  
-    .left-section, .right-section {
-      width: 100%;
-      padding: 25px;
-    }
-  
-    .left-section {
-      border-right: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-  
-    .welcome-card {
-      margin-bottom: 20px;
-    }
-  
-    .menu {
-      margin-bottom: 20px;
-      gap: 10px;
-    }
-  
-    #logout-btn {
-      margin-top: 20px;
-    }
-  
-    .info-card {
-      padding: 20px;
-    }
-  
-    .info-card h1 {
-      font-size: 1.8rem;
-    }
-  }
-  
-  @media (max-width: 500px) {
-    .main-container {
-      width: 95%;
-      border-radius: 20px;
-    }
-  
-    .left-section, .right-section {
-      padding: 20px;
-    }
-  
-    .welcome-text {
-      font-size: 1.2rem;
-    }
-  
-    .menu-button {
-      padding: 12px 15px;
-      font-size: 0.9rem;
-    }
-  
-    .info-card h1 {
-      font-size: 1.5rem;
-    }
-  
-    .info-card p {
-      font-size: 1rem;
-    }
-  
-    .detail {
-      font-size: 1rem;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-    }
-  }
+}
