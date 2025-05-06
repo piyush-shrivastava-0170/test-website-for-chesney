@@ -1,30 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', Arial, sans-serif;
-  /* background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a); */
-  background-color: #9adcfb;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8eaff;
   color: #333;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
 }
 
 /* Dashboard Grid Layout */
 .dashboard-container {
   display: grid;
-  width: 91.5%;
+  width: 100%;
   max-width: 1200px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   box-sizing: border-box;
-  
-}
-
-
+ }
 
 /* Welcome Card */
 .welcome-card {
@@ -34,16 +30,17 @@ body {
   border-radius: 15px;
   display: flex;
   align-items: center;
-  /* padding: 40px; */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  
 }
 
 .welcome-content {
   display: flex;
   align-items: center;
   gap: 16px;
+  
 }
 
 .logo {
@@ -60,21 +57,24 @@ body {
   text-transform: uppercase;
   margin-left: 20px;
   align-items: center;
-  
 }
+
+/* Main Container */
 .container {
   max-width: 1200px;
+  width: 100%;
+
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  /* gap: 10px; */
   height: 600px;
   background: rgba(255, 255, 255, 0.1); 
-  border-radius: 30px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #c4b3ff;
   
 }
 
@@ -87,20 +87,25 @@ body {
   color: white;
   font-weight: bold;
   text-align: center;
-  border-radius: 30px;
+  border-radius: 10px;
   background-size: cover;
   background-position: center;
   margin: 10px;
-  
   cursor: pointer;
+  border: none;
+  
 }
+
 .item-text {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 15px;
+  /* left: 50px; */
   font-size: 24px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   z-index: 2;
+  font-weight: 600;
+  font-style: normal;
+  
 }
 
 .overlay {
@@ -109,29 +114,31 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  /* background: rgba(0, 0, 0, 0.2); */
   z-index: 1;
 }
 
-/* Specific grid items */
+/* Specific grid items with updated colors */
 .led-wall {
   grid-column: span 2;
-  background-image: url('/api/placeholder/640/320');
-  background-color: #3a1c71;
+  grid-row: span 2;
+  background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
+  background-color: #C4B2FF;
+  /* opacity: 26%; */
 }
 
 .digital-standee {
-  background-color: #ffc107;
+  background-color: #C4B2FF;
   background-image: url('/api/placeholder/300/300');
 }
 
 .chesney-logo {
-  background-color: #d4af37;
+  background-color: #C4B2FF;
+  background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 
 .logo-img {
@@ -140,25 +147,27 @@ body {
 }
 
 .about-us {
-  background-color: #d4af37;
+  background-color: #9E77ED;
   color: white;
   font-size: 24px;
   text-align: center;
 }
+
 .analytics {
-  background-color: #d4af37;
+  background-color: #9E77ED;
+  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/e1a05434083016.56c37784793c9.gif');
   color: white;
   font-size: 24px;
   text-align: center;
 }
 
 .qr-code {
-  background-color: #d4af37;
+  background-color: #B692F6;
+  background-image: url('https://www.itctedch.com.cn/Public/upload/2021-04-27/1619494588.4619_wm_2969.gif');
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('https://www.itctech.com.cn/Public/upload/2021-04-27/1619494588.4619_wm_2969.gif');
 }
 
 .qr-text {
@@ -176,44 +185,38 @@ body {
 }
 
 .connect-screen {
-  background-image: url('./images/connect screen.png');
-  background-color: #f0f0f0;
-  
+  background-image: url('./images/connect300.png');
+  background-color: #8b73ff;
 }
 
 .manage-screen {
-  background-image: url('./images/manage\ screen.png');
+  background-image: url('./images/managescreen.png');
+  background-color: #8b73ff;
+
 }
 
 .playlist {
-  background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-  background-color: #4CAF50;
+  background-image: url('./images/playlist.png');
+  background-color: #8b73ff;
+}
+
+.gallery {
+  background-image: url('./images/galleryicon.png');
+  background-color: #8b73ff;
+
+}
+
+.contact-us {
+  background-image: url('./images/contactus.png');
+  background-color: #8b73ff;
 }
 
 
-.led-wall{
-  grid-column: span 2;
-  grid-row: span 2;
-  background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
-  background-color: #2196F3;
-}
-.gallery{
-background-image: url('./images/GALLERY\ \(600\ x\ 600\ px\).gif');
-}
-.chesney-logo{
-background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
-background-color: #4CAF50;
-}
-.analytics{
-background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/e1a05434083016.56c37784793c9.gif');
-background-color: #4CAF50;
-}
-.contact-us{
-background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 
-}
-.groups{
-background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+.groups {
+  background-image: url('https://imagdes.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-color: #8b73ff;
+
 }
 
 /* Logo text styling */
@@ -234,25 +237,26 @@ background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      height: auto;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: auto;
   }
-  
-  .led-wall, .digital-billboard {
-      grid-column: span 2;
-      grid-row: span 1;
-      height: 200px;
+
+  .led-wall,
+  .digital-billboard {
+    grid-column: span 2;
+    grid-row: span 1;
+    height: 200px;
   }
-  
+
   .grid-item {
-      height: 200px;
+    height: 200px;
   }
-  
+
   .item-text {
-      font-size: 18px;
-      bottom: 10px;
-      left: 10px;
+    font-size: 18px;
+    bottom: 10px;
+    left: 10px;
   }
 }
 
@@ -262,19 +266,18 @@ background-image: url('https://images.pexels.com/photos/31120801/pexels-photo-31
   justify-content: space-between;
   align-items: center;
   padding-right: 50px;
-  background-color: #3997c2;
-  
+  background-color: #c4b3ff;
 }
-
 
 .dash-button {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   color: white;
-  background: radial-gradient(circle at 50% 50%, #aee4e2, #00689a);
+  background: radial-gradient(circle at 50% 50%, #c4b3ff, #8b73ff);
   border: 2px solid #fff;
 }
+
 .card-icon {
   margin-top: 8px;
   font-size: 30px;
