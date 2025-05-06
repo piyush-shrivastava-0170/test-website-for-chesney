@@ -10,7 +10,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  font-weight: 700;
 }
 
 /* Dashboard Grid Layout */
@@ -63,12 +63,10 @@ body {
 .container {
   max-width: 1200px;
   width: 100%;
-
-  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  height: 600px;
+  height: auto;
   background: rgba(255, 255, 255, 0.1); 
   border-radius: 10px;
   overflow: hidden;
@@ -88,9 +86,12 @@ body {
   font-weight: bold;
   text-align: center;
   border-radius: 10px;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
   margin: 10px;
+  
+  
   cursor: pointer;
   border: none;
   
@@ -108,6 +109,7 @@ body {
   
 }
 
+
 .overlay {
   position: absolute;
   top: 0;
@@ -121,10 +123,18 @@ body {
 .led-wall {
   grid-column: span 2;
   grid-row: span 2;
-  background-image: url('https://cdn.pixabay.com/photo/2017/11/24/11/26/lamp-2974701_1280.png');
+  width: 640px;
+  height: calc(640px * 9 / 16);      
+  margin-top: 20px;
+  margin-left: 20px;
+  background-image: url('./images/sixteen.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: #C4B2FF;
-  /* opacity: 26%; */
 }
+
+
 
 .digital-standee {
   background-color: #C4B2FF;
@@ -132,13 +142,15 @@ body {
 }
 
 .chesney-logo {
-  background-color: #C4B2FF;
-  background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc=');
+  background-color: #8b73ff;
+  /* background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc='); */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
   border-radius: 10px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .logo-img {
@@ -154,11 +166,13 @@ body {
 }
 
 .analytics {
-  background-color: #9E77ED;
-  background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/disp/e1a05434083016.56c37784793c9.gif');
+  background-color: #8b73ff;
+  background-image: url('./images/9.png');
   color: white;
   font-size: 24px;
   text-align: center;
+  margin-bottom: 20px;
+  
 }
 
 .qr-code {
@@ -185,38 +199,45 @@ body {
 }
 
 .connect-screen {
-  background-image: url('./images/connect300.png');
+  background-image: url('./images/6.png');
   background-color: #8b73ff;
+  margin-top: 20px;
+  margin-right: 20px;
 }
 
 .manage-screen {
-  background-image: url('./images/managescreen.png');
+  background-image: url('./images/2.png');
   background-color: #8b73ff;
 
 }
 
 .playlist {
-  background-image: url('./images/playlist.png');
+  background-image: url('./images/5.png');
   background-color: #8b73ff;
+  margin-right: 20px;
 }
 
 .gallery {
-  background-image: url('./images/galleryicon.png');
+  background-image: url('./images/1.png');
   background-color: #8b73ff;
+  margin-top: 20px;
 
 }
 
 .contact-us {
-  background-image: url('./images/contactus.png');
+  background-image: url('./images/3.png');
   background-color: #8b73ff;
+  margin-bottom: 20px;
 }
 
 
 
 .groups {
-  background-image: url('https://imagdes.pexels.com/photos/31120801/pexels-photo-31120801/free-photo-of-scenic-beach-landscape-with-rocky-island.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-image: url('./images/7.png');
   background-color: #8b73ff;
-
+  /* margin-top: 20px; */
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 /* Logo text styling */

@@ -6,16 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS Dashboard -Chesney India</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-  <link rel="stylesheet" href="home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">  <link rel="stylesheet" href="home.css">
  
   <!-- <script src="script.js"></script> -->
+   <style>
+    .dash-buttonn {
+  background-color: transparent;
+  border: none;
+  padding: 10px 16px;
+  margin: 0 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #faf8f8;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.dash-buttonn::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #f5f0f0;
+  transition: width 0.3s ease;
+}
+
+.dash-buttonn:hover {
+  color: #efecec;
+}
+
+.dash-buttonn:hover::after {
+  width: 100%;
+}
+
+
+   </style>
 </head>
 
 <body>
   <!-- <div id="header"></div> -->
 
-  <div class="dashboard-container">
+  <!-- <div class="dashboard-container">
     <div class="dashboard-card welcome-card">
       <div class="welcome-content">
         <img src="./images/logoblue.png" alt="Logo" class="logo">
@@ -26,13 +60,34 @@
  
       </button>
     </div>
+  </div> -->
+
+  <div class="dashboard-container">
+    <div class="dashboard-card welcome-card">
+      <div class="welcome-content">
+        <img src="./images/logoblue.png" alt="Logo" class="logo">
+        <h2 class="welcome-text">WELCOME USER NAME</h2>
+      </div>
+     
+      <!-- <button onclick="location.href='index.html'" class="dash-buttonn">
+        Home
+      </button>
+      <button onclick="location.href='pricing.html'" class="dash-buttonn">
+       Pricing
+      </button> -->
+
+      <button onclick="location.href='dashboard.html'" class="dash-button">
+        <i class="fa-solid fa-user card-icon"></i>
+      </button>
+    </div>
   </div>
+  
   <div class="container">
     <!-- First row -->
     <div class="grid-item led-wall">
       <div class="overlay">
       </div>
-      <div class="item-text">LED VIDEO WALL</div>
+      <!-- <div class="item-text">LED VIDEO WALL</div> -->
     </div>
 
 
@@ -64,31 +119,33 @@
         <div class="item-text">PLAYLIST</div>
       </button>
 
+      <button onclick="location.href='groups.html'" class="grid-item groups ">
+        
+          <div class="overlay"></div>
+          <div class="item-text">GROUP DEVICES</div>
+      </button>
+
       <!-- Logo and QR section in right column -->
-      <div class="grid-item analytics">
+      <button onclick="location.href='playlist.html'" class="grid-item analytics">
         <div class="overlay"></div>
-        <div class="item-text">ANALYTICS/USAGE</div>
-      </div>
+        <div class="item-text">USAGE STATISTICS</div>
+      </button>
       
-      <div class="grid-item chesney-logo">
-        <div>
-          <div class="logo-text">CHESNEY</div>
-          <div class="logo-subtext">ENGINEERS WAY OF ADVERTISING</div>
-        </div>
-      </div>
+     
 
       <button onclick="location.href='comingsoon.html'" class="grid-item contact-us">
         <div class="overlay"></div>
         <div class="item-text">CONTACT US</div>
       </button>
 
-      
+       <div class="grid-item chesney-logo">
+        <div>
+          <div class="logo-text">CHESNEY</div>
+          <div class="logo-subtext">ENGINEERS WAY OF ADVERTISING</div>
+        </div>
+      </div>
 
-      <button onclick="location.href='groups.html'" class="grid-item groups ">
-        <div class="">
-          <div class="overlay"></div>
-          <div class="item-text">GROUP DEVICES</div>
-      </button>
+   
   </div>
   </div>
 
