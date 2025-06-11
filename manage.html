@@ -16,7 +16,7 @@
     <div class="left-section">
       <!-- Sidebar -->
       <div class="sidebar">
-        <img src="./images/connect.svg" alt="connect" class="connect-image">
+        <img src="./images/manage.gif" alt="connect" class="connect-image">
       </div>
     </div>
 
@@ -24,13 +24,16 @@
     <div class="right-section">
       <h2 class="section-title">Connected Devices</h2>
       <span id="close-view-popup" class="close-modal">&times;</span>
-    
+
 
       <!-- Device Grid -->
-      <div class="device-grid" id="device-grid">
-        <!-- Dynamically added device cards will appear here -->
+      <div class="header-container">
+        <h3 id="screens-tab">Screens</h3>
+        <h3 id="media-tab">Media Queue</h3>
+        <h3 id="action-tab">Action</h3>
       </div>
-
+      <div class="device-grid" id="device-grid"><!-- Dynamically added device cards will appear here --></div>
+     
       <h2 class="section-title">Groups</h2>
 
       <!-- Groups Grid -->
@@ -43,10 +46,10 @@
         <span id="close-popup-button" class="close-modal">&times;</span>
         <div class="popup-content">
           <h3>Manage</h3>
-          <div id="device-details" style="color: #CF3434FF;">
+          <div id="device-details" style="color:white;">
             <p><strong id="device-name">Device/Group Name</strong></p>
             <p><em id="device-id">(Device/Group ID)</em></p>
-          
+
           </div>
 
           <!-- Device Settings -->
@@ -104,10 +107,10 @@
             <!-- Media list container -->
 
             <div id="media-list" class="media-list">
-            <ul>
-              <!-- Dynamically loaded media thumbnails will appear here -->
-            </ul>
-          </div>
+              <ul>
+                <!-- Dynamically loaded media thumbnails will appear here -->
+              </ul>
+            </div>
 
             <!-- Playlist container (initially hidden) -->
             <div id="playlists-container" style="display: none; margin-top: 10px;">
@@ -124,6 +127,18 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="custom-alert" class="alert hidden">
+    <span id="alert-message"></span>
+    <button onclick="closeAlert()">×</button>
+  </div>
+
+  <div id="custom-confirm" class="confirm hidden">
+    <div class="confirm-message" id="confirm-message"></div>
+    <div class="confirm-actions">
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
     </div>
   </div>
 

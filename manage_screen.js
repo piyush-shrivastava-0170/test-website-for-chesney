@@ -39,7 +39,7 @@ onAuthStateChanged(auth, (user) => {
     // setupEventListeners();
     // loadPlaylists();
   } else {
-    alert("Please log in to access this screen.");
+    showAlert("Please log in to access this screen.");
     window.location.href = "login.html";
   }
 });
@@ -66,7 +66,7 @@ function createDeviceCard(device, deviceId) {
   card.className = "device-card";
   card.innerHTML = `
     <h4>${device.deviceCode || "Unnamed Device"}</h4>
-    <p>Media Queue: ${device.currentMedia?.length || 0} items</p>
+    <p>Items: ${device.currentMedia?.length || 0} </p>
     <button class="manage-btn" data-id="${deviceId}">Manage</button>
   `;
   const manageBtn = card.querySelector(".manage-btn");
@@ -99,7 +99,7 @@ function createGroupCard(group, groupId) {
   card.className = "group-card";
   card.innerHTML = `
     <h4>${group.name || "Unnamed Group"}</h4>
-    <p>${group.devices.length} Devices</p>
+    <p>Devices: ${group.devices.length} </p>
     <button class="manage-group-btn" data-id="${groupId}">Manage</button>`;
   card.querySelector(".manage-group-btn").addEventListener("click", () => openGroupPopup(group, groupId));
   return card;
@@ -149,7 +149,7 @@ function setupMediaTypeSelection() {
     const url = urlInput.value.trim();
 
     if (!url) {
-      alert("Please enter a valid URL");
+      showAlert("Please enter a valid URL");
       return;
     }
 
@@ -265,7 +265,7 @@ function addGridSelectionButton() {
   gridButtonContainer.className = "grid-create-button";
   gridButtonContainer.innerHTML = `
     <button id="create-grid-btn" class="modal-btn">Create Grid from Selected Images</button>
-    <p style="margin-top: 5px; font-size: 12px; color: #666;">Please select at least 4 images for grid view</p>
+    <p style="margin-top: 5px; font-size: 12px; color: #666;">Please select at least 2  or 4 images for grid view</p>
   `;
   mediaList.parentNode.insertBefore(gridButtonContainer, mediaList.nextSibling);
 
@@ -276,17 +276,21 @@ function addGridSelectionButton() {
 // Function to create a grid from selected images
 function createGridFromSelected() {
   const selectedItems = document.querySelectorAll(".media-item.selected");
-  if (selectedItems.length < 4) {
-    alert("Please select at least 4 images for the grid view");
+  // if (selectedItems.length < 2) {
+  //   alert("Please select at least 2 images for the grid view");
+  //   return;
+  // }
+  if (selectedItems.length < 2 || selectedItems.length % 2 !== 0) {
+    showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
     return;
   }
-
+  
   // Create an array of selected image URLs
   const selectedUrls = Array.from(selectedItems).map(item =>
     item.querySelector(".select-media-btn").dataset.url
   );
 
-  alert(`Grid will be created with ${selectedUrls.length} images`);
+  showAlert(`Grid will be created with ${selectedUrls.length} images`);
 
   // Store the selected URLs in a data attribute on the push button
   document.getElementById("push-media-btn").dataset.gridUrls = JSON.stringify(selectedUrls);
@@ -354,6 +358,10 @@ function openDevicePopup(device, deviceId) {
     document.getElementById("close-popup").onclick = () => closePopup(popup);
   }
 }
+document.getElementById("screens-tab").addEventListener("click", () => {
+  loadDevices(); // Your Firestore loading function
+});
+
 
 // Similarly modify the openGroupPopup function
 function openGroupPopup(group, groupId) {
@@ -403,7 +411,7 @@ function pushMediaByType(deviceId) {
     const urlInput = document.getElementById("url-input");
     const url = urlInput.value.trim();
     if (!url) {
-      alert("Please enter a valid URL");
+      showAlert("Please enter a valid URL");
       return;
     }
     webUrl = url;
@@ -411,16 +419,22 @@ function pushMediaByType(deviceId) {
   }
   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
-    if (mediaContent.length < 4) {
-      alert("Please select at least 4 images for the grid view");
+    // if (mediaContent.length < 2) {
+    //   showAlert("Please select at least 2 or 4 images for the grid view");
+    //   return;
+    // }
+    // isGridView = true;
+    if (mediaContent.length < 2 || mediaContent.length % 2 !== 0) {
+      showshowAlert("Please select an even number of images (2, 4, 6...) for the grid view");
       return;
     }
     isGridView = true;
+    
   }
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
     if (!playlistId) {
-      alert("Please select a playlist");
+      showAlert("Please select a playlist");
       return;
     }
 
@@ -438,7 +452,7 @@ function pushMediaByType(deviceId) {
             audio: audio,
             isGridView: false,
             lastContentPush: serverTimestamp(),
-          }).then(() => alert("Playlist pushed successfully!"));
+          }).then(() => showAlert("Playlist pushed successfully!"));
         }
       })
       .catch((error) => console.error("Error pushing playlist:", error));
@@ -448,7 +462,7 @@ function pushMediaByType(deviceId) {
     // For image/video, get the selected media
     const selectedMedia = document.querySelector(".media-item.selected");
     if (!selectedMedia) {
-      alert("Please select media to push");
+      showAlert("Please select media to push");
       return;
     }
     const mediaUrl = selectedMedia.querySelector(".select-media-btn").dataset.url;
@@ -478,11 +492,11 @@ function pushMediaByType(deviceId) {
   updateDoc(deviceRef, updateData)
     .then(() => {
       if (selectedType === "url") {
-        alert("URL pushed successfully!");
+        showAlert("URL pushed successfully!");
       } else if (isGridView) {
-        alert("Grid view pushed successfully!");
+        showAlert("Grid view pushed successfully!");
       } else {
-        alert("Media pushed successfully!");
+        showAlert("Media pushed successfully!");
       }
     })
     .catch((error) => console.error("Error pushing content:", error));
@@ -507,7 +521,7 @@ function pushMediaByTypeToGroup(deviceIds) {
     const urlInput = document.getElementById("url-input");
     const url = urlInput.value.trim();
     if (!url) {
-      alert("Please enter a valid URL");
+      showAlert("Please enter a valid URL");
       return;
     }
     mediaContent = [url];
@@ -515,14 +529,14 @@ function pushMediaByTypeToGroup(deviceIds) {
   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
     if (mediaContent.length === 0) {
-      alert("Please create a grid first");
+      showAlert("Please create a grid first");
       return;
     }
   }
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
     if (!playlistId) {
-      alert("Please select a playlist");
+      showAlert("Please select a playlist");
       return;
     }
 
@@ -543,7 +557,7 @@ function pushMediaByTypeToGroup(deviceIds) {
               lastContentPush: serverTimestamp(),
             });
           });
-          alert("Playlist pushed to all devices in the group!");
+          showAlert("Playlist pushed to all devices in the group!");
         }
       })
       .catch((error) => console.error("Error pushing playlist to group:", error));
@@ -553,7 +567,7 @@ function pushMediaByTypeToGroup(deviceIds) {
     // For image/video, get the selected media
     const selectedMedia = document.querySelector(".media-item.selected");
     if (!selectedMedia) {
-      alert("Please select media to push");
+      showAlert("Please select media to push");
       return;
     }
     const mediaUrl = selectedMedia.querySelector(".select-media-btn").dataset.url;
@@ -573,7 +587,7 @@ function pushMediaByTypeToGroup(deviceIds) {
     });
   });
 
-  alert("Media pushed to all devices in the group!");
+  showAlert("Media pushed to all devices in the group!");
 }
 
 // Wait for the DOM to be fully loaded
@@ -598,17 +612,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+// async function clearAndRestart(deviceId) {
+//   try {
+//     const userConfirmed = showConfirm("All media in the application will be deleted. Do you want to proceed?");
+
+//     if (!userConfirmed) {
+//       return; // Exit if the user cancels
+//     }
+
+//     const deviceRef = doc(db, "devices", deviceId);
+
+//     // Set commands to true
+//     await updateDoc(deviceRef, {
+//       currentMedia: null,
+//       webUrl: null,
+//       commands: {
+//         clearContent: true,
+//         restartApp: true,
+//       },
+//     });
+
+//     // Wait for 1 second before resetting commands
+//     setTimeout(async () => {
+//       await updateDoc(deviceRef, {
+//         commands: {
+//           clearContent: false,
+//           restartApp: false,
+//         },
+//       });
+//     }, 1000);
+
+//     showAlert("Media cleared and restart command sent!");
+//   } catch (error) {
+//     console.error("Error clearing and restarting device:", error);
+//   }
+// }
+
 async function clearAndRestart(deviceId) {
   try {
-    const userConfirmed = confirm("All media in the application will be deleted. Do you want to proceed?");
-
+    const userConfirmed = await showConfirm("All media in the application will be deleted. Do you want to proceed?");
+    
     if (!userConfirmed) {
-      return; // Exit if the user cancels
+      return;
     }
 
     const deviceRef = doc(db, "devices", deviceId);
 
-    // Set commands to true
     await updateDoc(deviceRef, {
       currentMedia: null,
       webUrl: null,
@@ -618,7 +667,6 @@ async function clearAndRestart(deviceId) {
       },
     });
 
-    // Wait for 1 second before resetting commands
     setTimeout(async () => {
       await updateDoc(deviceRef, {
         commands: {
@@ -628,14 +676,15 @@ async function clearAndRestart(deviceId) {
       });
     }, 1000);
 
-    alert("Media cleared and restart command sent!");
+    showAlert("Media cleared and restart command sent!");
   } catch (error) {
     console.error("Error clearing and restarting device:", error);
   }
 }
+
 async function clearAndRestartGroup(deviceIds) {
   try {
-    const userConfirmed = confirm(
+    const userConfirmed = showConfirm(
       "All media in the application will be deleted for all selected devices. Do you want to proceed?"
     );
 
@@ -666,7 +715,7 @@ async function clearAndRestartGroup(deviceIds) {
       }, 1000);
     }
 
-    alert("Media cleared and restart command sent to all devices in the group!");
+    showAlert("Media cleared and restart command sent to all devices in the group!");
   } catch (error) {
     console.error("Error clearing and restarting group devices:", error);
   }
@@ -699,3 +748,49 @@ document.onkeydown = function(e) {
     return false;
   }
 };
+
+function showAlert(message) {
+  const alertBox = document.getElementById("custom-alert");
+  const alertMessage = document.getElementById("alert-message");
+  alertMessage.textContent = message;
+  alertBox.classList.remove("hidden");
+
+  // Auto-close after 3 seconds
+  setTimeout(() => {
+    alertBox.classList.add("hidden");
+  }, 2000);
+}
+
+function closeAlert() {
+  document.getElementById("custom-alert").classList.add("hidden");
+}
+
+
+function showConfirm(message) {
+  return new Promise((resolve) => {
+    const confirmBox = document.getElementById("custom-confirm");
+    const messageBox = document.getElementById("confirm-message");
+    const yesBtn = document.getElementById("confirm-yes");
+    const noBtn = document.getElementById("confirm-no");
+
+    messageBox.textContent = message;
+    confirmBox.classList.remove("hidden");
+
+    const cleanup = () => {
+      confirmBox.classList.add("hidden");
+      yesBtn.onclick = null;
+      noBtn.onclick = null;
+    };
+
+    yesBtn.onclick = () => {
+      cleanup();
+      resolve(true);
+    };
+
+    noBtn.onclick = () => {
+      cleanup();
+      resolve(false);
+    };
+  });
+}
+

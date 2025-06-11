@@ -11,7 +11,7 @@
   <div class="main-container">
     <div class="left-section">
       <div class="gallery-card">
-        <img src="./images/gallerys.jpg" alt="Gallery" class="gallery-image">
+        <img src="./images/Gallery.gif" alt="Gallery" class="gallery-image">
         <p class="gallery-text">GALLERY</p>
         <button id="add-media-btn" class="add-media-button">+ Add Media</button>
         <button id="open-playlist-modal" class="add-media-button">Add to Playlist</button>
@@ -43,8 +43,15 @@
     </div>
 
     <div class="upload-overlay" id="upload-overlay">
-      Uploading Media...
+      <div class="upload-container">
+        <p id="upload-message">Uploading Media...</p>
+        <div id="upload-progress-bar">
+          <div id="upload-progress-fill"></div>
+        </div>
+        <p id="upload-percentage">0%</p>
+      </div>
     </div>
+    
   </div>
 
   <!-- Load JavaScript file -->

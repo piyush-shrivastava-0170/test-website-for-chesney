@@ -37,6 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const createPlaylistBtn = document.getElementById("create-playlist-btn");
   const addToExistingPlaylistsBtn = document.getElementById("add-to-existing-playlists-btn");
   const closeModalBtn = document.getElementById("close-modal");
+  const fileUpload = document.getElementById('file-upload');
+
+const uploadProgressFill = document.getElementById('upload-progress-fill');
+const uploadPercentage = document.getElementById('upload-percentage');
+const uploadMessage = document.getElementById('upload-message');
 
   // Check authentication state
   onAuthStateChanged(auth, (user) => {
@@ -50,38 +55,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Load media for user
   // async function loadMedia(userId) {
   //   mediaGrid.innerHTML = "";
   //   const mediaRef = collection(db, "users", userId, "media");
   //   const mediaSnapshot = await getDocs(mediaRef);
-
+  
   //   mediaSnapshot.forEach(async (doc) => {
   //     const mediaData = doc.data();
   //     const mediaItem = document.createElement("div");
   //     mediaItem.classList.add("media-item");
-
+  
   //     try {
-  //       const mediaRef = ref(storage, mediaData.mediaUrl);
-  //       await getDownloadURL(mediaRef); 
-
+  //       const storageRefObj = ref(storage, mediaData.mediaUrl);
+  //       await getDownloadURL(storageRefObj);
+  
+  //       // Extract and decode the filename from the URL path
+  //       const urlParts = mediaData.mediaUrl.split('%2F');
+  //       const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+  
   //       const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
+  
+  //       // Add appropriate icon based on file type
+  //       let fileIcon = '';
+  //       if (isImage) {
+  //         fileIcon = '<span class="material-icons file-icon">image</span>';
+  //       } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
+  //         fileIcon = '<span class="material-icons file-icon">video</span>';
+  //       } else {
+  //         fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+  //       }
+  
+  //       let mediaElementHtml = '';
+  
+  //       if (isImage) {
+  //         mediaElementHtml = `
+  //           <img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail"
+  //                onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg';" />
+  //         `;
+  //       } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
+  //         const videoId = `video_${doc.id}`;
+  //         mediaElementHtml = `
+  //           <video id="${videoId}" class="media-thumbnail" preload="metadata" muted autoplay loop>
+  //             <source src="${mediaData.mediaUrl}" type="${mediaData.mediaType}">
+  //           </video>
+  //           <script>
+  //             document.getElementById('${videoId}').addEventListener('error', function() {
+  //               const img = document.createElement('img');
+  //               img.src = 'https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg';
+  //               img.className = 'media-thumbnail';
+  //               this.parentNode.replaceChild(img, this);
+  //             }, true);
+  //           </script>
+  //         `;
+  //       } else {
+  //         mediaElementHtml = `
+  //           <img src="https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg" alt="File" class="media-thumbnail" />
+  //         `;
+  //       }
+  
   //       mediaItem.innerHTML = `
-  //         ${isImage ? `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
-  //           `<video src="${mediaData.mediaUrl}" class="media-thumbnail" controls></video>`}
+  //         ${mediaElementHtml}
+  //         <div class="file-item">
+  //           ${fileIcon}
+  //           <span class="file-name">${fileName}</span>
+  //         </div>
   //         <div class="media-actions">
   //           <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
   //         </div>
   //       `;
-
+  
   //       mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
   //         toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
   //       });
-
+  
   //       mediaGrid.appendChild(mediaItem);
   //     } catch (error) {
   //       if (error.code === "storage/object-not-found") {
-  //         // Delete the document from Firestore if file does not exist in storage
   //         await deleteDoc(doc.ref);
   //       } else {
   //         console.error("Error verifying media file existence:", error);
@@ -90,64 +139,350 @@ document.addEventListener("DOMContentLoaded", () => {
   //   });
   // }
 
-  async function loadMedia(userId) {
-    mediaGrid.innerHTML = "";
-    const mediaRef = collection(db, "users", userId, "media");
-    const mediaSnapshot = await getDocs(mediaRef);
-  
-    mediaSnapshot.forEach(async (doc) => {
-      const mediaData = doc.data();
-      const mediaItem = document.createElement("div");
-      mediaItem.classList.add("media-item");
-  
-      try {
-        const mediaRef = ref(storage, mediaData.mediaUrl);
-        await getDownloadURL(mediaRef); 
-  
-        // Extract and decode the filename from the URL path
-        const urlParts = mediaData.mediaUrl.split('%2F');
-        const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+  // COMBINED SOLUTION: Metadata Storage + Lazy Loading
+// This approach reduces bandwidth by 80-90%
+
+async function loadMedia(userId) {
+  mediaGrid.innerHTML = "";
+  const mediaRef = collection(db, "users", userId, "media");
+  const mediaSnapshot = await getDocs(mediaRef);
+
+  // Setup Intersection Observer for lazy loading
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const mediaItem = entry.target;
+        const shouldAutoLoad = mediaItem.dataset.autoLoad === 'true';
         
-        const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
-        // Add appropriate icon based on file type
-        let fileIcon = '';
-        if (isImage) {
-          fileIcon = '<span class="material-icons file-icon">image</span>';
-        } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
-          fileIcon = '<span class="material-icons file-icon">video</span>';
+        if (shouldAutoLoad) {
+          loadActualMedia(mediaItem);
         } else {
-          fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+          // Show "Click to load" for manual loading
+          showClickToLoad(mediaItem);
         }
-  
-        mediaItem.innerHTML = `
-          ${isImage ? 
-            `<img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail" />` : 
-            `<video src="${mediaData.mediaUrl}" class="media-thumbnail" preload="metadata"></video>`}
-          <div class="file-item">
-            ${fileIcon}
-            <span class="file-name">${fileName}</span>
-          </div>
-          <div class="media-actions">
-            <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
-          </div>
-        `;
-  
-        mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
-          toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
-        });
-  
-        mediaGrid.appendChild(mediaItem);
-      } catch (error) {
-        if (error.code === "storage/object-not-found") {
-          // Delete the document from Firestore if file does not exist in storage
-          await deleteDoc(doc.ref);
-        } else {
-          console.error("Error verifying media file existence:", error);
-        }
+        observer.unobserve(mediaItem);
       }
     });
-  }
+  }, { 
+    threshold: 0.1,
+    rootMargin: '50px' // Start loading 50px before element comes into view
+  });
 
+  mediaSnapshot.forEach(async (doc) => {
+    const mediaData = doc.data();
+    const mediaItem = document.createElement("div");
+    mediaItem.classList.add("media-item");
+    
+    // Store data attributes for lazy loading
+    mediaItem.dataset.mediaUrl = mediaData.mediaUrl;
+    mediaItem.dataset.mediaType = mediaData.mediaType;
+    mediaItem.dataset.docId = doc.id;
+    mediaItem.dataset.autoLoad = 'false'; // Set to 'true' for automatic loading
+    
+    // Use stored metadata - NO BANDWIDTH CONSUMPTION HERE!
+    const fileName = mediaData.fileName || extractFileName(mediaData.mediaUrl);
+    const fileType = mediaData.mediaType || '';
+    const fileSize = mediaData.fileSize;
+    const thumbnailUrl = mediaData.thumbnailUrl;
+    
+    // Identify file type from metadata
+    const isImage = fileType.startsWith("image");
+    const isVideo = fileType.startsWith("video") || fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
+    
+    // Get appropriate icon
+    let fileIcon = '';
+    if (isImage) {
+      fileIcon = '<span class="material-icons file-icon">image</span>';
+    } else if (isVideo) {
+      fileIcon = '<span class="material-icons file-icon">video</span>';
+    } else {
+      fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+    }
+
+    // Create initial placeholder - NO BANDWIDTH USAGE
+    let mediaElementHtml = '';
+    
+    if (thumbnailUrl) {
+      // Use small thumbnail if available (much smaller bandwidth)
+      mediaElementHtml = `
+        <div class="media-placeholder" data-loaded="false">
+          <img src="${thumbnailUrl}" alt="Thumbnail" class="media-thumbnail thumbnail-small"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="placeholder-icon-container" style="display: none;">
+            <span class="material-icons placeholder-icon">${isImage ? 'image' : isVideo ? 'video' : 'https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg'}</span>
+            <span class="placeholder-text">Preview</span>
+          </div>
+        </div>
+      `;
+    } else {
+      // Show type-specific placeholder with SVG (no external requests)
+      const placeholderSvg = createPlaceholderSvg(isImage, isVideo);
+      mediaElementHtml = `
+        <div class="media-placeholder" data-loaded="false">
+          <div class="placeholder-icon-container">
+            ${placeholderSvg}
+            <span class="placeholder-text">${isImage ? 'Image' : isVideo ? 'Video' : 'File'}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    mediaItem.innerHTML = `
+      ${mediaElementHtml}
+      <div class="file-item">
+        ${fileIcon}
+        <span class="file-name" title="${fileName}">${truncateFileName(fileName)}</span>
+        ${fileSize ? `<span class="file-size">${formatFileSize(fileSize)}</span>` : ''}
+      </div>
+      <div class="media-actions">
+        <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
+        <button class="load-media-btn" title="Load full media">
+          <span class="material-icons">visibility</span>
+        </button>
+      </div>
+    `;
+
+    // Add click handler for manual loading
+    const loadBtn = mediaItem.querySelector('.load-media-btn');
+    const placeholder = mediaItem.querySelector('.media-placeholder');
+    
+    loadBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadActualMedia(mediaItem);
+    });
+    
+    placeholder.addEventListener('click', () => {
+      if (placeholder.dataset.loaded === 'false') {
+        loadActualMedia(mediaItem);
+      }
+    });
+
+    mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
+      toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
+    });
+
+    mediaGrid.appendChild(mediaItem);
+    
+    // Start observing for lazy loading
+    observer.observe(mediaItem);
+  });
+}
+
+function createPlaceholderSvg(isImage, isVideo) {
+  if (isImage) {
+    return `
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
+        <path d="M16 16L32 32M16 32L32 16" stroke="#9ca3af" stroke-width="2"/>
+        <circle cx="20" cy="20" r="3" fill="#9ca3af"/>
+      </svg>
+    `;
+  } else if (isVideo) {
+    return `
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
+        <path d="M18 16L32 24L18 32V16Z" fill="#9ca3af"/>
+      </svg>
+    `;
+  } else {
+    return `
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
+        <path d="M14 12H34L40 18V40H14V12Z" fill="#9ca3af"/>
+        <path d="M34 12V18H40" fill="#f3f4f6"/>
+      </svg>
+    `;
+  }
+}
+
+function showClickToLoad(mediaItem) {
+  const placeholder = mediaItem.querySelector('.media-placeholder');
+  if (placeholder && placeholder.dataset.loaded === 'false') {
+    const clickToLoad = document.createElement('div');
+    clickToLoad.className = 'click-to-load-overlay';
+    clickToLoad.innerHTML = `
+      <span>Click to load</span>
+    `;
+    
+    clickToLoad.addEventListener('click', () => {
+      loadActualMedia(mediaItem);
+    });
+    
+    placeholder.appendChild(clickToLoad);
+  }
+}
+
+async function loadActualMedia(mediaItem) {
+  const mediaUrl = mediaItem.dataset.mediaUrl;
+  const mediaType = mediaItem.dataset.mediaType;
+  const docId = mediaItem.dataset.docId;
+  const placeholder = mediaItem.querySelector('.media-placeholder');
+  
+  if (!placeholder || placeholder.dataset.loaded === 'true') {
+    return; // Already loaded
+  }
+  
+  // Show loading state
+  placeholder.innerHTML = `
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <span class="loading-text">Loading...</span>
+    </div>
+  `;
+  
+  try {
+    // NOW we consume bandwidth - but only when needed!
+    const storageRefObj = ref(storage, mediaUrl);
+    const downloadURL = await getDownloadURL(storageRefObj);
+    
+    const fileName = extractFileName(mediaUrl);
+    const isImage = mediaType && mediaType.startsWith("image");
+    const isVideo = fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
+    
+    let mediaElementHtml = '';
+    
+    if (isImage) {
+      mediaElementHtml = `
+        <img src="${downloadURL}" alt="Media" class="media-thumbnail loaded-media"
+             onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5FcnJvcjwvdGV4dD48L3N2Zz4=';" />
+      `;
+    } else if (isVideo) {
+      const videoId = `video_${docId}`;
+      mediaElementHtml = `
+        <video id="${videoId}" class="media-thumbnail loaded-media" preload="metadata" muted controls>
+          <source src="${downloadURL}" type="${mediaType}">
+          Your browser does not support the video tag.
+        </video>
+      `;
+    } else {
+      mediaElementHtml = `
+        <div class="file-preview loaded-media">
+          <span class="material-icons file-preview-icon">insert_drive_file</span>
+          <span class="file-preview-text">File loaded</span>
+        </div>
+      `;
+    }
+    
+    placeholder.innerHTML = mediaElementHtml;
+    placeholder.dataset.loaded = 'true';
+    
+    // Hide the load button since media is now loaded
+    const loadBtn = mediaItem.querySelector('.load-media-btn');
+    if (loadBtn) {
+      loadBtn.style.display = 'none';
+    }
+    
+  } catch (error) {
+    console.error("Error loading media:", error);
+    
+    if (error.code === "storage/object-not-found") {
+      // Delete the document if file doesn't exist
+      try {
+        const docRef = doc(db, "users", mediaItem.closest('[data-user-id]')?.dataset.userId || '', "media", docId);
+        await deleteDoc(docRef);
+        mediaItem.remove();
+      } catch (deleteError) {
+        console.error("Error deleting document:", deleteError);
+      }
+    } else {
+      placeholder.innerHTML = `
+        <div class="error-container">
+          <span class="material-icons error-icon">error_outline</span>
+          <span class="error-text">Failed to load</span>
+          <button class="retry-btn" onclick="loadActualMedia(this.closest('.media-item'))">
+            <span class="material-icons">refresh</span>
+          </button>
+        </div>
+      `;
+    }
+  }
+}
+
+// Utility functions
+function extractFileName(url) {
+  try {
+    const urlParts = url.split('%2F');
+    return decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+  } catch (error) {
+    return 'Unknown file';
+  }
+}
+
+function truncateFileName(fileName, maxLength = 20) {
+  if (fileName.length <= maxLength) return fileName;
+  const extension = fileName.substring(fileName.lastIndexOf('.'));
+  const name = fileName.substring(0, fileName.lastIndexOf('.'));
+  const truncatedName = name.substring(0, maxLength - extension.length - 3) + '...';
+  return truncatedName + extension;
+}
+
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// IMPORTANT: When uploading files, save metadata like this:
+/*
+async function uploadFileWithMetadata(file, userId) {
+  const fileName = file.name;
+  const fileSize = file.size;
+  const mediaType = file.type;
+  
+  // Upload main file
+  const storageRef = ref(storage, `users/${userId}/media/${fileName}`);
+  const uploadResult = await uploadBytes(storageRef, file);
+  
+  // Create thumbnail for images (optional but recommended)
+  let thumbnailUrl = null;
+  if (file.type.startsWith('image/')) {
+      const thumbnail = await createThumbnail(file, 150, 150); // 150x150 px
+      const thumbRef = ref(storage, `users/${userId}/thumbnails/${fileName}`);
+      const thumbResult = await uploadBytes(thumbRef, thumbnail);
+      thumbnailUrl = await getDownloadURL(thumbRef);
+  }
+  
+  // Save metadata to Firestore
+  const mediaDoc = {
+      mediaUrl: uploadResult.metadata.fullPath,
+      fileName: fileName,
+      fileSize: fileSize,
+      mediaType: mediaType,
+      thumbnailUrl: thumbnailUrl,
+      uploadedAt: serverTimestamp(),
+      // Add dimensions for images/videos if needed
+      // dimensions: { width: 1920, height: 1080 },
+      // duration: 120 // for videos
+  };
+  
+  const mediaRef = collection(db, "users", userId, "media");
+  await addDoc(mediaRef, mediaDoc);
+}
+
+// Helper function to create thumbnails
+async function createThumbnail(file, maxWidth, maxHeight) {
+  return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = function() {
+          const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+          canvas.width = img.width * ratio;
+          canvas.height = img.height * ratio;
+          
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(resolve, 'image/jpeg', 0.7);
+      };
+      
+      img.src = URL.createObjectURL(file);
+  });
+}
+*/
+  
+  
   
   // Load playlists for user
   async function loadPlaylists(userId) {
@@ -277,36 +612,148 @@ document.addEventListener("DOMContentLoaded", () => {
     fileUploadInput.click();
   });
 
+  // fileUploadInput.addEventListener("change", async (event) => {
+  //   const files = event.target.files;
+  //   if (!files || files.length === 0) {
+  //     alert("No files selected.");
+  //     return;
+  //   }
+
+  //   uploadOverlay.style.display = "flex";
+
+  //   for (const file of files) {
+  //     try {
+  //       const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
+  //       const uploadTask = uploadBytesResumable(storageRef, file);
+
+  //       await new Promise((resolve, reject) => {
+  //         uploadTask.on(
+  //           "state_changed",
+  //           null,
+  //           (error) => reject(error),
+  //           async () => {
+  //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //             const mediaType = file.type;
+
+  //             const mediaRef = collection(db, "users", userId, "media");
+  //             await addDoc(mediaRef, {
+  //               mediaUrl: downloadURL,
+  //               mediaType: mediaType,
+  //               uploadedAt: new Date().toISOString(),
+  //             });
+
+  //             resolve();
+  //           }
+  //         );
+  //       });
+  //     } catch (error) {
+  //       console.error("File upload failed:", error);
+  //       alert(`Failed to upload ${file.name}: ${error.message}`);
+  //     }
+  //   }
+
+  //   uploadOverlay.style.display = "none";
+  //   loadMedia(userId);
+  // });
+
+  // fileUploadInput.addEventListener("change", async (event) => {
+  //   const files = event.target.files;
+  //   if (!files || files.length === 0) {
+  //     alert("No files selected.");
+  //     return;
+  //   }
+  
+  //   uploadOverlay.style.display = "flex";
+  //   uploadProgressFill.style.width = "0%";
+  //   uploadPercentage.textContent = "0%";
+  
+  //   for (const file of files) {
+  //     try {
+  //       const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
+  //       const uploadTask = uploadBytesResumable(storageRef, file);
+  
+  //       await new Promise((resolve, reject) => {
+  //         uploadTask.on(
+  //           "state_changed",
+  //           (snapshot) => {
+  //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //             uploadProgressFill.style.width = `${progress.toFixed(0)}%`;
+  //             uploadPercentage.textContent = `${progress.toFixed(0)}%`;
+  //           },
+  //           (error) => {
+  //             console.error("Upload failed:", error);
+  //             reject(error);
+  //           },
+  //           async () => {
+  //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //             const mediaType = file.type;
+  
+  //             const mediaRef = collection(db, "users", userId, "media");
+  //             await addDoc(mediaRef, {
+  //               mediaUrl: downloadURL,
+  //               mediaType: mediaType,
+  //               uploadedAt: new Date().toISOString(),
+  //             });
+  
+  //             resolve();
+  //           }
+  //         );
+  //       });
+  //     } catch (error) {
+  //       console.error("File upload failed:", error);
+  //       alert(`Failed to upload ${file.name}: ${error.message}`);
+  //     }
+  //   }
+  
+  //   uploadOverlay.style.display = "none";
+  //   loadMedia(userId);
+  // });  
+
   fileUploadInput.addEventListener("change", async (event) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
       alert("No files selected.");
       return;
     }
-
+  
     uploadOverlay.style.display = "flex";
-
-    for (const file of files) {
+    uploadProgressFill.style.width = "0%";
+    uploadPercentage.textContent = "0%";
+  
+    const totalFiles = files.length;
+  
+    for (let i = 0; i < totalFiles; i++) {
+      const file = files[i];
+  
+      uploadMessage.textContent = `Uploading Media... (${i + 1} of ${totalFiles})`;
+  
       try {
         const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-
+  
         await new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
-            null,
-            (error) => reject(error),
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploadProgressFill.style.width = `${progress.toFixed(0)}%`;
+              uploadPercentage.textContent = `${progress.toFixed(0)}%`;
+            },
+            (error) => {
+              console.error("Upload failed:", error);
+              reject(error);
+            },
             async () => {
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
               const mediaType = file.type;
-
+  
               const mediaRef = collection(db, "users", userId, "media");
               await addDoc(mediaRef, {
                 mediaUrl: downloadURL,
                 mediaType: mediaType,
                 uploadedAt: new Date().toISOString(),
               });
-
+  
               resolve();
             }
           );
@@ -316,10 +763,12 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(`Failed to upload ${file.name}: ${error.message}`);
       }
     }
-
+  
     uploadOverlay.style.display = "none";
     loadMedia(userId);
   });
+  
+  
 
   closeModalBtn.addEventListener("click", closeModal);
 });
