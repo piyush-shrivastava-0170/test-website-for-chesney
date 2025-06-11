@@ -358,10 +358,6 @@ function openDevicePopup(device, deviceId) {
     document.getElementById("close-popup").onclick = () => closePopup(popup);
   }
 }
-document.getElementById("screens-tab").addEventListener("click", () => {
-  loadDevices(); // Your Firestore loading function
-});
-
 
 // Similarly modify the openGroupPopup function
 function openGroupPopup(group, groupId) {
