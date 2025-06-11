@@ -7,7 +7,68 @@
   <title>Manage Devices and Groups</title>
   <link rel="stylesheet" href="manage.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+ 
+    
+    .grid {
+      display: none;
+     
+    }
 
+    .active {
+      display: block;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 49px;
+      height: 20px;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      background-color: #ccc;
+      border-radius: 34px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 15px;
+      width: 15px;
+      left: 4px;
+      bottom: 3px;
+      /* top: 4px; */
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    #toggle-label{
+      color: white;
+      font-size: 1.3em;
+      margin-left: 20px;
+      font-weight: 400;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,8 +83,16 @@
 
     <!-- Right Section -->
     <div class="right-section">
-      <h2 class="section-title">Connected Devices</h2>
+      <h2 class="section-title">Manage Your Screens</h2>
       <span id="close-view-popup" class="close-modal">&times;</span>
+
+      <div class="toggle-container">
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-view">
+          <span class="slider"></span>
+        </label>
+        <span id="toggle-label">Devices</span>
+      </div>
 
 
       <!-- Device Grid -->
@@ -32,15 +101,14 @@
         <h3>Media Queue</h3>
         <h3>Action</h3>
       </div>
-      <div class="device-grid" id="device-grid">
+      <div class="grid device-grid active" id="device-grid">
         <!-- Dynamically added device cards will appear here -->
+        <p>Devices are shown here.</p>
       </div>
-
-      <h2 class="section-title">Groups</h2>
-
-      <!-- Groups Grid -->
-      <div class="groups-grid" id="groups-list">
-        <!-- Dynamically added device cards will appear here -->
+    
+      <div class="grid groups-grid" id="groups-list">
+        <!-- Dynamically added group cards will appear here -->
+        <p>Groups are shown here.</p>
       </div>
 
       <!-- Media Popup -->
@@ -145,6 +213,24 @@
   </div>
 
   <script type="module" src="manage_screen.js"></script>
+  <script>
+    const toggle = document.getElementById('toggle-view');
+    const deviceGrid = document.getElementById('device-grid');
+    const groupsGrid = document.getElementById('groups-list');
+    const label = document.getElementById('toggle-label');
+
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        deviceGrid.classList.remove('active');
+        groupsGrid.classList.add('active');
+        label.textContent = "Groups";
+      } else {
+        groupsGrid.classList.remove('active');
+        deviceGrid.classList.add('active');
+        label.textContent = "Devices";
+      }
+    });
+  </script>
 
 </body>
 
