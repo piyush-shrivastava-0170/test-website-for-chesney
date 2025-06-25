@@ -208,6 +208,7 @@ button:hover {
 .popup h3 {
   font-size: 1.3rem;
   color: white;
+  margin-top: 0;
   margin-bottom: 15px;
 }
 

@@ -7,66 +7,34 @@
   <title>Manage Devices and Groups</title>
   <link rel="stylesheet" href="manage.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
- 
-    
-    .grid {
+    .hidden {
       display: none;
-     
+
+
     }
 
-    .active {
-      display: block;
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 49px;
-      height: 20px;
-    }
-
-    .toggle-switch input {
-      display: none;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      background-color: #ccc;
-      border-radius: 34px;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transition: 0.4s;
-    }
-
-    .slider:before {
-      content: "";
-      position: absolute;
-      height: 15px;
-      width: 15px;
-      left: 4px;
-      bottom: 3px;
-      /* top: 4px; */
-      background-color: white;
-      border-radius: 50%;
-      transition: 0.4s;
-    }
-
-    input:checked + .slider {
-      background-color: #4CAF50;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-    #toggle-label{
+    .tab-buttons button {
+      padding: 8px 26px;
+      border: none;
+      background-color: #A9A9A9;
       color: white;
-      font-size: 1.3em;
-      margin-left: 20px;
-      font-weight: 400;
+      cursor: pointer;
+      border-radius: 15px;
+      opacity: 70%;
+    }
+
+    .tab-buttons .active-tab {
+      background-color: white;
+      color: #9E77ED;
+      opacity: 1;
     }
   </style>
 </head>
@@ -86,30 +54,60 @@
       <h2 class="section-title">Manage Your Screens</h2>
       <span id="close-view-popup" class="close-modal">&times;</span>
 
-      <div class="toggle-container">
+      <!-- <div class="toggle-container">
         <label class="toggle-switch">
           <input type="checkbox" id="toggle-view">
           <span class="slider"></span>
         </label>
         <span id="toggle-label">Devices</span>
-      </div>
+      </div> -->
+
 
 
       <!-- Device Grid -->
-      <div class="header-container">
+      <!-- <div class="header-container">
         <h3>Screens</h3>
         <h3>Media Queue</h3>
         <h3>Action</h3>
       </div>
       <div class="grid device-grid active" id="device-grid">
-        <!-- Dynamically added device cards will appear here -->
+        
         <p>Devices are shown here.</p>
       </div>
     
       <div class="grid groups-grid" id="groups-list">
+       
+        <p>Groups are shown here.</p>
+      </div> -->
+
+      <!-- Tab Buttons -->
+      <div class="tab-buttons">
+        <button id="devices-tab" class="active-tab">Devices</button>
+        <button id="groups-tab" class="non-act-tab">Groups</button>
+      </div>
+
+      <!-- Header (will update dynamically) -->
+      <div class="header-container" id="tab-header">
+        <h3>Devices</h3>
+        <h3>Media Queue</h3>
+        <h3>Action</h3>
+      </div>
+
+      <!-- Device Grid -->
+      <div class="grid device-grid active" id="device-grid">
+        <!-- Dynamically added device cards will appear here -->
+        <p>Devices are shown here.</p>
+      </div>
+
+      <!-- Groups Grid -->
+      <div class="grid groups-grid hidden" id="groups-list">
         <!-- Dynamically added group cards will appear here -->
         <p>Groups are shown here.</p>
       </div>
+
+
+
+
 
       <!-- Media Popup -->
       <div id="media-popup" class="popup" style="display: none;">
@@ -118,7 +116,7 @@
           <h3>Manage</h3>
           <div id="device-details" style="color:white;">
             <p><strong id="device-name">Device/Group Name</strong></p>
-            <p><em id="device-id">(Device/Group ID)</em></p>
+            <!-- <p><em id="device-id">(Device/Group ID)</em></p> -->
 
           </div>
 
@@ -135,7 +133,7 @@
             </div>
 
             <div>
-              <label for="resize-select">Resize Mode:</label>
+              <label for="resize-select">Resize Screen:</label>
               <select id="resize-select">
                 <option value="contain">Contain</option>
                 <option value="stretch">Stretch</option>
@@ -145,7 +143,12 @@
 
             <div>
               <label for="delay-input">Delay (seconds):</label>
-              <input type="number" id="delay-input" min="1" value="5">
+              <!-- <input type="number" id="delay-input" min="5" value="5"> -->
+              <select id="delay-input">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>
             </div>
 
             <div>
@@ -213,24 +216,48 @@
   </div>
 
   <script type="module" src="manage_screen.js"></script>
+
+
   <script>
-    const toggle = document.getElementById('toggle-view');
+    const devicesTab = document.getElementById('devices-tab');
+    const groupsTab = document.getElementById('groups-tab');
     const deviceGrid = document.getElementById('device-grid');
     const groupsGrid = document.getElementById('groups-list');
-    const label = document.getElementById('toggle-label');
+    const tabHeader = document.getElementById('tab-header');
 
-    toggle.addEventListener('change', () => {
-      if (toggle.checked) {
-        deviceGrid.classList.remove('active');
-        groupsGrid.classList.add('active');
-        label.textContent = "Groups";
-      } else {
-        groupsGrid.classList.remove('active');
-        deviceGrid.classList.add('active');
-        label.textContent = "Devices";
-      }
+    devicesTab.addEventListener('click', () => {
+      devicesTab.classList.add('active-tab');
+      groupsTab.classList.remove('active-tab');
+
+      deviceGrid.classList.remove('hidden');
+      groupsGrid.classList.add('hidden');
+
+      tabHeader.innerHTML = `
+      <h3>Devices</h3>
+      <h3>Media Queue</h3>
+      <h3>Action</h3>
+    `;
+    });
+
+    groupsTab.addEventListener('click', () => {
+      groupsTab.classList.add('active-tab');
+      devicesTab.classList.remove('active-tab');
+
+      deviceGrid.classList.add('hidden');
+      groupsGrid.classList.remove('hidden');
+
+      tabHeader.innerHTML = `
+      <h3>Group Name</h3>
+      <h3>Group Devices</h3>
+      <h3>Action</h3>
+    `;
     });
   </script>
+
+
+
+
+
 
 </body>
 

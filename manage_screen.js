@@ -331,8 +331,8 @@ function openDevicePopup(device, deviceId) {
   const popup = document.getElementById("media-popup");
   popup.style.display = "flex";
 
-  document.getElementById("device-name").textContent = device.deviceCode || "Unnamed Device";
-  document.getElementById("device-id").textContent = `Device ID: ${deviceId}`;
+  document.getElementById("device-name").textContent =("Device ID: ")+ device.deviceCode || "Unnamed Device";
+  // document.getElementById("device-id").textContent = `Device ID: ${deviceId}`;
 
   document.getElementById("orientation-select").value = device.orientation || "landscape";
   document.getElementById("resize-select").value = device.resizeMode || "contain";

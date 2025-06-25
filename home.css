@@ -1,16 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+/* Define custom palette variables */
+:root {
+  --white: #ffffff;
+  --off-white: #f8f8f8;
+  --blue-light: #97a2f1;
+  --blue-pale: #c2d1fd;
+  --blue-medium: #7479e7;
+  --blue-dark: #5660ca;
+  --purple:#c7b7ec;
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #f8eaff;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--blue-pale);
   color: #333;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
 }
 
 /* Dashboard Grid Layout */
@@ -20,13 +31,14 @@ body {
   max-width: 1200px;
   padding-bottom: 10px;
   box-sizing: border-box;
- }
+  
+}
 
 /* Welcome Card */
 .welcome-card {
   grid-column: span 4;
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--white);
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -40,14 +52,13 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  
 }
 
 .logo {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid var(--white);
   margin-left: 50px;
 }
 
@@ -67,13 +78,12 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   height: auto;
-  background: rgba(255, 255, 255, 0.1); 
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #c4b3ff;
-  
+  background-color: var(--purple);
 }
 
 .grid-item {
@@ -82,7 +92,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--white);
   font-weight: bold;
   text-align: center;
   border-radius: 10px;
@@ -90,25 +100,18 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   margin: 10px;
-  
-  
   cursor: pointer;
   border: none;
-  
 }
 
 .item-text {
   position: absolute;
   bottom: 15px;
-  /* left: 50px; */
   font-size: 24px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   z-index: 2;
   font-weight: 600;
-  font-style: normal;
-  
 }
-
 
 .overlay {
   position: absolute;
@@ -124,26 +127,23 @@ body {
   grid-column: span 2;
   grid-row: span 2;
   width: 640px;
-  height: calc(640px * 9 / 16);      
+  height: calc(640px * 9 / 16);
   margin-top: 20px;
   margin-left: 20px;
   background-image: url('./images/sixteen.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #C4B2FF;
+  background-color: var(--blue-pale);
 }
 
-
-
 .digital-standee {
-  background-color: #C4B2FF;
+  background-color: var(--blue-pale);
   background-image: url('/api/placeholder/300/300');
 }
 
 .chesney-logo {
-  background-color: #8b73ff;
-  /* background-image: url('https://media.istockphoto.com/id/1763328218/photo/lonely-man-at-night.jpg?s=1024x1024&w=is&k=20&c=XTzBtiJdoHcaT7etNNrTsgEUBIPQV8Ndl5zLgLsbjtc='); */
+  background-color: var(--blue-medium);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -159,24 +159,23 @@ body {
 }
 
 .about-us {
-  background-color: #9E77ED;
-  color: white;
+  background-color: var(--blue-dark);
+  color: var(--white);
   font-size: 24px;
   text-align: center;
 }
 
 .analytics {
-  background-color: #8b73ff;
+  background-color: var(--blue-dark);
   background-image: url('./images/9.png');
-  color: white;
+  color: var(--white);
   font-size: 24px;
   text-align: center;
   margin-bottom: 20px;
-  
 }
 
 .qr-code {
-  background-color: #B692F6;
+  background-color: var(--blue-light);
   background-image: url('https://www.itctedch.com.cn/Public/upload/2021-04-27/1619494588.4619_wm_2969.gif');
   display: flex;
   flex-direction: column;
@@ -187,55 +186,50 @@ body {
 .qr-text {
   font-size: 24px;
   margin-bottom: 10px;
-  color: white;
+  color: var(--white);
 }
 
 .qr-img {
   width: 70%;
   height: auto;
-  background-color: white;
+  background-color: var(--white);
   padding: 10px;
   border-radius: 5px;
 }
 
 .connect-screen {
   background-image: url('./images/6.png');
-  background-color: #8b73ff;
+  background-color: var(--blue-dark);
   margin-top: 20px;
   margin-right: 20px;
 }
 
 .manage-screen {
   background-image: url('./images/2.png');
-  background-color: #8b73ff;
-
+  background-color: var(--blue-dark);
 }
 
 .playlist {
   background-image: url('./images/5.png');
-  background-color: #8b73ff;
+  background-color: var(--blue-dark);
   margin-right: 20px;
 }
 
 .gallery {
-  background-image: url('./images/1.png');
-  background-color: #8b73ff;
+  background-image: url('./images/home_gallery_icon.png');
+  background-color: var(--blue-dark);
   margin-top: 20px;
-
 }
 
 .contact-us {
   background-image: url('./images/3.png');
-  background-color: #8b73ff;
+  background-color: var(--blue-dark);
   margin-bottom: 20px;
 }
 
-
-
 .groups {
   background-image: url('./images/7.png');
-  background-color: #8b73ff;
-  /* margin-top: 20px; */
+  background-color: var(--blue-dark);
   margin-left: 20px;
   margin-bottom: 20px;
 }
@@ -244,14 +238,14 @@ body {
 .logo-text {
   font-size: 32px;
   font-weight: bold;
-  color: white;
+  color: var(--white);
   text-align: center;
   margin-bottom: 5px;
 }
 
 .logo-subtext {
   font-size: 14px;
-  color: white;
+  color: var(--white);
   text-align: center;
 }
 
@@ -287,16 +281,16 @@ body {
   justify-content: space-between;
   align-items: center;
   padding-right: 50px;
-  background-color: #c4b3ff;
+  background-color: var(--purple);
 }
 
 .dash-button {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  color: white;
-  background: radial-gradient(circle at 50% 50%, #c4b3ff, #8b73ff);
-  border: 2px solid #fff;
+  color: var(--white);
+  background: radial-gradient(circle at 50% 50%, var(--blue-pale), var(--blue-medium));
+  border: 2px solid var(--white);
 }
 
 .card-icon {
