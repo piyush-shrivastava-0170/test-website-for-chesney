@@ -256,65 +256,103 @@ form button:hover {
   color: #f8eaff;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+
+@media (max-width: 768px) {
   .main-container {
     flex-direction: column;
+    width: 100%;
     height: auto;
+    padding: 20px 10px;
+    box-sizing: border-box;
+   
   }
 
   .left-section {
-    width: 100%;
+    display: none;
   }
+  
 
   .red-box {
-    height: auto;
-    padding: 15px;
-  }
-
-  .connect-text {
-    font-size: 1.4rem;
-  }
-
-  form input,
-  form button {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .connect-text {
-    font-size: 1.2rem;
+    width: 90%;
+    padding: 20px 15px;
+     border-radius: 15px;
   }
 
   .red-box h2 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-  .device-item {
+  #connect-form {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 10px;
   }
 
-  .device-item button {
-    align-self: flex-end;
+  #device-id {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
   }
-}
 
+  #device-id::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
 
-.subtitle-text {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 1.1rem;
-  color: #5f2eff;
-  font-weight: 600;
-  padding: 0 10px;
-  line-height: 1.4;
-}
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: white;
+    color: #8b73ff;
+    font-weight: bold;
+    border: none;
+  }
 
-.subtitle-text .highlight {
-  color: #B400FF;
-  font-weight: 700;
+  .header-container {
+    display: none; /* Hide table headers on mobile */
+  }
+
+  #device-list .device-item {
+    background: rgba(255, 255, 255, 0.2);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #device-list .device-item p {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  #device-list .device-item h4 {
+    font-size: 13px;
+    font-weight: normal;
+  }
+
+  .disconnect-btn {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: white;
+    color: #8b73ff;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .disconnect-btn:hover {
+    background-color: #f0eaff;
+  }
 }

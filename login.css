@@ -292,65 +292,69 @@ form {
   font-size: 0.9rem;
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .container {
     flex-direction: column;
-    height: auto;
-    min-height: 100vh;
     width: 90%;
-  }
+    height: auto;
+    box-shadow: none;
+    border-radius: 15px;
 
-  .content, .form-container {
-    width: 100%;
-    padding: 30px;
+   
   }
 
   .content {
-    text-align: center;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  .content h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-
-  .social-icons {
-    justify-content: center;
+    display: none;
   }
 
   .form-container {
-    padding-top: 20px;
-  }
-
-  .website {
-    position: relative;
-    margin-top: 30px;
-    bottom: auto;
-  }
-}
-
-@media (max-width: 500px) {
-  .container {
-    width: 95%;
-  }
-
-  .content, .form-container {
-    padding: 20px;
-  }
-
-  .content h1 {
-    font-size: 1.7rem;
+    width: 90%;
+    padding: 30px 20px;
+    border-right: none;
+    background-color: #8b73ff;
   }
 
   .form-container h2 {
     font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
   }
 
-  .button, .input, .google-button {
-    padding: 12px 15px;
-    font-size: 0.9rem;
+  .form-group input {
+    font-size: 14px;
+    padding: 12px 10px;
+
+  }
+  .form-group{
+     margin-right: 20px;
+  }
+
+  .red-input {
+    font-size: 14px;
+    padding-left: 12px;
+   
+  }
+
+  .google-button,
+  .white-button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .google-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .or-text,
+  .forgot-password,
+  .signup-text,
+  .website {
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .button.white-button {
+    margin-top: 30px;
   }
 }
