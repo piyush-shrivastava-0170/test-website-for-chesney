@@ -106,7 +106,6 @@ function createGroupCard(group, groupId) {
 }
 
 
-
 // Function to set up the media type selection functionality
 function setupMediaTypeSelection() {
   const mediaTypeSelect = document.getElementById("media-type-select");
@@ -276,10 +275,6 @@ function addGridSelectionButton() {
 // Function to create a grid from selected images
 function createGridFromSelected() {
   const selectedItems = document.querySelectorAll(".media-item.selected");
-  // if (selectedItems.length < 2) {
-  //   alert("Please select at least 2 images for the grid view");
-  //   return;
-  // }
   if (selectedItems.length < 2 || selectedItems.length % 2 !== 0) {
     showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
     return;

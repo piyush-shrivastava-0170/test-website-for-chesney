@@ -183,16 +183,17 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 95%;
-  height: 93%;
-  max-width: 720px;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 60vh;
   padding: 24px;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow-y: scroll; /* Enables vertical scrolling */
   background-color: #8b73ff;
   z-index: 1000;
-
+  
   /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
   &::-webkit-scrollbar {
     display: none;
@@ -336,7 +337,7 @@ video.media-list .media-item img,
 .device-settings select,
 .device-settings input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.1);
@@ -411,7 +412,7 @@ video.media-list .media-item img,
 .url-input {
   width: 70%;
   padding: 8px;
-  margin-right: 10px;
+  margin-right: 10px !important; 
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
@@ -427,7 +428,7 @@ video.media-list .media-item img,
   border: 3px solid #B692F6;
 }
 
-
+/*alert and confirm message design start from here */
 .alert {
   position: fixed;
   top: 30px;
