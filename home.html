@@ -6,47 +6,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS Dashboard -Chesney India</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">  <link rel="stylesheet" href="home.css">
- 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="home_page.css">
+
   <!-- <script src="script.js"></script> -->
-   <style>
+  <style>
     .dash-buttonn {
-  background-color: transparent;
-  border: none;
-  padding: 10px 16px;
-  margin: 0 8px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #faf8f8;
-  cursor: pointer;
-  position: relative;
-  transition: color 0.3s;
-}
+      background-color: transparent;
+      border: none;
+      padding: 10px 16px;
+      margin: 0 8px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #faf8f8;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s;
+    }
 
-.dash-buttonn::after {
-  content: "";
-  position: absolute;
-  bottom: 6px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background-color: #f5f0f0;
-  transition: width 0.3s ease;
-}
+    .dash-buttonn::after {
+      content: "";
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #f5f0f0;
+      transition: width 0.3s ease;
+    }
 
-.dash-buttonn:hover {
-  color: #efecec;
-}
+    .dash-buttonn:hover {
+      color: #efecec;
+    }
 
-.dash-buttonn:hover::after {
-  width: 100%;
-}
+    .dash-buttonn:hover::after {
+      width: 100%;
+    }
 
-.header-class{
-  margin-left: 30px;
-}
-
-   </style>
+    .header-class {
+      margin-left: 30px;
+    }
+  </style>
 </head>
 
 <body>
@@ -65,29 +65,45 @@
     </div>
   </div> -->
 
-  <div class="dashboard-container">
+  <!-- <div class="dashboard-container">
     <div class="dashboard-card welcome-card">
       <div class="welcome-content">
-        <!-- <img src="./images/logoblue.png" alt="Logo" class="logo"> -->
-        <!-- <h2 class="welcome-text">WELCOME USER NAME</h2> -->
+        
          <h2 class="header-class">CHESNEY Signage</h2>
-      </div>
-     
-      <!-- <button onclick="location.href='index.html'" class="dash-buttonn">
+      </div> -->
+
+  <!-- <button onclick="location.href='index.html'" class="dash-buttonn">
         Home
       </button>
       <button onclick="location.href='pricing.html'" class="dash-buttonn">
        Pricing
       </button> -->
 
-      <button onclick="location.href='dashboard.html'" class="dash-button">
+  <!-- <button onclick="location.href='dashboard.html'" class="dash-button">
         <i class="fa-solid fa-user card-icon"></i>
       </button>
     </div>
-  </div>
-  
+  </div> -->
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="./images/chesney_logo.png" alt="Chesney Signage Logo" />
+      <span>Chesney<br>Signage</span>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li class="active">Home</li>
+        <li>About</li>
+        <li>Services</li>
+        <li>Products</li>
+        <li>Contact</li>
+      </ul>
+      <!-- <div class="hamburger">☰</div> -->
+    </nav>
+  </header>
+
   <div class="container">
-    
+
     <!-- First row -->
     <div class="grid-item led-wall">
       <div class="overlay">
@@ -125,9 +141,9 @@
       </button>
 
       <button onclick="location.href='groups.html'" class="grid-item groups ">
-        
-          <div class="overlay"></div>
-          <div class="item-text">GROUP DEVICES</div>
+
+        <div class="overlay"></div>
+        <div class="item-text">GROUP DEVICES</div>
       </button>
 
       <!-- Logo and QR section in right column -->
@@ -135,22 +151,22 @@
         <div class="overlay"></div>
         <div class="item-text">USAGE STATISTICS</div>
       </button>
-      
-     
+
+
 
       <button onclick="location.href='contactus.html'" class="grid-item contact-us">
         <div class="overlay"></div>
         <div class="item-text">CONTACT US</div>
       </button>
 
-       <div class="grid-item chesney-logo">
+      <!-- <div class="grid-item chesney-logo">
         <div>
           <div class="logo-text">CHESNEY</div>
           <div class="logo-subtext">ENGINEERS WAY OF ADVERTISING</div>
         </div>
-      </div>
+      </div> -->
 
-   
+
   </div>
   </div>
 
@@ -183,11 +199,11 @@
     });
 
     document.addEventListener('contextmenu', event => event.preventDefault());
-  document.onkeydown = function(e) {
-    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-      return false;
-    }
-  };
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+        return false;
+      }
+    };
   </script>
 </body>
 

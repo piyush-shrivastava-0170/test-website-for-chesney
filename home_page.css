@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rajdhani', sans-serif;
+  background-color: #5A57C7;
+  color: #fff;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #656ED3;
+    padding: 10px 40px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo img {
+    height: 80px;
+  }
+  
+  .logo span {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 1.2;
+    text-transform: capitalize;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  
+  .nav-links li {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background 0.3s;
+    
+  }
+  
+  .nav-links li:hover,
+  .nav-links .active {
+    background: white;
+    color: #656ED3;
+  }
+
+
+/* Navbar/Header */
+.dashboard-container {
+  background-color: #695BD4;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #8884e1;
+}
+
+.header-class {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.dash-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Container Grid */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+.grid-item {
+  background-color: #817CEB;
+  border-radius: 6px;
+  position: relative;
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
+
+.grid-item:hover {
+  border-color: #ffffff;
+  background-color: #9a96f5;
+}
+
+/* Individual Tile Adjustments */
+.connect-screen,
+.manage-screen,
+.playlist,
+.groups,
+.analytics,
+.contact-us,
+.gallery {
+  background-color: #8F89E8;
+}
+
+.chesney-logo {
+  background-color: #2F2F80;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.logo-subtext {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.item-text {
+  z-index: 2;
+}
+
+/* Optional overlay layer for shadow effect */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+  }
+}
