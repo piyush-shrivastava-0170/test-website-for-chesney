@@ -6,47 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS Dashboard -Chesney India</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="home_page.css">
 
   <!-- <script src="script.js"></script> -->
-  <style>
-    .dash-buttonn {
-      background-color: transparent;
-      border: none;
-      padding: 10px 16px;
-      margin: 0 8px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #faf8f8;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.3s;
-    }
 
-    .dash-buttonn::after {
-      content: "";
-      position: absolute;
-      bottom: 6px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: #f5f0f0;
-      transition: width 0.3s ease;
-    }
-
-    .dash-buttonn:hover {
-      color: #efecec;
-    }
-
-    .dash-buttonn:hover::after {
-      width: 100%;
-    }
-
-    .header-class {
-      margin-left: 30px;
-    }
-  </style>
 </head>
 
 <body>
@@ -88,87 +51,84 @@
   <header class="navbar">
     <div class="logo">
       <img src="./images/chesney_logo.png" alt="Chesney Signage Logo" />
-      <span>Chesney<br>Signage</span>
+      <span>CHESNEY<br>SIGNAGE</span>
     </div>
     <nav>
       <ul class="nav-links">
-        <li class="active">Home</li>
+        <li>Home</li>
         <li>About</li>
-        <li>Services</li>
+        <li class="active">Services</li>
         <li>Products</li>
         <li>Contact</li>
       </ul>
-      <!-- <div class="hamburger">☰</div> -->
+      
     </nav>
   </header>
 
-  <div class="container">
-
-    <!-- First row -->
-    <div class="grid-item led-wall">
-      <div class="overlay">
-      </div>
-      <!-- <div class="item-text">LED VIDEO WALL</div> -->
+  <section>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <div class="grid-item empty-title"></div> 
+      <div class="sidebar-icon">+</div>
+      <div class="sidebar-header">TEAM<br>UPDATES</div>
+     
     </div>
-
-
-
-    <button onclick="location.href='media.html'" class="grid-item gallery">
-      <div class="overlay"></div>
-      <div class="item-text">GALLERY</div>
-    </button>
-
-
-    <!-- <div class="grid-item digital-billboard">
-      <div class="overlay"></div>
-      <div class="item-text">DIGITAL BILLBOARD</div>
-  </div> -->
-
-    <!-- Second row -->
-    <button onclick="location.href='connect.html'" class="grid-item connect-screen">
-      <div class="overlay"></div>
-      <div class="item-text">CONNECT SCREEN</div>
-
-
+  
+    <div class="grid-container">
+      <button onclick="location.href='connect.html'" class="grid-item connect-screen">
+        <img src="./icon/analytics.png" alt="Connect Screen">
+        <span>CONNECT SCREEN</span>
+        <i class="arrow right"></i>
+      </button>
+  
       <button onclick="location.href='manage.html'" class="grid-item manage-screen">
-        <div class="overlay"></div>
-        <div class="item-text">MANAGE SCREEN</div>
+        <img src="./icon/analytics.png" alt="Manage Screen">
+        <span>MANAGE SCREEN</span>
+        <i class="arrow right"></i>
       </button>
-
-      <button onclick="location.href='playlist.html'" class="grid-item playlist">
-        <div class="overlay"></div>
-        <div class="item-text">PLAYLIST</div>
+  
+      <button onclick="location.href='media.html'" class="grid-item add-media">
+        <img src="./icon/analytics.png" alt="Add Media">
+        <span>ADD MEDIA</span>
+        <i class="arrow right"></i>
       </button>
-
-      <button onclick="location.href='groups.html'" class="grid-item groups ">
-
-        <div class="overlay"></div>
-        <div class="item-text">GROUP DEVICES</div>
+  
+      <button onclick="location.href='playlist.html'" class="grid-item create-playlist">
+        <img src="./icon/analytics.png" alt="Create Playlist">
+        <span>CREATE PLAYLIST</span>
+        <i class="arrow right"></i>
       </button>
-
-      <!-- Logo and QR section in right column -->
+  
+      <button onclick="location.href='groups.html'" class="grid-item group-devices">
+        <img src="./icon/analytics.png" alt="Group Devices">
+        <span>GROUP DEVICES</span>
+        <i class="arrow right"></i>
+      </button>
+  
       <button onclick="location.href='analytics.html'" class="grid-item analytics">
-        <div class="overlay"></div>
-        <div class="item-text">USAGE STATISTICS</div>
+        <img src="./icon/analytics.png" alt="Analytics">
+        <span>DATA ANALYTICS</span>
+        <i class="arrow right"></i>
       </button>
-
-
-
+  
       <button onclick="location.href='contactus.html'" class="grid-item contact-us">
-        <div class="overlay"></div>
-        <div class="item-text">CONTACT US</div>
+        <img src="./icon/analytics.png" alt="Contact Us">
+        <span>CONTACT US</span>
+        <i class="arrow right"></i>
       </button>
-
-      <!-- <div class="grid-item chesney-logo">
-        <div>
-          <div class="logo-text">CHESNEY</div>
-          <div class="logo-subtext">ENGINEERS WAY OF ADVERTISING</div>
-        </div>
-      </div> -->
-
-
+      <button onclick="location.href='contactus.html'" class="grid-item coming-soon">
+        <img src="./icon/analytics.png" alt="Contact Us">
+        <span>COMING SOON</span>
+        <i class="arrow right"></i>
+      </button>
+  
+      
+    </div>
+    
   </div>
-  </div>
+  <div class="grid-item empty-tile"></div> 
+</section>
+  
 
   <!-- JavaScript -->
   <script type="module">

@@ -239,40 +239,12 @@ body {
   width: 700px;
   opacity: 0.8;
   pointer-events: none;
+ 
 }
 
-@media (max-width: 768px) {
-  .main-section {
-    flex-direction: column;
-    padding: 40px 20px;
-  }
 
-  .left-box,
-  .right-box {
-    max-width: 100%;
-    position: relative;
-    z-index: 5;
-    width: 100%;
-  }
-
-  .headline {
-    font-size: 32px;
-    text-align: center;
-  }
-
-  .subtext,
-  .promo-buttons,
-  .rating-section {
-    text-align: center;
-    justify-content: center;
-  }
-
-  .promo-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .dotimage img {
-    width: 100%;
-  }
+.grid-item.empty-tile {
+  height: 5px;
+  width: auto;
+  background-color: #656ED3;
 }
