@@ -141,7 +141,7 @@ body {
 }
 
 .grid-item span {
-  font-weight: bold;
+  /* font-weight: bold; */
   font-family: 'Norwester', sans-serif;
 
   font-size: 20px;
