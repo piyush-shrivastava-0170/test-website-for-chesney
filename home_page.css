@@ -57,6 +57,12 @@ body {
   background: white;
   color: #656ED3;
 }
+.nav-links li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  /* padding: 10px; */
+}
 
 
 .dashboard-container {
@@ -75,6 +81,7 @@ body {
   justify-content: space-between;
   color: white;
   padding-right: 20px;
+
   margin-top: 200px;
   margin-bottom: 20px;
   justify-content: flex-start; 
@@ -109,12 +116,12 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* gap: 20px; */
+  gap: 20px;
   padding: 20px;
   flex: 1;
 }
 .grid-item {
-  width: 220px;
+  width: 230px;
   height: 280px;
   background-color: #7479E7;
   border: none;
@@ -171,22 +178,24 @@ body {
 }
 .manage-screen,.create-playlist,.analytics,.coming-soon{
   background-color: #5760CA;
+  margin-right: 0;
   
 }
 
-.empty-tile {
-  background-color: transparent;
-  pointer-events: none;
-}
+
 .grid-item.empty-tile {
-  height: 15px;
-  width: auto;
+  display: flex;
+  width: 1600px;
+  height: 20px;
   background-color: #656ED3;
+  margin: 0 !important;
+  padding: 0 !important;
 }
+
 
 .grid-item.empty-title{
   
-  height: 15px;
+  height: 25px;
   width: 250px;
   background-color: #7479E7;
   border-radius: 0;

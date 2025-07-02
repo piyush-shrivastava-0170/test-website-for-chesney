@@ -721,7 +721,7 @@ async function clearAndRestartGroup(deviceIds) {
   if (closeButton) {
       closeButton.addEventListener('click', function() {
           // Navigate to the home page
-          window.location.href = 'home.html';
+          window.location.href = 'service.html';
           
           // Alternative approaches:
           // window.location.replace('/'); // Replaces current history entry

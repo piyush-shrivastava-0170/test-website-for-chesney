@@ -17,7 +17,10 @@
     align-items: center;
     background-color: #A3A8FF;
     padding: 10px 40px;
+    position: relative; /* make it part of stacking context */
+    z-index: 10;         /* bring it above any overlapping content */
   }
+  
   
   .logo {
     display: flex;
@@ -55,7 +58,12 @@
     background: white;
     color: #656ED3;
   }
-  
+  .nav-links li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    /* padding: 10px; */
+  }
   
 
 .main-section {
@@ -232,7 +240,7 @@
   
   .dotimage {
     position: absolute;
-    bottom: 0;
+    bottom: 30px;
     right: 0;
     z-index: 1;
   }
@@ -275,5 +283,30 @@
     .dotimage img {
       width: 100%;
     }
+  }
+
+
+  .grid-item.empty-tile {
+    /* width: 200px; */
+    height: 45px;
+    background-color: #A3A8FF;
+    /* border: 2px solid #ffffff; */
+    /* border-radius: 25px; */
+    margin: 75px auto 0; 
+    text-align: center;
+    line-height: 45px;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .grid-item.empty-tile:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    border-color: #9E77ED;
+    color: #9E77ED;
   }
   

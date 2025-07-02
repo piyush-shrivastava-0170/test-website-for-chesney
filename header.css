@@ -1,0 +1,64 @@
+@import url('https://fonts.cdnfonts.com/css/norwester');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Norwester', sans-serif;
+  background-color: #A3A8FF;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #656ED3;
+  padding: 10px 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 80px;
+}
+
+.logo span {
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.nav-links li {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: background 0.3s;
+}
+
+.nav-links li:hover,
+.nav-links .active {
+  background: white;
+  color: #656ED3;
+}
+.nav-links li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  /* padding: 10px; */
+}

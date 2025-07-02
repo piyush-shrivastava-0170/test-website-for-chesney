@@ -424,66 +424,6 @@ function formatFileSize(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// IMPORTANT: When uploading files, save metadata like this:
-/*
-async function uploadFileWithMetadata(file, userId) {
-  const fileName = file.name;
-  const fileSize = file.size;
-  const mediaType = file.type;
-  
-  // Upload main file
-  const storageRef = ref(storage, `users/${userId}/media/${fileName}`);
-  const uploadResult = await uploadBytes(storageRef, file);
-  
-  // Create thumbnail for images (optional but recommended)
-  let thumbnailUrl = null;
-  if (file.type.startsWith('image/')) {
-      const thumbnail = await createThumbnail(file, 150, 150); // 150x150 px
-      const thumbRef = ref(storage, `users/${userId}/thumbnails/${fileName}`);
-      const thumbResult = await uploadBytes(thumbRef, thumbnail);
-      thumbnailUrl = await getDownloadURL(thumbRef);
-  }
-  
-  // Save metadata to Firestore
-  const mediaDoc = {
-      mediaUrl: uploadResult.metadata.fullPath,
-      fileName: fileName,
-      fileSize: fileSize,
-      mediaType: mediaType,
-      thumbnailUrl: thumbnailUrl,
-      uploadedAt: serverTimestamp(),
-      // Add dimensions for images/videos if needed
-      // dimensions: { width: 1920, height: 1080 },
-      // duration: 120 // for videos
-  };
-  
-  const mediaRef = collection(db, "users", userId, "media");
-  await addDoc(mediaRef, mediaDoc);
-}
-
-// Helper function to create thumbnails
-async function createThumbnail(file, maxWidth, maxHeight) {
-  return new Promise((resolve) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      
-      img.onload = function() {
-          const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
-          canvas.width = img.width * ratio;
-          canvas.height = img.height * ratio;
-          
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(resolve, 'image/jpeg', 0.7);
-      };
-      
-      img.src = URL.createObjectURL(file);
-  });
-}
-*/
-  
-  
-  
   // Load playlists for user
   async function loadPlaylists(userId) {
     playlistOptions.innerHTML = "";
@@ -612,103 +552,7 @@ async function createThumbnail(file, maxWidth, maxHeight) {
     fileUploadInput.click();
   });
 
-  // fileUploadInput.addEventListener("change", async (event) => {
-  //   const files = event.target.files;
-  //   if (!files || files.length === 0) {
-  //     alert("No files selected.");
-  //     return;
-  //   }
-
-  //   uploadOverlay.style.display = "flex";
-
-  //   for (const file of files) {
-  //     try {
-  //       const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
-  //       const uploadTask = uploadBytesResumable(storageRef, file);
-
-  //       await new Promise((resolve, reject) => {
-  //         uploadTask.on(
-  //           "state_changed",
-  //           null,
-  //           (error) => reject(error),
-  //           async () => {
-  //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  //             const mediaType = file.type;
-
-  //             const mediaRef = collection(db, "users", userId, "media");
-  //             await addDoc(mediaRef, {
-  //               mediaUrl: downloadURL,
-  //               mediaType: mediaType,
-  //               uploadedAt: new Date().toISOString(),
-  //             });
-
-  //             resolve();
-  //           }
-  //         );
-  //       });
-  //     } catch (error) {
-  //       console.error("File upload failed:", error);
-  //       alert(`Failed to upload ${file.name}: ${error.message}`);
-  //     }
-  //   }
-
-  //   uploadOverlay.style.display = "none";
-  //   loadMedia(userId);
-  // });
-
-  // fileUploadInput.addEventListener("change", async (event) => {
-  //   const files = event.target.files;
-  //   if (!files || files.length === 0) {
-  //     alert("No files selected.");
-  //     return;
-  //   }
-  
-  //   uploadOverlay.style.display = "flex";
-  //   uploadProgressFill.style.width = "0%";
-  //   uploadPercentage.textContent = "0%";
-  
-  //   for (const file of files) {
-  //     try {
-  //       const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
-  //       const uploadTask = uploadBytesResumable(storageRef, file);
-  
-  //       await new Promise((resolve, reject) => {
-  //         uploadTask.on(
-  //           "state_changed",
-  //           (snapshot) => {
-  //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //             uploadProgressFill.style.width = `${progress.toFixed(0)}%`;
-  //             uploadPercentage.textContent = `${progress.toFixed(0)}%`;
-  //           },
-  //           (error) => {
-  //             console.error("Upload failed:", error);
-  //             reject(error);
-  //           },
-  //           async () => {
-  //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  //             const mediaType = file.type;
-  
-  //             const mediaRef = collection(db, "users", userId, "media");
-  //             await addDoc(mediaRef, {
-  //               mediaUrl: downloadURL,
-  //               mediaType: mediaType,
-  //               uploadedAt: new Date().toISOString(),
-  //             });
-  
-  //             resolve();
-  //           }
-  //         );
-  //       });
-  //     } catch (error) {
-  //       console.error("File upload failed:", error);
-  //       alert(`Failed to upload ${file.name}: ${error.message}`);
-  //     }
-  //   }
-  
-  //   uploadOverlay.style.display = "none";
-  //   loadMedia(userId);
-  // });  
-
+ 
   fileUploadInput.addEventListener("change", async (event) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
@@ -781,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeButton) {
         closeButton.addEventListener('click', function() {
             // Navigate to the home page
-            window.location.href = 'home.html';
+            window.location.href = 'service.html';
             
             // Alternative approaches:
             // window.location.replace('/'); // Replaces current history entry

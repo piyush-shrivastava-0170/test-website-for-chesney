@@ -1,167 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chesney Signage</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="login.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/norwester" />
+  <link rel="stylesheet" href="home2.css" />
 </head>
+
 <body>
-  <div class="container">
-    <div class="content">
-      <h1>Manage, Create, and Share content effortlessly with <span class="chesneyy">CHESNEY </span>Signage</h1>
 
-      <div class="social-icons">
-        <a href="https://www.facebook.com/" target="_blank">
-          <i class="fa-brands fa-facebook-f"></i>
-        </a>
-        
-        <a href="https://www.instagram.com/" target="_blank">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        
-        <a href="https://www.linkedin.com/" target="_blank">
-          <i class="fa-brands fa-linkedin-in"></i>
-        </a>
-        
-        <a href="https://x.com/" target="_blank">
-          <i class="fa-brands fa-x-twitter"></i>
-        </a>
-        
-        <a href="https://www.youtube.com/" target="_blank">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-        
-        <a href="https://wa.me/+916363245799" target="_blank"> 
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
+  <header class="navbar">
+    <div class="logo">
+      <img src="./images/chesney_logo.png" alt="Chesney Signage Logo" />
+      <span>CHESNEY<br>Signage</span>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li class="active"><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="service.html">Services</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="contactus.html">Contact</a></li>
+      </ul>
+      <!-- <div class="hamburger">☰</div> -->
+    </nav>
+  </header>
 
-        
+  <main class="main-section">
+
+
+    <!-- 🟩 Image or Video second (right side) -->
+    <div class="left-box">
+      <div class="white-box">
+        <!-- Use video if needed -->
+        <video controls autoplay muted loop>
+          <source src="./images/home_page_video_ads.mp4" type="video/mp4" />
+        </video>
+        <!-- <img src="./images/home_page_tv_black.png" alt="Monitor with content" /> -->
+      </div>
+      <div class="stand">
+        <!-- <img src="./images/home_page_stand.png" alt="Standee" /> -->
+      </div>
+      <div class="dots">
+        <span class="dot active-dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
     </div>
-    <div class="form-container">
-      <h2>Welcome Back</h2>
+    <!-- 🟩 Text first (left side) -->
+    <div class="right-box">
+      <div class="promo-card">
+        <h1 class="headline">Effortless Content Sharing<br>on Any Screen,<br>Anywhere</h1>
+        <p class="subtext">
+          Engage your audience with smart, seamless digital displays using CHESNEY—your free cloud-based signage
+          solution.
+        </p>
 
-      <!-- Google Signup Button -->
-      <button class="google-button google-btn">
-        <img src="images/google.png" alt="Chesney Google Icon" class="google-icon">
-        Sign in with Google
-      </button>
-
-      <!-- OR Text -->
-      <p class="or-text">OR</p>
-
-      <form id="login-form">
-        <div class="form-group">
-          <input type="email" id="email" class="input red-input" placeholder=" " required>
-          <label for="email">Email Address</label>
+        <div class="promo-buttons">
+          <button class="btn-orange" onclick="window.location.href='login.html'">
+            Get started for FREE
+          </button>
+          
+          <button class="btn-outline" onclick="window.location.href='contactus.html'">Book a demo</button>
         </div>
-        
-        <div class="error-message" id="login-error"></div>
-        
-        <div class="form-group">
-          <input type="password" id="password" class="input red-input" placeholder=" " required>
-          <label for="password">Password</label>
+        <div class="rating-section">
+          <div class="rating">
+            <img src="./images/playstore.png" alt="Playstore logo">
+            <div class="stars">
+              ⭐⭐⭐⭐⭐<br><span>4.9/5 on Playstore</span>
+            </div>
+          </div>
+          <div class="rating">
+            <img src="./images/indiamart.png" alt="Indiamart logo">
+            <div class="stars">
+              ⭐⭐⭐⭐⭐<br><span>4.8/5 on Indiamart</span>
+            </div>
+          </div>
         </div>
-        
-        <button type="submit" class="button white-button">LOGIN</button>
-      </form>
-
-
-      <!-- Forgot Password Section -->
-      <p class="forgot-password">
-        <a href="reset.html" id="forgot-password-link">Forgot Password?</a>
-      </p>
-
-      <!-- New 'Not a member?' section -->
-      <p class="signup-text">Not a member? <a href="signup.html" class="signup-link">SIGNUP</a></p>
-      <p class="website">WWW.CHESNEYINDIA.COM</p>
+      </div>
     </div>
-  </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+    <div class="dotimage">
+      <img src="./images/home_dot_dot.png" alt="Design dots" />
+     
+    </div>
+    
+  </main>
+  <div class="grid-item empty-tile"></div> 
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyB5WjXzmGNUWUCr-_-PDPagpUfYaTmjjGY",
-      authDomain: "cheney-25352.firebaseapp.com",
-      projectId: "cheney-25352",
-      storageBucket: "cheney-25352.appspot.com",
-      messagingSenderId: "731368175146",
-      appId: "1:731368175146:web:b2fd024d600c930373f553",
-    };
-
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    // Helper function to save admin login data
-    async function saveAdminLoginData(user) {
-      const adminRef = doc(db, "users", user.uid);
-      await setDoc(adminRef, {
-        name: user.displayName || "Admin",
-        email: user.email,
-        role: "admin",
-        lastLogin: serverTimestamp(),
-        devices: [],
-        media: {},
-      }, { merge: true });
-    }
-
-    // Check session persistence
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        await saveAdminLoginData(user);
-        window.location.href = 'home.html';
-      }
-    });
-
-    // Handle email/password login
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          await saveAdminLoginData(user);
-          window.location.href = 'home.html';
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          console.error('Login error:', errorMessage);
-          document.getElementById('login-error').textContent = 'Error: ' + errorMessage;
-        });
-    });
-
-    // Handle Google Sign-In
-    document.querySelector('.google-btn').addEventListener('click', () => {
-      signInWithPopup(auth, provider)
-        .then(async (result) => {
-          const user = result.user;
-          await saveAdminLoginData(user);
-          window.location.href = 'home.html';
-        })
-        .catch((error) => {
-          console.error('Google sign-in error:', error.message);
-          document.getElementById('login-error').textContent = 'Google sign-in failed: ' + error.message;
-        });
-    });
-
-    // Remove event prevention from the "Forgot Password?" link
-    document.getElementById('forgot-password-link').addEventListener('click', () => {
-      window.location.href = 'reset.html'; // Redirect to dashboard.html
-    });
-  </script>
+  <!-- <script src="script.js"></script> -->
 </body>
+
 </html>
