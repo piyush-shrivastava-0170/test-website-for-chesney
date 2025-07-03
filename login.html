@@ -135,7 +135,7 @@
         .then(async (userCredential) => {
           const user = userCredential.user;
           await saveAdminLoginData(user);
-          window.location.href = 'home.html';
+          window.location.href = 'service.html';
         })
         .catch((error) => {
           const errorMessage = error.message;
@@ -150,7 +150,7 @@
         .then(async (result) => {
           const user = result.user;
           await saveAdminLoginData(user);
-          window.location.href = 'home.html';
+          window.location.href = 'service.html';
         })
         .catch((error) => {
           console.error('Google sign-in error:', error.message);
