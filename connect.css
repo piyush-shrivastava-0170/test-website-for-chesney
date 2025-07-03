@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
-  background-color: #f8eaff;
+  background-color: #97a2f1;
   color: #333;
   height: 100vh;
   display: flex;
@@ -18,7 +18,7 @@ body {
 /* Shared Glassmorphism Box */
 .connect-screen-box,
 .device-item {
-  background-color: #c4b3ff;
+  background-color: #5769ca;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -105,13 +105,13 @@ form input::placeholder {
 
 form button {
   background: white;
-  color: #9E77ED;
+  color: #333;
   padding: 12px 24px;
   font-size: 1rem;
 }
 
 form button:hover {
-  background: #c4bee2;
+  background: #57c5a2;
 }
 
 /* Header */
@@ -149,7 +149,7 @@ form button:hover {
   flex-direction: column;
   /* overflow-y: auto; */
   backdrop-filter: blur(12px);
-  background-color: #8b73ff;
+  background-color: #7479e7;
 
   /* scrollbar-width: none;           */
   /* -ms-overflow-style: none;         */
@@ -184,7 +184,7 @@ form button:hover {
   padding-right: 12px;
   /* Firefox custom scrollbar */
   scrollbar-width: thin;
-  scrollbar-color: #a884ff #eaeaea; /* thumb, track */
+  scrollbar-color: #97a2f1 #eaeaea; /* thumb, track */
 }
 
 /* Chrome, Edge, Safari scrollbar */
@@ -200,14 +200,14 @@ form button:hover {
 }
 
 #device-list::-webkit-scrollbar-thumb {
-  background-color: #a884ff;
+  background-color: #97a2f1;
   border-radius: 10px;
   border: 2px solid #eaeaea;
   
 }
 
 #device-list::-webkit-scrollbar-thumb:hover {
-  background-color: #906cff;
+  background-color: #97a2f1;
   
 }
 
@@ -238,8 +238,8 @@ form button:hover {
 
 .device-item button {
   justify-self: flex-end;
-  background: #f8eaff;
-  color: #9E77ED;
+  background: #f08080;
+  color: #fff;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -260,27 +260,7 @@ form button:hover {
   cursor: pointer;
 }
 
-.cut-button {
-  background-color: #B692F6;
-  color: white;
-  font-size: 18px;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s, transform 0.2s;
-}
 
-.cut-button:hover {
-  background-color: #9E77ED;
-  transform: scale(1.1);
-}
-
-.cut-button:active {
-  transform: scale(0.95);
-}
 
 .close-modal {
   font-size: 35px;

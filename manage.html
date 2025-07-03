@@ -8,38 +8,6 @@
   <link rel="stylesheet" href="manage.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    .hidden {
-      display: none;
-
-
-    }
-
-    .tab-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .tab-buttons button {
-      padding: 8px 26px;
-      border: none;
-      background-color: #A9A9A9;
-      color: white;
-      cursor: pointer;
-      border-radius: 15px;
-      opacity: 70%;
-    }
-
-    .tab-buttons .active-tab {
-      background-color: white;
-      color: #9E77ED;
-      opacity: 1;
-    }
-
-
-
-  </style>
 </head>
 
 <body>
@@ -48,7 +16,7 @@
     <div class="left-section">
       <!-- Sidebar -->
       <div class="sidebar">
-        <img src="./images/manage.gif" alt="connect" class="connect-image">
+        <img src="./images/managescreen.gif" alt="connect" class="connect-image">
       </div>
     </div>
 
@@ -96,17 +64,19 @@
         <h3>Action</h3>
       </div>
 
-      <!-- Device Grid -->
-      <div class="grid device-grid active" id="device-grid">
-        <!-- Dynamically added device cards will appear here -->
-        <p>Devices are shown here.</p>
-      </div>
+<!-- Device Grid -->
+<div class="grid device-grid active custom-scroll" id="device-grid">
+  <!-- Dynamically added device cards will appear here -->
+  <p>Devices are shown here.</p>
+</div>
 
-      <!-- Groups Grid -->
-      <div class="grid groups-grid hidden" id="groups-list">
-        <!-- Dynamically added group cards will appear here -->
-        <p>Groups are shown here.</p>
-      </div>
+<!-- Groups Grid -->
+<div class="grid groups-grid hidden custom-scroll" id="groups-list">
+  <!-- Dynamically added group cards will appear here -->
+  <p>Groups are shown here.</p>
+</div>
+
+
 
 
 
@@ -145,7 +115,7 @@
             </div>
 
             <div>
-              <label for="delay-input">Delay (seconds):</label>
+              <label for="delay-input">Delay:</label>
               <!-- <input type="number" id="delay-input" min="5" value="5"> -->
               <select id="delay-input">
                 <option value="5">5</option>

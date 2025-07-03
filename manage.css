@@ -4,15 +4,15 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
-  background-color: #f8eaff;
+  font-family: "Poppins", sans-serif;
+  background-color: #97a2f1;
   color: #333;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* font-weight: 700; */
+  font-weight: 700;
 }
 
 /* Common Styles */
@@ -21,7 +21,7 @@ body {
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 
 button {
@@ -58,20 +58,20 @@ button:hover {
 
 
 
-.sidebar-btn:hover {
-  background: #9E77ED;
+/* .sidebar-btn:hover {
+  background: #97a2f1;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
+} */
 
-.sidebar-btn:active {
+/* .sidebar-btn:active {
   transform: translateY(1px);
-}
+} */
 
 
   .connect-image {
     width: 100%;
     height: 100%;
-    border-radius: 15px;
+    
   }
 
 
@@ -81,24 +81,14 @@ button:hover {
   padding: 24px;
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  overflow-y: auto;
+  
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(12px);
   height: 90%;
-  background-color: #8b73ff;
+  background-color: #7479e7;
 
-  /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
-  &::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-
-  /* Hide scrollbar for Firefox */
-  scrollbar-width: none;
-
-  /* Hide scrollbar for Internet Explorer and Edge */
-  -ms-overflow-style: none;
+ 
 }
 
 .section-title {
@@ -120,7 +110,7 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 .device-card p{
   text-align: center;
@@ -159,12 +149,44 @@ button:hover {
   /* font-weight: normal; */
   color: white;
 }
+.custom-scroll {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-right: 12px;
+  max-height: 400px; /* optional: set to desired scroll area height */
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #97a2f1 #eaeaea; /* thumb, track */
+}
+
+/* Chrome, Edge, Safari scrollbar */
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #eaeaea;
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #97a2f1;
+  border-radius: 10px;
+  border: 2px solid #eaeaea;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #97a2f1;
+}
+
 
 /* Button Style - keeping white as requested */
 .device-item button, .manage-btn, .manage-group-btn {
   justify-self: flex-end;
   background: white;
-  color: #9E77ED;
+  color: #5769ca;
   padding: 8px 30px;
   font-size: 0.9rem;
   /* font-weight: bold; */
@@ -191,7 +213,7 @@ button:hover {
   border-radius: 15px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow-y: scroll; /* Enables vertical scrolling */
-  background-color: #8b73ff;
+  background-color: #97a2f1;
   z-index: 1000;
   
   /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
@@ -232,7 +254,7 @@ button:hover {
 /* Buttons in Popup */
 .modal-btn {
   background: white;
-  color: #B692F6;
+  color: #5769ca;
   border: none;
   padding: 12px 24px;
   font-size: 0.9rem;
@@ -574,4 +596,31 @@ video.media-list .media-item img,
 .header-container h3:last-child {
   text-align: right;
   margin-right: 25px;
+}
+.hidden {
+  display: none;
+
+
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tab-buttons button {
+  padding: 8px 26px;
+  border: none;
+  background-color: #A9A9A9;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  opacity: 70%;
+}
+
+.tab-buttons .active-tab {
+  background-color: white;
+  color: #5769ca;
+  opacity: 1;
 }
