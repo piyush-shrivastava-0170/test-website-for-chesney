@@ -251,40 +251,6 @@
     pointer-events: none;
   }
   
-  @media (max-width: 768px) {
-    .main-section {
-      flex-direction: column;
-      padding: 40px 20px;
-    }
-  
-    .left-box,
-    .right-box {
-      max-width: 100%;
-      width: 100%;
-    }
-  
-    .headline {
-      font-size: 32px;
-      text-align: center;
-    }
-  
-    .subtext,
-    .promo-buttons,
-    .rating-section {
-      text-align: center;
-      justify-content: center;
-    }
-  
-    .promo-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .dotimage img {
-      width: 100%;
-    }
-  }
-
 
   .grid-item.empty-tile {
     /* width: 200px; */
@@ -310,3 +276,151 @@
     color: #9E77ED;
   }
   
+
+  /* ------------------------------ */
+/* ✅ Responsive Media Queries   */
+/* ------------------------------ */
+
+/* 📱 Phones (≤767px) */
+@media (max-width: 767px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 10px 20px;
+  }
+
+  .logo img {
+    height: 50px;
+  }
+
+  .logo span {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 18px;
+    width: 100%;
+    background-color: #A3A8FF;
+    padding: 10px 0;
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .main-section {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .left-box,
+  .right-box {
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .headline {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .subtext {
+    font-size: 16px;
+    text-align: justify;
+  }
+
+  .promo-buttons {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .rating-section {
+    justify-content: center;
+  }
+
+  .dotimage img {
+    width: 100%;
+    opacity: 0.6;
+  }
+
+  .grid-item.empty-tile {
+    width: 80%;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* 💻 Tablets (768px–1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    padding: 10px 30px;
+  }
+
+  .logo img {
+    height: 65px;
+  }
+
+  .logo span {
+    font-size: 22px;
+  }
+
+  .nav-links {
+    font-size: 22px;
+    gap: 20px;
+  }
+
+  .main-section {
+    padding: 60px 5%;
+    gap: 50px;
+  }
+
+  .headline {
+    font-size: 34px;
+  }
+
+  .subtext {
+    font-size: 17px;
+  }
+
+  .promo-buttons {
+    gap: 12px;
+  }
+
+  .dotimage img {
+    width: 500px;
+  }
+}
+
+
+/* 🖥️ Desktops (≥1025px) */
+@media (min-width: 1025px) {
+  .navbar {
+    padding: 10px 40px;
+  }
+
+  .main-section {
+    padding: 80px 5%;
+    gap: 60px;
+  }
+
+  .headline {
+    font-size: 41px;
+  }
+
+  .subtext {
+    font-size: 18px;
+  }
+
+  .promo-buttons {
+    gap: 14px;
+  }
+
+  .dotimage img {
+    width: 700px;
+  }
+}
