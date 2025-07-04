@@ -27,7 +27,7 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: var(--bg-primary);
+  /* background: var(--bg-primary); */
   color: var(--txt-light);
   min-height: 100vh;
   overflow-x: hidden; /* optional: prevent horizontal scroll */
@@ -66,7 +66,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: ;
+  /* background: ; */
 }
 
 .connect-text {
