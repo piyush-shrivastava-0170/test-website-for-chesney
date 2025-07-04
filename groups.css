@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f8eaff;
+  background-color: #97a2f1;
   color: #333;
   height: 100vh;
   display: flex;
@@ -22,7 +22,7 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 
 button {
@@ -41,6 +41,7 @@ h2 {
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
+  padding-left: 20px;
 }
 
 /* Main Container */
@@ -65,7 +66,7 @@ h2 {
 
 .device-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 15px;
   margin-top: 20px;
   overflow-y: auto;
@@ -83,7 +84,7 @@ h2 {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #9E77ED;
+  accent-color: #97a2f1;
 }
 
 label {
@@ -97,7 +98,7 @@ label {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #9E77ED;
+  accent-color: #97a2f1;
 }
 
 /* Right Section - Groups */
@@ -107,7 +108,7 @@ label {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: #8b73ff;
+  background-color: #7479e7;
 }
 
 #groups-container {
@@ -133,7 +134,7 @@ label {
   flex-direction: column;
   gap: 10px;
   background: rgba(255, 255, 255, 0.15);
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 
 .group-box h4 {
@@ -146,40 +147,44 @@ label {
 .group-box p {
   margin: 5px 0;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #fff;
 }
 
-.view-group-btn, .create-group-button {
+.view-group-btn {
   background: white;
-  color: #9E77ED;
+  color: #5769ca;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
   margin-right: 5px;
+  
+}
+.create-group-button {
+  background: white;
+  color: #5769ca;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-right: 5px;
+  align-self: flex-start;
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  
 }
 
 .view-group-btn:hover, .create-group-button:hover {
-  background: #f8eaff;
+  background: #eafaff;
 }
 
 .delete-group-btn {
-  background: #B692F6;
+  background: #f08080;
   color: white;
   padding: 8px 10px;
   font-size: 0.9rem;
   font-weight: bold;
 }
 
-.delete-group-btn:hover {
-  background: #9E77ED;
-}
-
-.create-group-button {
-  align-self: flex-end;
-  margin-top: 20px;
-  padding: 12px 24px;
-  font-size: 1rem;
-}
 
 /* Group Details */
 .group-details {
@@ -192,7 +197,7 @@ label {
   box-sizing: border-box;
   display: none;
   flex-direction: column;
-  background-color: #8b73ff;
+  background-color: #97a2f1;
 }
 
 .group-details.active {
@@ -214,13 +219,13 @@ label {
   border-radius: 10px;
   font-size: 1.1rem;
   color: white;
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 
 .back-button {
   align-self: flex-start;
   background: white;
-  color: #9E77ED;
+  color: #5769ca;
   padding: 8px 16px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -252,7 +257,7 @@ label {
   width: 80%;
   max-width: 600px;
   position: relative;
-  background-color: #8b73ff;
+  background-color: #97a2f1;
 }
 
 .close {
@@ -277,7 +282,7 @@ label {
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  background-color: #c4b3ff;
+  background-color: #5769ca;
 }
 
 #selectedDevicesList li {
@@ -309,7 +314,7 @@ label {
 
 #createGroupBtn {
   background: white;
-  color: #9E77ED;
+  color: #5769ca;
   padding: 12px 24px;
   font-size: 1rem;
   font-weight: bold;
@@ -321,58 +326,6 @@ label {
   background: #f8eaff;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-  .main-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .left-section {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-    max-height: 300px;
-  }
-
-  .right-section {
-    height: auto;
-    max-height: 60vh;
-  }
-}
-
-@media (max-width: 768px) {
-  .group-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-  }
-  
-  .group-box h4 {
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .group-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-content {
-    width: 95%;
-    padding: 15px;
-  }
-  
-  .left-section, .right-section {
-    padding: 15px;
-  }
-  
-  .device-item {
-    padding: 10px;
-  }
-}
 
 .close-modal {
   color: white;
@@ -387,4 +340,29 @@ label {
 
 .close-modal:hover {
   color: #f8eaff;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.toggle-buttons button {
+  padding: 8px 26px;
+  border: none;
+  background-color: #A9A9A9;
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+  opacity: 70%;
+}
+
+
+
+.toggle-buttons button.active {
+  background-color: white;
+  color: #5769ca;
+  opacity: 1;
 }

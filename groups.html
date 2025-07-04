@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,20 @@
 <body>
   <div class="main-container">
     <div class="left-section">
-    
+      <img src="./images/Group.gif" alt="">
+
     </div>
 
     <div class="right-section">
-      <div id="groups-container">
-        <h2>Devices</h2>
-        <span id="close-view-popup" class="close-modal">&times;</span>
+      <h2>Group Devices</h2>
+      <span id="close-view-popup" class="close-modal">&times;</span>
 
+      <div class="toggle-buttons">
+        <button id="show-devices-btn" class="active">AllDevices</button>
+        <button id="show-groups-btn">Grouped Devices</button>
+      </div>
+      
+      <div id="groups-container">
         <div>
           <input type="checkbox" id="select-all-devices" />
           <label for="select-all-devices">Select All Devices</label>
@@ -25,13 +32,14 @@
         <div id="devices-list" class="device-grid">
           <!-- Dynamically loaded devices will appear here -->
         </div>
-        <h2>Your Groups</h2>
+        <!-- <h2> Grouped Devices</h2> -->
         <div id="groups-list" class="group-grid">
           <!-- Dynamically loaded groups will appear here -->
         </div>
         <button class="create-group-button" id="showGroupModal">Create Group</button>
-      </div>
 
+      </div>
+      
       <div id="group-details" class="group-details">
         <h2 id="group-details-title"></h2>
         <ul id="group-devices-list" class="device-list"></ul>
@@ -53,6 +61,10 @@
   </div>
 
   <!-- Load JavaScript files -->
-  <script type="module" src="groups.js"></script>
+  <script type="module" src="groups.js">
+  </script>
+
+
 </body>
+
 </html>

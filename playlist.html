@@ -3,172 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playlist Management</title>
+  <title>CHESNEY-India-Playlist</title>
   <link rel="stylesheet" href="playlist.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-/* Playlist View Popup */
-#mediaViewPopup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-  z-index: 1000;
-  display: none;
-  overflow-y: auto;
-}
 
-/* Media View Grid Layout */
-#mediaViewGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  padding: 20px;
-}
-
-/* Media Item in View */
-.media-view-item {
-  display: flex;
-  flex-direction: column;
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-  transition: transform 0.2s ease;
-}
-
-.media-view-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
-}
-
-/* Media Content Container */
-.media-content {
-  position: relative;
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  background-color: #121212;
-}
-
-/* Media Thumbnail Styling */
-.media-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none; /* Prevents clicking on the video */
-  display: block;
-}
-
-/* Video Thumbnail Styling */
-video.media-thumbnail {
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  background-color: #000;
-}
-
-/* Hide video controls */
-video.media-thumbnail::-webkit-media-controls,
-video.media-thumbnail::-webkit-media-controls-enclosure,
-video.media-thumbnail::-webkit-media-controls-panel {
-  display: none !important;
-}
-
-/* File Item Container */
-.file-item {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-top: 1px solid #2c2c2c;
-}
-
-/* File Icon Styling */
-.file-icon {
-  margin-right: 10px;
-  font-size: 20px;
-  color: #aaa;
-}
-
-.file-icon:contains("image") {
-  color: #6bbbff;
-}
-
-.file-icon:contains("video") {
-  color: #ff7b7b;
-}
-
-/* File Name Styling */
-.file-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #e0e0e0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 180px;
-}
-
-/* Media Actions Container */
-.media-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 8px 12px;
-  background-color: #2a2a2a;
-}
-
-/* Checkbox Styling */
-.select-media-checkbox {
-  width: 18px;
-  height: 18px;
-  accent-color: #4e8cff;
-  cursor: pointer;
-  margin-top: 205px;
-  margin-left: 120px;
-  
-}
-
-/* Empty Playlist Message */
-#mediaViewGrid p {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 40px;
-  color: #aaa;
-  font-size: 16px;
-}
-
-
-
-/* Responsive styling */
-@media (max-width: 768px) {
-  #mediaViewGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    padding: 12px;
-  }
-  
-  .file-name {
-    max-width: 120px;
-    font-size: 13px;
-  }
-  
-  .media-content {
-    height: 140px;
-  }
-}
-  </style>
 </head>
 <body>
   <div class="main-container">
     <!-- Left Section -->
     <div class="left-section">
       <div class="playlist-card">
-        <img src="./images/playlist image.jpeg" alt="Playlist" class="playlist-image"> 
+        <img src="./images/playlistgif.gif" alt="Playlist" class="playlist-image"> 
        
-        <p class="playlist-text">PLAYLIST</p>
+        <!-- <p class="playlist-text">PLAYLIST</p> -->
       </div>
     </div>
 

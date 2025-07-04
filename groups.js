@@ -291,3 +291,32 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('Close button element with ID "close-view-popup" not found');
   }
 });
+
+
+
+
+
+const showDevicesBtn = document.getElementById("show-devices-btn");
+const showGroupsBtn = document.getElementById("show-groups-btn");
+const devicesList = document.getElementById("devices-list");
+const groupsList = document.getElementById("groups-list");
+
+function showDevices() {
+  devicesList.style.display = "grid";
+  groupsList.style.display = "none";
+  showDevicesBtn.classList.add("active");
+  showGroupsBtn.classList.remove("active");
+}
+
+function showGroups() {
+  devicesList.style.display = "none";
+  groupsList.style.display = "grid";
+  showGroupsBtn.classList.add("active");
+  showDevicesBtn.classList.remove("active");
+}
+
+showDevicesBtn.addEventListener("click", showDevices);
+showGroupsBtn.addEventListener("click", showGroups);
+
+// Initial view
+showDevices(); // Load Devices section first
