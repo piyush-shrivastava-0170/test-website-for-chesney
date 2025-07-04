@@ -20,10 +20,11 @@
       <span id="close-view-popup" class="close-modal">&times;</span>
 
       <div class="toggle-buttons">
-        <button id="show-devices-btn" class="active">AllDevices</button>
+        <button id="show-devices-btn" class="active">All Devices</button>
         <button id="show-groups-btn">Grouped Devices</button>
       </div>
-      
+      <button class="create-group-button" id="showGroupModal">Create Group</button>
+
       <div id="groups-container">
         <div>
           <input type="checkbox" id="select-all-devices" />
@@ -36,10 +37,10 @@
         <div id="groups-list" class="group-grid">
           <!-- Dynamically loaded groups will appear here -->
         </div>
-        <button class="create-group-button" id="showGroupModal">Create Group</button>
+        
 
       </div>
-      
+
       <div id="group-details" class="group-details">
         <h2 id="group-details-title"></h2>
         <ul id="group-devices-list" class="device-list"></ul>
