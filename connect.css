@@ -27,7 +27,6 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  /* background: var(--bg-primary); */
   color: var(--txt-light);
   min-height: 100vh;
   overflow-x: hidden; /* optional: prevent horizontal scroll */
@@ -172,6 +171,7 @@ form button:hover {
   overflow-y: auto;
   flex-grow: 1;
   scrollbar-width: thin;
+
   scrollbar-color: var(--bg-primary) rgba(255, 255, 255, .1);
 }
 
@@ -199,8 +199,9 @@ form button:hover {
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 15px 25px;
-  background: var(--bg-card-solid);
+  background: var(--bg-primary);
   border-radius: var(--radius-lg);
+  margin-right: 10px;
 }
 
 .device-item p {

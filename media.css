@@ -3,18 +3,12 @@
 /* Global Styles */
 body {
   margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #97a2f1;
-  color: #333;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: var(--txt-light);
+  min-height: 100vh;
+  overflow-x: hidden; /* optional: prevent horizontal scroll */
+  overflow-y: auto;   /* allow vertical scroll */
 }
-
 button {
   border: none;
   border-radius: 15px;
@@ -26,32 +20,20 @@ button:hover {
   transform: translateY(-2px);
 }
 
-/* Shared Card Styles */
-.gallery-card,
-.red-box,
-.modal-content,
-.upload-container {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
 
-/* Layout */
+
+/* Main Container */
 .main-container {
   display: flex;
-  gap: 24px;
-  width: 100%;
-  max-width: 1200px;
   height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
+  overflow: visible;
+  /* prevents double‑scroll on small screens */
 }
-
 .left-section {
   width: 30%;
-  height: 90%;
+  display: flex;
+  flex-direction: column;
+  background-color: #97a2f1
 }
 
 /* Gallery Card */
@@ -64,7 +46,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  height: 102%;
+  
 }
 
 .gallery-image {
@@ -98,24 +80,20 @@ button:hover {
 }
 
 /* Red Box (Right Section) */
-.red-box {
+.right-section {
   
   flex-grow: 1;
   padding: 24px;
-  height: 90%;
-  background-color: #7479e7;
-  overflow-y: auto;
+  background: #5769ca;
   display: flex;
   flex-direction: column;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.red-box::-webkit-scrollbar {
+.right-section::-webkit-scrollbar {
   display: none;
 }
 
-.red-box h2 {
+.right-section h2 {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0;
