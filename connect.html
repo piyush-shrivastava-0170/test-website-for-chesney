@@ -80,15 +80,68 @@
 
    
 
-    async function connectDevice(userId, deviceId) {
+//     async function connectDevice(userId, deviceId) {
+//   try {
+//     let deviceRef;
+//     let deviceSnapshot;
+
+//     if (deviceId.length === 7) {
+//       // Handle device code lookup
+//       const devicesCollection = collection(db, "devices");
+//       const q = query(devicesCollection, where("deviceCode", "==", deviceId));
+//       const querySnapshot = await getDocs(q);
+
+//       if (querySnapshot.empty) {
+//         alert("Device not found in the system. Please check the Device Code.");
+//         return;
+//       }
+
+//       // Get the first matching document
+//       deviceSnapshot = querySnapshot.docs[0];
+//       deviceRef = deviceSnapshot.ref;
+//     } else {
+//       // Handle direct device ID lookup
+//       deviceRef = doc(db, "devices", deviceId);
+//       deviceSnapshot = await getDoc(deviceRef);
+
+//       if (!deviceSnapshot.exists()) {
+//         alert("Device not found in the system. Please check the Device ID.");
+//         return;
+//       }
+//     }
+
+//     const deviceData = deviceSnapshot.data();
+
+//     if (deviceData.connectedBy && deviceData.connectedBy !== userId) {
+//       alert("This device is already connected by another admin.");
+//       return;
+//     }
+
+//     await updateDoc(deviceRef, {
+//       connectedBy: userId,
+//       status: "active",
+//       connectedAt: new Date().toISOString(),
+//     });
+
+//     alert("Device connected successfully!");
+//   } catch (error) {
+//     console.error("Error connecting device:", error);
+//     alert("An error occurred while connecting the device. Please try again.");
+//   }
+// }
+
+async function connectDevice(userId, deviceId) {
   try {
     let deviceRef;
     let deviceSnapshot;
 
-    if (deviceId.length === 7) {
+    // Normalize input to uppercase
+    const upperDeviceId = deviceId.toUpperCase();
+
+    if (upperDeviceId.length === 7) {
       // Handle device code lookup
       const devicesCollection = collection(db, "devices");
-      const q = query(devicesCollection, where("deviceCode", "==", deviceId));
+      const q = query(devicesCollection, where("deviceCode", "==", upperDeviceId));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
@@ -100,8 +153,8 @@
       deviceSnapshot = querySnapshot.docs[0];
       deviceRef = deviceSnapshot.ref;
     } else {
-      // Handle direct device ID lookup
-      deviceRef = doc(db, "devices", deviceId);
+      // Handle direct device ID lookup (Firestore doc ID)
+      deviceRef = doc(db, "devices", upperDeviceId);
       deviceSnapshot = await getDoc(deviceRef);
 
       if (!deviceSnapshot.exists()) {
@@ -129,6 +182,7 @@
     alert("An error occurred while connecting the device. Please try again.");
   }
 }
+
 
     /**
      * Disconnect a device.
