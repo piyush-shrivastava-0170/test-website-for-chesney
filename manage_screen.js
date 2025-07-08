@@ -16,12 +16,12 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB5WjXzmGNUWUCr-_-PDPagpUfYaTmjjGY",
-      authDomain: "cheney-25352.firebaseapp.com",
-      projectId: "cheney-25352",
-      storageBucket: "cheney-25352.appspot.com",
-      messagingSenderId: "731368175146",
-      appId: "1:731368175146:web:b2fd024d600c930373f553",
-    };
+  authDomain: "cheney-25352.firebaseapp.com",
+  projectId: "cheney-25352",
+  storageBucket: "cheney-25352.appspot.com",
+  messagingSenderId: "731368175146",
+  appId: "1:731368175146:web:b2fd024d600c930373f553",
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -185,6 +185,9 @@ function setupMediaTypeSelection() {
 async function loadMediaByType(mediaType) {
   const mediaList = document.getElementById("media-list");
   mediaList.innerHTML = "";
+  
+  const existingGridBtn = document.querySelector(".grid-create-button");
+  if (existingGridBtn) existingGridBtn.remove();
 
   // Get reference to the media collection for the current user
   const mediaRef = collection(db, `users/${adminUID}/media`);
@@ -279,7 +282,7 @@ function createGridFromSelected() {
     showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
     return;
   }
-  
+
   // Create an array of selected image URLs
   const selectedUrls = Array.from(selectedItems).map(item =>
     item.querySelector(".select-media-btn").dataset.url
@@ -326,7 +329,7 @@ function openDevicePopup(device, deviceId) {
   const popup = document.getElementById("media-popup");
   popup.style.display = "flex";
 
-  document.getElementById("device-name").textContent =("Device ID: ")+ device.deviceCode || "Unnamed Device";
+  document.getElementById("device-name").textContent = ("Device ID: ") + device.deviceCode || "Unnamed Device";
   // document.getElementById("device-id").textContent = `Device ID: ${deviceId}`;
 
   document.getElementById("orientation-select").value = device.orientation || "landscape";
@@ -420,7 +423,7 @@ function pushMediaByType(deviceId) {
       return;
     }
     isGridView = true;
-    
+
   }
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
@@ -587,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const closePopupButton = document.getElementById('close-popup-button');
 
- 
+
 
   if (closePopupButton) {
     closePopupButton.addEventListener('click', function () {
@@ -642,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function clearAndRestart(deviceId) {
   try {
     const userConfirmed = await showConfirm("All media in the application will be deleted. Do you want to proceed?");
-    
+
     if (!userConfirmed) {
       return;
     }
@@ -712,30 +715,30 @@ async function clearAndRestartGroup(deviceIds) {
   }
 }
 
- // Wait for the DOM to be fully loaded
- document.addEventListener('DOMContentLoaded', function() {
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function () {
   // Get the close button element by its ID
   const closeButton = document.getElementById('close-view-popup');
-  
+
   // Add a click event listener to the close button
   if (closeButton) {
-      closeButton.addEventListener('click', function() {
-          // Navigate to the home page
-          window.location.href = 'service.html';
-          
-          // Alternative approaches:
-          // window.location.replace('/'); // Replaces current history entry
-          // window.location.assign('/');  // Same as window.location.href = '/'
-      });
+    closeButton.addEventListener('click', function () {
+      // Navigate to the home page
+      window.location.href = 'service.html';
+
+      // Alternative approaches:
+      // window.location.replace('/'); // Replaces current history entry
+      // window.location.assign('/');  // Same as window.location.href = '/'
+    });
   } else {
-      console.error('Close button element with ID "close-view-popup" not found');
+    console.error('Close button element with ID "close-view-popup" not found');
   }
 });
 
 
 document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function(e) {
-  if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+document.onkeydown = function (e) {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
     return false;
   }
 };
