@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,13 @@
   <link rel="stylesheet" href="media.css">
 
 </head>
+
 <body>
   <div class="main-container">
     <div class="left-section">
       <div class="gallery-card">
         <img src="./images/galleryleft.gif" alt="Gallery" class="gallery-image">
-        <p class="gallery-text">GALLERY</p>
-        <button id="add-media-btn" class="add-media-button">+ Add Media</button>
-        <button id="open-playlist-modal" class="add-media-button">Add to Playlist</button>
-        <button id="delete-selected-media" class="add-media-button" style="background-color: #f08080; color: white;">Delete Selected</button>
-        <input id="file-upload" type="file" style="display: none;" multiple />
+
       </div>
     </div>
 
@@ -24,8 +22,16 @@
       <h2>Your Media</h2>
       <span id="close-view-popup" class="close-modal">&times;</span>
       <!-- <div id="media-grid" class="media-grid"></div> -->
+      <!-- <p class="gallery-text">GALLERY</p> -->
+      <div class="button-row">
+        <button id="add-media-btn" class="add-media-button">+ Add Media</button>
+        <button id="open-playlist-modal" class="add-media-button">Create Playlist</button>
+        <button id="delete-selected-media" class="add-media-button delete-btn">🗑️ Delete </button>
+        <input id="file-upload" type="file" style="display: none;" multiple />
+      </div>
+     
       <div id="media-grid" class="media-grid "></div>
-
+      
     </div>
 
     <div id="playlist-modal" class="modal">
@@ -53,10 +59,11 @@
         <p id="upload-percentage">0%</p>
       </div>
     </div>
-    
+
   </div>
 
   <!-- Load JavaScript file -->
   <script type="module" src="media.js"></script>
 </body>
+
 </html>

@@ -70,27 +70,57 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * View media in a playlist
    */
+
+
   // async function viewPlaylist(playlistId) {
   //   currentPlaylistId = playlistId;
   //   const playlistRef = doc(db, 'users', userId, 'playlists', playlistId);
   //   const playlistSnap = await getDoc(playlistRef);
   //   const playlistData = playlistSnap.data();
-
+  
   //   mediaViewGrid.innerHTML = '';
   //   selectedMediaUrls = [];
-
+  
   //   if (playlistData.media?.length > 0) {
   //     playlistData.media.forEach((mediaUrl) => {
   //       const mediaItem = document.createElement('div');
   //       mediaItem.classList.add('media-view-item');
+        
+  //       // Extract and decode the filename from the URL path
+  //       const urlParts = mediaUrl.split('%2F');
+  //       const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+        
+  //       // Determine if it's an image or video based on file extension
+  //       const isImage = fileName.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
+        
+  //       // Add appropriate icon based on file type
+  //       let fileIcon = '';
+  //       if (isImage) {
+  //         fileIcon = '<span class="material-icons file-icon">image</span>';
+  //       } else if (fileName.match(/\.(mp4|webm|mov|avi|wmv)$/i)) {
+  //         fileIcon = '<span class="material-icons file-icon">video</span>';
+  //       } else {
+  //         fileIcon = '<span class="material-icons file-icon">https://cdn-icons-png.flaticon.com/128/10278/10278992.png</span>';
+  //       }
+        
   //       mediaItem.innerHTML = `
-  //         <input type="checkbox" class="select-media-checkbox" data-url="${mediaUrl}" />
-  //         <img src="${mediaUrl}" alt="Media in Playlist" />
-          
+  //         <div class="media-content">
+  //           ${isImage ? 
+  //             `<img src="${mediaUrl}" alt="Media" class="media-thumbnail" />` : 
+  //             `<video src="${mediaUrl}" class="media-thumbnail" preload="metadata"></video>`}
+  //         </div>
+  //         <div class="file-item">
+  //           ${fileIcon}
+  //           <span class="file-name">${fileName}</span>
+  //         </div>
+  //         <div class="media-actions">
+  //           <input type="checkbox" class="select-media-checkbox" data-url="${mediaUrl}" />
+  //         </div>
   //       `;
+        
   //       mediaViewGrid.appendChild(mediaItem);
   //     });
-
+  
   //     document.querySelectorAll('.select-media-checkbox').forEach((checkbox) => {
   //       checkbox.addEventListener('change', (e) => {
   //         const mediaUrl = e.target.dataset.url;
@@ -104,10 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
   //   } else {
   //     mediaViewGrid.innerHTML = '<p>No media in this playlist.</p>';
   //   }
-
+  
   //   mediaViewPopup.style.display = 'block';
   // }
-
+    
   async function viewPlaylist(playlistId) {
     currentPlaylistId = playlistId;
     const playlistRef = doc(db, 'users', userId, 'playlists', playlistId);
@@ -121,29 +151,26 @@ document.addEventListener('DOMContentLoaded', () => {
       playlistData.media.forEach((mediaUrl) => {
         const mediaItem = document.createElement('div');
         mediaItem.classList.add('media-view-item');
-        
-        // Extract and decode the filename from the URL path
+  
         const urlParts = mediaUrl.split('%2F');
         const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
-        
-        // Determine if it's an image or video based on file extension
+  
         const isImage = fileName.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
-        
-        // Add appropriate icon based on file type
+        const isVideo = fileName.match(/\.(mp4|webm|mov|avi|wmv)$/i);
+  
         let fileIcon = '';
         if (isImage) {
           fileIcon = '<span class="material-icons file-icon">image</span>';
-        } else if (fileName.match(/\.(mp4|webm|mov|avi|wmv)$/i)) {
-          fileIcon = '<span class="material-icons file-icon">video</span>';
+        } else if (isVideo) {
+          fileIcon = '<span class="material-icons file-icon">video_library</span>';
         } else {
-          fileIcon = '<span class="material-icons file-icon">https://cdn-icons-png.flaticon.com/128/10278/10278992.png</span>';
+          fileIcon = '<img src="https://cdn-icons-png.flaticon.com/128/10278/10278992.png" class="file-icon" />';
         }
-        
+  
+        // Add placeholder with a click-to-load handler
         mediaItem.innerHTML = `
-          <div class="media-content">
-            ${isImage ? 
-              `<img src="${mediaUrl}" alt="Media" class="media-thumbnail" />` : 
-              `<video src="${mediaUrl}" class="media-thumbnail" preload="metadata"></video>`}
+          <div class="media-content lazy-load" data-url="${mediaUrl}" data-type="${isImage ? 'image' : isVideo ? 'video' : 'other'}">
+            <div class="media-placeholder">Click to Load</div>
           </div>
           <div class="file-item">
             ${fileIcon}
@@ -153,10 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="checkbox" class="select-media-checkbox" data-url="${mediaUrl}" />
           </div>
         `;
-        
+  
         mediaViewGrid.appendChild(mediaItem);
       });
   
+      // Handle checkbox selection
       document.querySelectorAll('.select-media-checkbox').forEach((checkbox) => {
         checkbox.addEventListener('change', (e) => {
           const mediaUrl = e.target.dataset.url;
@@ -167,13 +195,30 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       });
+  
+      // Handle click-to-load
+      document.querySelectorAll('.lazy-load').forEach((container) => {
+        container.addEventListener('click', () => {
+          const mediaUrl = container.dataset.url;
+          const type = container.dataset.type;
+  
+          if (type === 'image') {
+            container.innerHTML = `<img src="${mediaUrl}" alt="Media" class="media-thumbnail" />`;
+          } else if (type === 'video') {
+            container.innerHTML = `<video src="${mediaUrl}" class="media-thumbnail" controls preload="metadata"></video>`;
+          } else {
+            container.innerHTML = `<p>Unsupported media type.</p>`;
+          }
+        });
+      });
+  
     } else {
       mediaViewGrid.innerHTML = '<p>No media in this playlist.</p>';
     }
   
     mediaViewPopup.style.display = 'block';
   }
-
+  
   /**
    * Delete selected media from playlist
    */
@@ -259,3 +304,4 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Close button element with ID "close-view-popup" not found');
     }
 });
+
