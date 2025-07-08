@@ -248,45 +248,25 @@ body {
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
-/* ----------------------------- */
-/* ✅ Media Queries for All Screens */
-/* ----------------------------- */
-
-/* Small devices: Phones (max-width: 767px) */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar {
-    flex-wrap: wrap;
-    padding: 10px 20px;
-  }
-
-  .logo img {
-    height: 50px;
-  }
-
-  .logo span {
-    font-size: 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
   }
 
   .nav-links {
-    display: none;
     flex-direction: column;
-    gap: 12px;
-    font-size: 18px;
+    gap: 15px;
+    font-size: 20px;
     width: 100%;
-    background-color: #656ED3;
-    padding: 10px 0;
-  }
-
-  .nav-links li {
-    text-align: center;
-    padding: 10px 0;
+    margin-top: 15px;
   }
 
   .main-section {
     flex-direction: column;
-    padding: 40px 20px;
     gap: 40px;
+    padding: 40px 5%;
   }
 
   .left-box,
@@ -294,15 +274,8 @@ body {
     max-width: 100%;
   }
 
-  .headline {
-    font-size: 28px;
+  .promo-card {
     text-align: center;
-  }
-
-  .subtext {
-    font-size: 16px;
-    text-align: center;
-    color: #222;
   }
 
   .promo-buttons {
@@ -315,82 +288,44 @@ body {
 
   .dotimage img {
     width: 100%;
-    opacity: 0.6;
-  }
-
-  .grid-item.empty-tile {
-    width: 80%;
-    font-size: 0.9rem;
+    max-width: 400px;
   }
 }
 
-
-/* Medium devices: Tablets and small laptops (768px - 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .navbar {
-    padding: 10px 30px;
-  }
-
+@media (max-width: 480px) {
   .logo img {
-    height: 65px;
+    height: 60px;
   }
 
   .logo span {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .nav-links {
-    font-size: 20px;
-    gap: 20px;
-  }
-
-  .main-section {
-    padding: 60px 5%;
-    gap: 40px;
-  }
-
-  .headline {
-    font-size: 34px;
-  }
-
-  .subtext {
-    font-size: 17px;
-  }
-
-  .promo-buttons {
-    gap: 10px;
-  }
-
-  .dotimage img {
-    width: 500px;
-  }
-}
-
-
-/* Large screens: Desktops and up (≥1025px) */
-@media (min-width: 1025px) {
-  .navbar {
-    padding: 10px 40px;
-  }
-
-  .main-section {
-    padding: 80px 5%;
-    gap: 60px;
-  }
-
-  .headline {
-    font-size: 41px;
-  }
-
-  .subtext {
     font-size: 18px;
   }
 
-  .dotimage img {
-    width: 700px;
+  .headline {
+    font-size: 28px;
   }
 
-  .promo-buttons {
-    gap: 14px;
+  .subtext {
+    font-size: 16px;
+  }
+
+  .btn-orange,
+  .btn-outline {
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+
+  .rating {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .grid-item.empty-tile {
+    width: 100%;
+    margin-top: 40px;
   }
 }

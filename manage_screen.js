@@ -360,7 +360,7 @@ function openGroupPopup(group, groupId) {
   popup.style.display = "flex";
 
   document.getElementById("device-name").textContent = group.name || "Unnamed Group";
-  document.getElementById("device-id").textContent = `Group ID: ${groupId}`;
+  // document.getElementById("device-id").textContent = `Group ID: ${groupId}`;
 
 
   // Initialize with "image" type selected

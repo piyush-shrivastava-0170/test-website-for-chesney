@@ -369,7 +369,7 @@ video.media-list .media-item img,
 }
 
 .media-item.selected {
-  border: 3px solid #B692F6;
+  border: 3px solid #f0e9eb;
 }
 
 .select-media-btn {
