@@ -122,7 +122,7 @@
             <!-- URL input container (initially hidden) -->
             <div id="url-input-container" style="display: none; margin-top: 10px; margin-right: 25px">
               <input type="text" id="url-input" placeholder="Enter Website URL" class="url-input">
-              <button id="add-url-btn" class="modal-btn">Add URL</button>
+              <!-- <button id="add-url-btn" class="modal-btn">Add URL</button> -->
             </div>
 
             <!-- Media list container -->
@@ -164,48 +164,6 @@
   </div>
 
   <script type="module" src="manage_screen.js"></script>
-
-
-  <script>
-    const devicesTab = document.getElementById('devices-tab');
-    const groupsTab = document.getElementById('groups-tab');
-    const deviceGrid = document.getElementById('device-grid');
-    const groupsGrid = document.getElementById('groups-list');
-    const tabHeader = document.getElementById('tab-header');
-
-    devicesTab.addEventListener('click', () => {
-      devicesTab.classList.add('active-tab');
-      groupsTab.classList.remove('active-tab');
-
-      deviceGrid.classList.remove('hidden');
-      groupsGrid.classList.add('hidden');
-
-      tabHeader.innerHTML = `
-      <h3>Devices</h3>
-      <h3>Media Queue</h3>
-      <h3>Action</h3>
-    `;
-    });
-
-    groupsTab.addEventListener('click', () => {
-      groupsTab.classList.add('active-tab');
-      devicesTab.classList.remove('active-tab');
-
-      deviceGrid.classList.add('hidden');
-      groupsGrid.classList.remove('hidden');
-
-      tabHeader.innerHTML = `
-      <h3>Group Name</h3>
-      <h3>Group Devices</h3>
-      <h3>Action</h3>
-    `;
-    });
-  </script>
-
-
-
-
-
 
 </body>
 

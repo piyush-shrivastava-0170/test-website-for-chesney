@@ -142,9 +142,47 @@ function setupMediaTypeSelection() {
   });
 
   // Setup URL add button functionality
-  const addUrlBtn = document.getElementById("add-url-btn");
-  addUrlBtn.addEventListener("click", () => {
-    const urlInput = document.getElementById("url-input");
+//   const addUrlBtn = document.getElementById("url-input");
+//     addUrlBtn.addEventListener("click", () => {
+//     const urlInput = document.getElementById("url-input");
+//     const url = urlInput.value.trim();
+
+//     if (!url) {
+//       showAlert("Please enter a valid URL");
+//       return;
+//     }
+
+//     // Create a virtual media item for the URL
+//     const mediaItem = document.createElement("li");
+//     mediaItem.className = "media-item selected";
+
+//     // Determine if it's likely an image or video based on extension
+//     const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
+//     const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
+
+//     let thumbnail;
+//     if (isVideo) {
+//       thumbnail = `<video src="${url}" class="thumbnail" muted></video>`;
+//     } else if (isImage || !isVideo) {
+//       // Default to image if we can't determine or it looks like an image
+//       thumbnail = `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+//     }
+
+//     mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
+//       ${thumbnail}
+//     </button>`;
+
+//     // Clear previous selections and show this one
+//     document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
+//     mediaList.innerHTML = "";
+//     mediaList.appendChild(mediaItem);
+//     mediaList.style.display = "block";
+//   });
+// }
+
+document.getElementById("url-input").addEventListener("keydown", async (e) => {
+  if (e.key === "Enter") {
+    const urlInput = e.target;
     const url = urlInput.value.trim();
 
     if (!url) {
@@ -152,40 +190,53 @@ function setupMediaTypeSelection() {
       return;
     }
 
-    // Create a virtual media item for the URL
-    const mediaItem = document.createElement("li");
-    mediaItem.className = "media-item selected";
-
-    // Determine if it's likely an image or video based on extension
+    // Validate URL type
     const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
     const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
+    const type = isVideo ? "video" : isImage ? "image" : "unknown";
 
-    let thumbnail;
-    if (isVideo) {
-      thumbnail = `<video src="${url}" class="thumbnail" muted></video>`;
-    } else if (isImage || !isVideo) {
-      // Default to image if we can't determine or it looks like an image
-      thumbnail = `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+    try {
+      // Save to Firestore
+      const docRef = await addDoc(collection(db, `users/${adminUID}/media`), {
+        url,
+        type,
+        addedAt: new Date()
+      });
+
+      showAlert("Media URL added successfully!");
+
+      // Optional: Show media immediately (preview)
+      const mediaItem = document.createElement("li");
+      mediaItem.className = "media-item selected";
+
+      let thumbnail = type === "video"
+        ? `<video src="${url}" class="thumbnail" muted></video>`
+        : `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+
+      mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
+        ${thumbnail}
+      </button>`;
+
+      document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
+      mediaList.innerHTML = "";
+      mediaList.appendChild(mediaItem);
+      mediaList.style.display = "block";
+
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      showAlert("Failed to add media URL.");
     }
-
-    mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
-      ${thumbnail}
-    </button>`;
-
-    // Clear previous selections and show this one
-    document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
-    mediaList.innerHTML = "";
-    mediaList.appendChild(mediaItem);
-    mediaList.style.display = "block";
-  });
+  }
+});
 }
+
 
 
 // Function to load media by type from Firebase
 async function loadMediaByType(mediaType) {
   const mediaList = document.getElementById("media-list");
   mediaList.innerHTML = "";
-  
+
   const existingGridBtn = document.querySelector(".grid-create-button");
   if (existingGridBtn) existingGridBtn.remove();
 
@@ -210,6 +261,7 @@ async function loadMediaByType(mediaType) {
       (mediaType === "video" && isVideo) ||
       (mediaType === "grid" && isImage) // For grid, we only show images
     ) {
+
       const mediaItem = document.createElement("li");
       mediaItem.className = "media-item";
 
@@ -251,6 +303,7 @@ async function loadMediaByType(mediaType) {
     mediaList.appendChild(noMediaMsg);
   }
 }
+
 // Function to select media (modified to handle grid mode differently)
 function selectMedia(mediaItem, mediaType) {
   // In grid mode allow multiple selection, otherwise just single selection
@@ -298,9 +351,41 @@ function createGridFromSelected() {
 
 
 // Function to load playlists for the media selection dropdown
+// async function loadPlaylistsForMediaSelection() {
+//   const playlistSelect = document.getElementById("media-playlist-select");
+//   playlistSelect.innerHTML = `<option value="">Select Playlist</option>`;
+
+//   const playlistsRef = collection(db, `users/${adminUID}/playlists`);
+//   const querySnapshot = await getDocs(playlistsRef);
+
+//   querySnapshot.forEach((doc) => {
+//     const playlist = doc.data();
+//     const option = document.createElement("option");
+//     option.value = doc.id;
+//     option.textContent = playlist.name || "Unnamed Playlist";
+//     option.dataset.media = JSON.stringify(playlist.media || []);
+//     playlistSelect.appendChild(option);
+//   });
+
+//   // Add event listener for playlist selection
+//   playlistSelect.addEventListener("change", () => {
+//     const selectedOption = playlistSelect.options[playlistSelect.selectedIndex];
+//     if (selectedOption.value) {
+//       document.getElementById("push-media-btn").dataset.playlistId = selectedOption.value;
+//       document.getElementById("push-media-btn").dataset.isPlaylist = "true";
+//     }
+//   });
+// }
+
+// Function to load playlists for the media selection dropdown
 async function loadPlaylistsForMediaSelection() {
-  const playlistSelect = document.getElementById("media-playlist-select");
-  playlistSelect.innerHTML = `<option value="">Select Playlist</option>`;
+  const oldSelect = document.getElementById("media-playlist-select");
+
+  // Clone and replace to remove old event listeners
+  const newSelect = oldSelect.cloneNode(true);
+  oldSelect.parentNode.replaceChild(newSelect, oldSelect);
+
+  newSelect.innerHTML = `<option value="">Select Playlist</option>`;
 
   const playlistsRef = collection(db, `users/${adminUID}/playlists`);
   const querySnapshot = await getDocs(playlistsRef);
@@ -311,12 +396,12 @@ async function loadPlaylistsForMediaSelection() {
     option.value = doc.id;
     option.textContent = playlist.name || "Unnamed Playlist";
     option.dataset.media = JSON.stringify(playlist.media || []);
-    playlistSelect.appendChild(option);
+    newSelect.appendChild(option);
   });
 
   // Add event listener for playlist selection
-  playlistSelect.addEventListener("change", () => {
-    const selectedOption = playlistSelect.options[playlistSelect.selectedIndex];
+  newSelect.addEventListener("change", () => {
+    const selectedOption = newSelect.options[newSelect.selectedIndex];
     if (selectedOption.value) {
       document.getElementById("push-media-btn").dataset.playlistId = selectedOption.value;
       document.getElementById("push-media-btn").dataset.isPlaylist = "true";
@@ -324,8 +409,16 @@ async function loadPlaylistsForMediaSelection() {
   });
 }
 
+
 // Modify the openDevicePopup function to initialize the media type selection
 function openDevicePopup(device, deviceId) {
+  const mediaList = document.getElementById("media-list");
+  const urlInputContainer = document.getElementById("url-input-container");
+  const playlistsContainer = document.getElementById("playlists-container");
+  urlInputContainer.style.display = "none";
+  mediaList.style.display = "block";
+  playlistsContainer.style.display = "none";
+
   const popup = document.getElementById("media-popup");
   popup.style.display = "flex";
 
@@ -340,7 +433,6 @@ function openDevicePopup(device, deviceId) {
   // Initialize with "image" type selected
   document.getElementById("media-type-select").value = "image";
   loadMediaByType("image");
-  setupMediaTypeSelection();
 
   // Reset any stored grid or playlist data
   document.getElementById("push-media-btn").removeAttribute("data-grid-urls");
@@ -359,6 +451,12 @@ function openDevicePopup(device, deviceId) {
 
 // Similarly modify the openGroupPopup function
 function openGroupPopup(group, groupId) {
+  const mediaList = document.getElementById("media-list");
+  const urlInputContainer = document.getElementById("url-input-container");
+  const playlistsContainer = document.getElementById("playlists-container");
+  urlInputContainer.style.display = "none";
+  mediaList.style.display = "block";
+  playlistsContainer.style.display = "none";
   const popup = document.getElementById("media-popup");
   popup.style.display = "flex";
 
@@ -369,7 +467,6 @@ function openGroupPopup(group, groupId) {
   // Initialize with "image" type selected
   document.getElementById("media-type-select").value = "image";
   loadMediaByType("image");
-  setupMediaTypeSelection();
 
   // Reset any stored grid or playlist data
   document.getElementById("push-media-btn").removeAttribute("data-grid-urls");
@@ -419,7 +516,7 @@ function pushMediaByType(deviceId) {
     // }
     // isGridView = true;
     if (mediaContent.length < 2 || mediaContent.length % 2 !== 0) {
-      showshowAlert("Please select an even number of images (2, 4, 6...) for the grid view");
+      showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
       return;
     }
     isGridView = true;
@@ -459,7 +556,8 @@ function pushMediaByType(deviceId) {
       showAlert("Please select media to push");
       return;
     }
-    const mediaUrl = selectedMedia.querySelector(".select-media-btn").dataset.url;
+    const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+
     mediaContent = [mediaUrl];
   }
 
@@ -497,7 +595,96 @@ function pushMediaByType(deviceId) {
 }
 
 // Function to push media based on selected type (group of devices)
-function pushMediaByTypeToGroup(deviceIds) {
+// function pushMediaByTypeToGroup(deviceIds) {
+//   const mediaTypeSelect = document.getElementById("media-type-select");
+//   const selectedType = mediaTypeSelect.value;
+//   const pushButton = document.getElementById("push-media-btn");
+
+//   // Get common settings
+//   const orientation = document.getElementById("orientation-select").value;
+//   const resizeMode = document.getElementById("resize-select").value;
+//   const delaySeconds = parseInt(document.getElementById("delay-input").value, 10);
+//   const audio = document.getElementById("audio-select").value;
+
+//   let mediaContent = [];
+
+//   // Handle different media types
+//   if (selectedType === "url") {
+//     const urlInput = document.getElementById("url-input");
+//     const url = urlInput.value.trim();
+//     if (!url) {
+//       showAlert("Please enter a valid URL");
+//       return;
+//     }
+//     mediaContent = [url];
+//   }
+//   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
+//     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
+//     if (mediaContent.length === 0) {
+//       showAlert("Please create a grid first");
+//       return;
+//     }
+//   }
+//   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
+//     const playlistId = pushButton.dataset.playlistId;
+//     if (!playlistId) {
+//       showAlert("Please select a playlist");
+//       return;
+//     }
+
+//     // For playlists with multiple devices
+//     const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
+//     getDoc(playlistRef)
+//       .then((playlistDoc) => {
+//         if (playlistDoc.exists()) {
+//           // Update each device in the group
+//           deviceIds.forEach(async (deviceId) => {
+//             const deviceRef = doc(db, "devices", deviceId);
+//             await updateDoc(deviceRef, {
+//               currentMedia: playlistDoc.data().media,
+//               orientation: orientation,
+//               resizeMode: resizeMode,
+//               delay: delaySeconds,
+//               audio: audio,
+//               lastContentPush: serverTimestamp(),
+//             });
+//           });
+//           showAlert("Playlist pushed to all devices in the group!");
+//         }
+//       })
+//       .catch((error) => console.error("Error pushing playlist to group:", error));
+//     return;
+//   }
+//   else {
+//     // For image/video, get the selected media
+//     const selectedMedia = document.querySelector(".media-item.selected");
+//     if (!selectedMedia) {
+//       showAlert("Please select media to push");
+//       return;
+//     }
+//     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+
+//     mediaContent = [mediaUrl];
+//   }
+
+//   // Update each device in the group
+//   deviceIds.forEach(async (deviceId) => {
+//     const deviceRef = doc(db, "devices", deviceId);
+//     await updateDoc(deviceRef, {
+//       currentMedia: mediaContent,
+//       orientation: orientation,
+//       resizeMode: resizeMode,
+//       delay: delaySeconds,
+//       audio: audio,
+//       lastContentPush: serverTimestamp(),
+//     });
+//   });
+
+//   showAlert("Media pushed to all devices in the group!");
+// }
+
+
+async function pushMediaByTypeToGroup(deviceIds) {
   const mediaTypeSelect = document.getElementById("media-type-select");
   const selectedType = mediaTypeSelect.value;
   const pushButton = document.getElementById("push-media-btn");
@@ -510,7 +697,7 @@ function pushMediaByTypeToGroup(deviceIds) {
 
   let mediaContent = [];
 
-  // Handle different media types
+  // Handle URL type
   if (selectedType === "url") {
     const urlInput = document.getElementById("url-input");
     const url = urlInput.value.trim();
@@ -520,6 +707,8 @@ function pushMediaByTypeToGroup(deviceIds) {
     }
     mediaContent = [url];
   }
+
+  // Handle Grid type
   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
     if (mediaContent.length === 0) {
@@ -527,6 +716,8 @@ function pushMediaByTypeToGroup(deviceIds) {
       return;
     }
   }
+
+  // Handle Playlist type
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
     if (!playlistId) {
@@ -534,63 +725,79 @@ function pushMediaByTypeToGroup(deviceIds) {
       return;
     }
 
-    // For playlists with multiple devices
-    const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
-    getDoc(playlistRef)
-      .then((playlistDoc) => {
-        if (playlistDoc.exists()) {
-          // Update each device in the group
-          deviceIds.forEach(async (deviceId) => {
+    try {
+      const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
+      const playlistDoc = await getDoc(playlistRef);
+
+      if (playlistDoc.exists()) {
+        const media = playlistDoc.data().media;
+
+        await Promise.all(
+          deviceIds.map(async (deviceId) => {
             const deviceRef = doc(db, "devices", deviceId);
             await updateDoc(deviceRef, {
-              currentMedia: playlistDoc.data().media,
-              orientation: orientation,
-              resizeMode: resizeMode,
+              currentMedia: media,
+              orientation,
+              resizeMode,
               delay: delaySeconds,
-              audio: audio,
+              audio,
               lastContentPush: serverTimestamp(),
             });
-          });
-          showAlert("Playlist pushed to all devices in the group!");
-        }
-      })
-      .catch((error) => console.error("Error pushing playlist to group:", error));
+          })
+        );
+
+        showAlert("Playlist pushed to all devices in the group!");
+      } else {
+        showAlert("Playlist not found.");
+      }
+    } catch (error) {
+      console.error("Error pushing playlist to group:", error);
+      showAlert("An error occurred while pushing playlist to the group.");
+    }
+
     return;
   }
+
+  // Handle Image/Video type
   else {
-    // For image/video, get the selected media
     const selectedMedia = document.querySelector(".media-item.selected");
     if (!selectedMedia) {
       showAlert("Please select media to push");
       return;
     }
-    const mediaUrl = selectedMedia.querySelector(".select-media-btn").dataset.url;
+    const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+
+
     mediaContent = [mediaUrl];
   }
 
-  // Update each device in the group
-  deviceIds.forEach(async (deviceId) => {
-    const deviceRef = doc(db, "devices", deviceId);
-    await updateDoc(deviceRef, {
-      currentMedia: mediaContent,
-      orientation: orientation,
-      resizeMode: resizeMode,
-      delay: delaySeconds,
-      audio: audio,
-      lastContentPush: serverTimestamp(),
-    });
-  });
+  try {
+    await Promise.all(
+      deviceIds.map(async (deviceId) => {
+        const deviceRef = doc(db, "devices", deviceId);
+        await updateDoc(deviceRef, {
+          currentMedia: mediaContent,
+          orientation,
+          resizeMode,
+          delay: delaySeconds,
+          audio,
+          lastContentPush: serverTimestamp(),
+        });
+      })
+    );
 
-  showAlert("Media pushed to all devices in the group!");
+    showAlert("Media pushed to all devices in the group!");
+  } catch (error) {
+    console.error("Error pushing media to group:", error);
+    showAlert("An error occurred while pushing media to the group.");
+  }
 }
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function () {
   // Get references to the buttons
-
+  setupMediaTypeSelection();                                                //Image video is calling from here
   const closePopupButton = document.getElementById('close-popup-button');
-
-
 
   if (closePopupButton) {
     closePopupButton.addEventListener('click', function () {
@@ -604,6 +811,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Get the close button element by its ID
+  const closeButton = document.getElementById('close-view-popup');
+
+  // Add a click event listener to the close button
+  if (closeButton) {
+    closeButton.addEventListener('click', function () {
+      // Navigate to the home page
+      window.location.href = 'service.html';
+
+
+    });
+  } else {
+    console.error('Close button element with ID "close-view-popup" not found');
+  }
 });
 
 // async function clearAndRestart(deviceId) {
@@ -715,26 +936,6 @@ async function clearAndRestartGroup(deviceIds) {
   }
 }
 
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function () {
-  // Get the close button element by its ID
-  const closeButton = document.getElementById('close-view-popup');
-
-  // Add a click event listener to the close button
-  if (closeButton) {
-    closeButton.addEventListener('click', function () {
-      // Navigate to the home page
-      window.location.href = 'service.html';
-
-      // Alternative approaches:
-      // window.location.replace('/'); // Replaces current history entry
-      // window.location.assign('/');  // Same as window.location.href = '/'
-    });
-  } else {
-    console.error('Close button element with ID "close-view-popup" not found');
-  }
-});
-
 
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.onkeydown = function (e) {
@@ -788,3 +989,36 @@ function showConfirm(message) {
   });
 }
 
+const devicesTab = document.getElementById('devices-tab');
+const groupsTab = document.getElementById('groups-tab');
+const deviceGrid = document.getElementById('device-grid');
+const groupsGrid = document.getElementById('groups-list');
+const tabHeader = document.getElementById('tab-header');
+
+devicesTab.addEventListener('click', () => {
+  devicesTab.classList.add('active-tab');
+  groupsTab.classList.remove('active-tab');
+
+  deviceGrid.classList.remove('hidden');
+  groupsGrid.classList.add('hidden');
+
+  tabHeader.innerHTML = `
+  <h3>Devices</h3>
+  <h3>Media Queue</h3>
+  <h3>Action</h3>
+`;
+});
+
+groupsTab.addEventListener('click', () => {
+  groupsTab.classList.add('active-tab');
+  devicesTab.classList.remove('active-tab');
+
+  deviceGrid.classList.add('hidden');
+  groupsGrid.classList.remove('hidden');
+
+  tabHeader.innerHTML = `
+  <h3>Group Name</h3>
+  <h3>Group Devices</h3>
+  <h3>Action</h3>
+`;
+});
