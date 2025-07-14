@@ -1049,15 +1049,6 @@ async function clearAndRestartGroup(deviceIds) {
   }
 }
 
-
-
-document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function (e) {
-  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-    return false;
-  }
-};
-
 function showAlert(message) {
   const alertBox = document.getElementById("custom-alert");
   const alertMessage = document.getElementById("alert-message");
@@ -1136,3 +1127,11 @@ groupsTab.addEventListener('click', () => {
   <h3>Action</h3>
 `;
 });
+
+// Right click disable button
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function (e) {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+    return false;
+  }
+};

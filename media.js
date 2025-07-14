@@ -615,17 +615,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   closeModalBtn.addEventListener("click", closeModal);
-
-   // Get the close button element by its ID
-   const closeButton = document.getElementById('close-view-popup');
-   if (closeButton) {
-     closeButton.addEventListener('click', function () {
-       // Navigate to the Service page
-       window.location.href = 'service.html';
-     });
-   } else {
-     console.error('Close button element with ID "close-view-popup" not found');
-   }
+  // Get the close button element by its ID
+  const closeButton = document.getElementById('close-view-popup');
+  if (closeButton) {
+    closeButton.addEventListener('click', function () {
+      // Navigate to the Service page
+      window.location.href = 'service.html';
+    });
+  } else {
+    console.error('Close button element with ID "close-view-popup" not found');
+  }
 });// Dom closing here
 
 // Disable right click in the page
