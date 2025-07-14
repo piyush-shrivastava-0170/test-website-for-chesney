@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModalBtn = document.getElementById("close-modal");
   const fileUpload = document.getElementById('file-upload');
 
-const uploadProgressFill = document.getElementById('upload-progress-fill');
-const uploadPercentage = document.getElementById('upload-percentage');
-const uploadMessage = document.getElementById('upload-message');
+  const uploadProgressFill = document.getElementById('upload-progress-fill');
+  const uploadPercentage = document.getElementById('upload-percentage');
+  const uploadMessage = document.getElementById('upload-message');
 
   // Check authentication state
   onAuthStateChanged(auth, (user) => {
@@ -59,22 +59,22 @@ const uploadMessage = document.getElementById('upload-message');
   //   mediaGrid.innerHTML = "";
   //   const mediaRef = collection(db, "users", userId, "media");
   //   const mediaSnapshot = await getDocs(mediaRef);
-  
+
   //   mediaSnapshot.forEach(async (doc) => {
   //     const mediaData = doc.data();
   //     const mediaItem = document.createElement("div");
   //     mediaItem.classList.add("media-item");
-  
+
   //     try {
   //       const storageRefObj = ref(storage, mediaData.mediaUrl);
   //       await getDownloadURL(storageRefObj);
-  
+
   //       // Extract and decode the filename from the URL path
   //       const urlParts = mediaData.mediaUrl.split('%2F');
   //       const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
-  
+
   //       const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
-  
+
   //       // Add appropriate icon based on file type
   //       let fileIcon = '';
   //       if (isImage) {
@@ -84,9 +84,9 @@ const uploadMessage = document.getElementById('upload-message');
   //       } else {
   //         fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
   //       }
-  
+
   //       let mediaElementHtml = '';
-  
+
   //       if (isImage) {
   //         mediaElementHtml = `
   //           <img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail"
@@ -112,7 +112,7 @@ const uploadMessage = document.getElementById('upload-message');
   //           <img src="https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg" alt="File" class="media-thumbnail" />
   //         `;
   //       }
-  
+
   //       mediaItem.innerHTML = `
   //         ${mediaElementHtml}
   //         <div class="file-item">
@@ -123,11 +123,11 @@ const uploadMessage = document.getElementById('upload-message');
   //           <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
   //         </div>
   //       `;
-  
+
   //       mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
   //         toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
   //       });
-  
+
   //       mediaGrid.appendChild(mediaItem);
   //     } catch (error) {
   //       if (error.code === "storage/object-not-found") {
@@ -140,71 +140,71 @@ const uploadMessage = document.getElementById('upload-message');
   // }
 
   // COMBINED SOLUTION: Metadata Storage + Lazy Loading
-// This approach reduces bandwidth by 80-90%
+  // This approach reduces bandwidth by 80-90%
 
-async function loadMedia(userId) {
-  mediaGrid.innerHTML = "";
-  const mediaRef = collection(db, "users", userId, "media");
-  const mediaSnapshot = await getDocs(mediaRef);
+  async function loadMedia(userId) {
+    mediaGrid.innerHTML = "";
+    const mediaRef = collection(db, "users", userId, "media");
+    const mediaSnapshot = await getDocs(mediaRef);
 
-  // Setup Intersection Observer for lazy loading
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const mediaItem = entry.target;
-        const shouldAutoLoad = mediaItem.dataset.autoLoad === 'true';
-        
-        if (shouldAutoLoad) {
-          loadActualMedia(mediaItem);
-        } else {
-          // Show "Click to load" for manual loading
-          showClickToLoad(mediaItem);
+    // Setup Intersection Observer for lazy loading
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const mediaItem = entry.target;
+          const shouldAutoLoad = mediaItem.dataset.autoLoad === 'true';
+
+          if (shouldAutoLoad) {
+            loadActualMedia(mediaItem);
+          } else {
+            // Show "Click to load" for manual loading
+            showClickToLoad(mediaItem);
+          }
+          observer.unobserve(mediaItem);
         }
-        observer.unobserve(mediaItem);
-      }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px' // Start loading 50px before element comes into view
     });
-  }, { 
-    threshold: 0.1,
-    rootMargin: '50px' // Start loading 50px before element comes into view
-  });
 
-  mediaSnapshot.forEach(async (doc) => {
-    const mediaData = doc.data();
-    const mediaItem = document.createElement("div");
-    mediaItem.classList.add("media-item");
-    
-    // Store data attributes for lazy loading
-    mediaItem.dataset.mediaUrl = mediaData.mediaUrl;
-    mediaItem.dataset.mediaType = mediaData.mediaType;
-    mediaItem.dataset.docId = doc.id;
-    mediaItem.dataset.autoLoad = 'false'; // Set to 'true' for automatic loading
-    
-    // Use stored metadata - NO BANDWIDTH CONSUMPTION HERE!
-    const fileName = mediaData.fileName || extractFileName(mediaData.mediaUrl);
-    const fileType = mediaData.mediaType || '';
-    const fileSize = mediaData.fileSize;
-    const thumbnailUrl = mediaData.thumbnailUrl;
-    
-    // Identify file type from metadata
-    const isImage = fileType.startsWith("image");
-    const isVideo = fileType.startsWith("video") || fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
-    
-    // Get appropriate icon
-    let fileIcon = '';
-    if (isImage) {
-      fileIcon = '<span class="material-icons file-icon">image</span>';
-    } else if (isVideo) {
-      fileIcon = '<span class="material-icons file-icon">video</span>';
-    } else {
-      fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
-    }
+    mediaSnapshot.forEach(async (doc) => {
+      const mediaData = doc.data();
+      const mediaItem = document.createElement("div");
+      mediaItem.classList.add("media-item");
 
-    // Create initial placeholder - NO BANDWIDTH USAGE
-    let mediaElementHtml = '';
-    
-    if (thumbnailUrl) {
-      // Use small thumbnail if available (much smaller bandwidth)
-      mediaElementHtml = `
+      // Store data attributes for lazy loading
+      mediaItem.dataset.mediaUrl = mediaData.mediaUrl;
+      mediaItem.dataset.mediaType = mediaData.mediaType;
+      mediaItem.dataset.docId = doc.id;
+      mediaItem.dataset.autoLoad = 'false'; // Set to 'true' for automatic loading
+
+      // Use stored metadata - NO BANDWIDTH CONSUMPTION HERE!
+      const fileName = mediaData.fileName || extractFileName(mediaData.mediaUrl);
+      const fileType = mediaData.mediaType || '';
+      const fileSize = mediaData.fileSize;
+      const thumbnailUrl = mediaData.thumbnailUrl;
+
+      // Identify file type from metadata
+      const isImage = fileType.startsWith("image");
+      const isVideo = fileType.startsWith("video") || fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
+
+      // Get appropriate icon
+      let fileIcon = '';
+      if (isImage) {
+        fileIcon = '<span class="material-icons file-icon">image</span>';
+      } else if (isVideo) {
+        fileIcon = '<span class="material-icons file-icon">video</span>';
+      } else {
+        fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+      }
+
+      // Create initial placeholder - NO BANDWIDTH USAGE
+      let mediaElementHtml = '';
+
+      if (thumbnailUrl) {
+        // Use small thumbnail if available (much smaller bandwidth)
+        mediaElementHtml = `
         <div class="media-placeholder" data-loaded="false">
           <img src="${thumbnailUrl}" alt="Thumbnail" class="media-thumbnail thumbnail-small"
                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -214,10 +214,10 @@ async function loadMedia(userId) {
           </div>
         </div>
       `;
-    } else {
-      // Show type-specific placeholder with SVG (no external requests)
-      const placeholderSvg = createPlaceholderSvg(isImage, isVideo);
-      mediaElementHtml = `
+      } else {
+        // Show type-specific placeholder with SVG (no external requests)
+        const placeholderSvg = createPlaceholderSvg(isImage, isVideo);
+        mediaElementHtml = `
         <div class="media-placeholder" data-loaded="false">
           <div class="placeholder-icon-container">
             ${placeholderSvg}
@@ -225,9 +225,9 @@ async function loadMedia(userId) {
           </div>
         </div>
       `;
-    }
+      }
 
-    mediaItem.innerHTML = `
+      mediaItem.innerHTML = `
       ${mediaElementHtml}
       <div class="file-item">
         ${fileIcon}
@@ -242,150 +242,150 @@ async function loadMedia(userId) {
       </div>
     `;
 
-    // Add click handler for manual loading
-    const loadBtn = mediaItem.querySelector('.load-media-btn');
-    const placeholder = mediaItem.querySelector('.media-placeholder');
-    
-    loadBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      loadActualMedia(mediaItem);
-    });
-    
-    placeholder.addEventListener('click', () => {
-      if (placeholder.dataset.loaded === 'false') {
+      // Add click handler for manual loading
+      const loadBtn = mediaItem.querySelector('.load-media-btn');
+      const placeholder = mediaItem.querySelector('.media-placeholder');
+
+      loadBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         loadActualMedia(mediaItem);
-      }
+      });
+
+      placeholder.addEventListener('click', () => {
+        if (placeholder.dataset.loaded === 'false') {
+          loadActualMedia(mediaItem);
+        }
+      });
+
+      mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
+        toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
+      });
+
+      mediaGrid.appendChild(mediaItem);
+
+      // Start observing for lazy loading
+      observer.observe(mediaItem);
     });
+  }
 
-    mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
-      toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
-    });
-
-    mediaGrid.appendChild(mediaItem);
-    
-    // Start observing for lazy loading
-    observer.observe(mediaItem);
-  });
-}
-
-function createPlaceholderSvg(isImage, isVideo) {
-  if (isImage) {
-    return `
+  function createPlaceholderSvg(isImage, isVideo) {
+    if (isImage) {
+      return `
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
         <path d="M16 16L32 32M16 32L32 16" stroke="#9ca3af" stroke-width="2"/>
         <circle cx="20" cy="20" r="3" fill="#9ca3af"/>
       </svg>
     `;
-  } else if (isVideo) {
-    return `
+    } else if (isVideo) {
+      return `
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
         <path d="M18 16L32 24L18 32V16Z" fill="#9ca3af"/>
       </svg>
     `;
-  } else {
-    return `
+    } else {
+      return `
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
         <rect width="48" height="48" rx="4" fill="#f3f4f6"/>
         <path d="M14 12H34L40 18V40H14V12Z" fill="#9ca3af"/>
         <path d="M34 12V18H40" fill="#f3f4f6"/>
       </svg>
     `;
+    }
   }
-}
 
-function showClickToLoad(mediaItem) {
-  const placeholder = mediaItem.querySelector('.media-placeholder');
-  if (placeholder && placeholder.dataset.loaded === 'false') {
-    const clickToLoad = document.createElement('div');
-    clickToLoad.className = 'click-to-load-overlay';
-    clickToLoad.innerHTML = `
+  function showClickToLoad(mediaItem) {
+    const placeholder = mediaItem.querySelector('.media-placeholder');
+    if (placeholder && placeholder.dataset.loaded === 'false') {
+      const clickToLoad = document.createElement('div');
+      clickToLoad.className = 'click-to-load-overlay';
+      clickToLoad.innerHTML = `
       <span>Click to load</span>
     `;
-    
-    clickToLoad.addEventListener('click', () => {
-      loadActualMedia(mediaItem);
-    });
-    
-    placeholder.appendChild(clickToLoad);
-  }
-}
 
-async function loadActualMedia(mediaItem) {
-  const mediaUrl = mediaItem.dataset.mediaUrl;
-  const mediaType = mediaItem.dataset.mediaType;
-  const docId = mediaItem.dataset.docId;
-  const placeholder = mediaItem.querySelector('.media-placeholder');
-  
-  if (!placeholder || placeholder.dataset.loaded === 'true') {
-    return; // Already loaded
+      clickToLoad.addEventListener('click', () => {
+        loadActualMedia(mediaItem);
+      });
+
+      placeholder.appendChild(clickToLoad);
+    }
   }
-  
-  // Show loading state
-  placeholder.innerHTML = `
+
+  async function loadActualMedia(mediaItem) {
+    const mediaUrl = mediaItem.dataset.mediaUrl;
+    const mediaType = mediaItem.dataset.mediaType;
+    const docId = mediaItem.dataset.docId;
+    const placeholder = mediaItem.querySelector('.media-placeholder');
+
+    if (!placeholder || placeholder.dataset.loaded === 'true') {
+      return; // Already loaded
+    }
+
+    // Show loading state
+    placeholder.innerHTML = `
     <div class="loading-container">
       <div class="loading-spinner"></div>
       <span class="loading-text">Loading...</span>
     </div>
   `;
-  
-  try {
-    // NOW we consume bandwidth - but only when needed!
-    const storageRefObj = ref(storage, mediaUrl);
-    const downloadURL = await getDownloadURL(storageRefObj);
-    
-    const fileName = extractFileName(mediaUrl);
-    const isImage = mediaType && mediaType.startsWith("image");
-    const isVideo = fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
-    
-    let mediaElementHtml = '';
-    
-    if (isImage) {
-      mediaElementHtml = `
+
+    try {
+      // NOW we consume bandwidth - but only when needed!
+      const storageRefObj = ref(storage, mediaUrl);
+      const downloadURL = await getDownloadURL(storageRefObj);
+
+      const fileName = extractFileName(mediaUrl);
+      const isImage = mediaType && mediaType.startsWith("image");
+      const isVideo = fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
+
+      let mediaElementHtml = '';
+
+      if (isImage) {
+        mediaElementHtml = `
         <img src="${downloadURL}" alt="Media" class="media-thumbnail loaded-media"
              onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXNpemU9IjEyIiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5FcnJvcjwvdGV4dD48L3N2Zz4=';" />
       `;
-    } else if (isVideo) {
-      const videoId = `video_${docId}`;
-      mediaElementHtml = `
+      } else if (isVideo) {
+        const videoId = `video_${docId}`;
+        mediaElementHtml = `
         <video id="${videoId}" class="media-thumbnail loaded-media" preload="metadata" muted controls>
           <source src="${downloadURL}" type="${mediaType}">
           Your browser does not support the video tag.
         </video>
       `;
-    } else {
-      mediaElementHtml = `
+      } else {
+        mediaElementHtml = `
         <div class="file-preview loaded-media">
           <span class="material-icons file-preview-icon">insert_drive_file</span>
           <span class="file-preview-text">File loaded</span>
         </div>
       `;
-    }
-    
-    placeholder.innerHTML = mediaElementHtml;
-    placeholder.dataset.loaded = 'true';
-    
-    // Hide the load button since media is now loaded
-    const loadBtn = mediaItem.querySelector('.load-media-btn');
-    if (loadBtn) {
-      loadBtn.style.display = 'none';
-    }
-    
-  } catch (error) {
-    console.error("Error loading media:", error);
-    
-    if (error.code === "storage/object-not-found") {
-      // Delete the document if file doesn't exist
-      try {
-        const docRef = doc(db, "users", mediaItem.closest('[data-user-id]')?.dataset.userId || '', "media", docId);
-        await deleteDoc(docRef);
-        mediaItem.remove();
-      } catch (deleteError) {
-        console.error("Error deleting document:", deleteError);
       }
-    } else {
-      placeholder.innerHTML = `
+
+      placeholder.innerHTML = mediaElementHtml;
+      placeholder.dataset.loaded = 'true';
+
+      // Hide the load button since media is now loaded
+      const loadBtn = mediaItem.querySelector('.load-media-btn');
+      if (loadBtn) {
+        loadBtn.style.display = 'none';
+      }
+
+    } catch (error) {
+      console.error("Error loading media:", error);
+
+      if (error.code === "storage/object-not-found") {
+        // Delete the document if file doesn't exist
+        try {
+          const docRef = doc(db, "users", mediaItem.closest('[data-user-id]')?.dataset.userId || '', "media", docId);
+          await deleteDoc(docRef);
+          mediaItem.remove();
+        } catch (deleteError) {
+          console.error("Error deleting document:", deleteError);
+        }
+      } else {
+        placeholder.innerHTML = `
         <div class="error-container">
           <span class="material-icons error-icon">error_outline</span>
           <span class="error-text">Failed to load</span>
@@ -394,35 +394,35 @@ async function loadActualMedia(mediaItem) {
           </button>
         </div>
       `;
+      }
     }
   }
-}
 
-// Utility functions
-function extractFileName(url) {
-  try {
-    const urlParts = url.split('%2F');
-    return decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
-  } catch (error) {
-    return 'Unknown file';
+  // Utility functions
+  function extractFileName(url) {
+    try {
+      const urlParts = url.split('%2F');
+      return decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
+    } catch (error) {
+      return 'Unknown file';
+    }
   }
-}
 
-function truncateFileName(fileName, maxLength = 20) {
-  if (fileName.length <= maxLength) return fileName;
-  const extension = fileName.substring(fileName.lastIndexOf('.'));
-  const name = fileName.substring(0, fileName.lastIndexOf('.'));
-  const truncatedName = name.substring(0, maxLength - extension.length - 3) + '...';
-  return truncatedName + extension;
-}
+  function truncateFileName(fileName, maxLength = 20) {
+    if (fileName.length <= maxLength) return fileName;
+    const extension = fileName.substring(fileName.lastIndexOf('.'));
+    const name = fileName.substring(0, fileName.lastIndexOf('.'));
+    const truncatedName = name.substring(0, maxLength - extension.length - 3) + '...';
+    return truncatedName + extension;
+  }
 
-function formatFileSize(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
+  function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
 
   // Load playlists for user
   async function loadPlaylists(userId) {
@@ -552,29 +552,29 @@ function formatFileSize(bytes) {
     fileUploadInput.click();
   });
 
- 
+
   fileUploadInput.addEventListener("change", async (event) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
       alert("No files selected.");
       return;
     }
-  
+
     uploadOverlay.style.display = "flex";
     uploadProgressFill.style.width = "0%";
     uploadPercentage.textContent = "0%";
-  
+
     const totalFiles = files.length;
-  
+
     for (let i = 0; i < totalFiles; i++) {
       const file = files[i];
-  
+
       uploadMessage.textContent = `Uploading Media... (${i + 1} of ${totalFiles})`;
-  
+
       try {
         const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
         await new Promise((resolve, reject) => {
           uploadTask.on(
             "state_changed",
@@ -590,14 +590,14 @@ function formatFileSize(bytes) {
             async () => {
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
               const mediaType = file.type;
-  
+
               const mediaRef = collection(db, "users", userId, "media");
               await addDoc(mediaRef, {
                 mediaUrl: downloadURL,
                 mediaType: mediaType,
                 uploadedAt: new Date().toISOString(),
               });
-  
+
               resolve();
             }
           );
@@ -607,38 +607,31 @@ function formatFileSize(bytes) {
         alert(`Failed to upload ${file.name}: ${error.message}`);
       }
     }
-  
+
     uploadOverlay.style.display = "none";
     loadMedia(userId);
   });
-  
-  
+
+
 
   closeModalBtn.addEventListener("click", closeModal);
-});
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the close button element by its ID
-    const closeButton = document.getElementById('close-view-popup');
-    
-    // Add a click event listener to the close button
-    if (closeButton) {
-        closeButton.addEventListener('click', function() {
-            // Navigate to the home page
-            window.location.href = 'service.html';
-            
-            // Alternative approaches:
-            // window.location.replace('/'); // Replaces current history entry
-            // window.location.assign('/');  // Same as window.location.href = '/'
-        });
-    } else {
-        console.error('Close button element with ID "close-view-popup" not found');
-    }
-});
 
+   // Get the close button element by its ID
+   const closeButton = document.getElementById('close-view-popup');
+   if (closeButton) {
+     closeButton.addEventListener('click', function () {
+       // Navigate to the Service page
+       window.location.href = 'service.html';
+     });
+   } else {
+     console.error('Close button element with ID "close-view-popup" not found');
+   }
+});// Dom closing here
+
+// Disable right click in the page
 document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function(e) {
-  if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+document.onkeydown = function (e) {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
     return false;
   }
 };
