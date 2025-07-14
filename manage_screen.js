@@ -106,7 +106,7 @@ function createGroupCard(group, groupId) {
 }
 
 
-// Function to set up the media type selection functionality
+// Function to setupMediaTypeSelection selection functionality  
 function setupMediaTypeSelection() {
   const mediaTypeSelect = document.getElementById("media-type-select");
   const mediaList = document.getElementById("media-list");
@@ -115,6 +115,8 @@ function setupMediaTypeSelection() {
 
   // Add event listener for media type change
   mediaTypeSelect.addEventListener("change", () => {
+    const existingGridBtn = document.querySelector(".grid-create-button");
+    if (existingGridBtn) existingGridBtn.remove();
     const selectedType = mediaTypeSelect.value;
 
     // Clear previous selections
@@ -178,57 +180,6 @@ function setupMediaTypeSelection() {
       mediaList.style.display = "block";
     });
   }
-
-  // document.getElementById("url-input").addEventListener("keydown", async (e) => {
-  //   if (e.key === "Enter") {
-  //     const urlInput = e.target;
-  //     const url = urlInput.value.trim();
-
-  //     if (!url) {
-  //       showAlert("Please enter a valid URL");
-  //       return;
-  //     }
-
-  //     // Validate URL type
-  //     const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
-  //     const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
-  //     const type = isVideo ? "video" : isImage ? "image" : "unknown";
-
-  //     try {
-  //       // Save to Firestore
-  //       const docRef = await addDoc(collection(db, `users/${adminUID}/media`), {
-  //         url,
-  //         type,
-  //         addedAt: new Date()
-  //       });
-
-  //       showAlert("Media URL added successfully!");
-
-  //       // Optional: Show media immediately (preview)
-  //       const mediaItem = document.createElement("li");
-  //       mediaItem.className = "media-item selected";
-
-  //       let thumbnail = type === "video"
-  //         ? `<video src="${url}" class="thumbnail" muted></video>`
-  //         : `<img src="${url}" alt="URL Media" class="thumbnail" />`;
-
-  //       mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
-  //       ${thumbnail}
-  //     </button>`;
-
-  //       document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
-  //       mediaList.innerHTML = "";
-  //       mediaList.appendChild(mediaItem);
-  //       mediaList.style.display = "block";
-
-  //     } catch (error) {
-  //       console.error("Error adding document: ", error);
-  //       showAlert("Failed to add media URL.");
-  //     }
-  //   }
-  // });
-// }
-
 
 
 // Function to load media by type from Firebase
@@ -415,34 +366,6 @@ function createGridFromSelected() {
   document.getElementById("push-media-btn").dataset.isGrid = "true";
 }
 
-
-
-// Function to load playlists for the media selection dropdown
-// async function loadPlaylistsForMediaSelection() {
-//   const playlistSelect = document.getElementById("media-playlist-select");
-//   playlistSelect.innerHTML = `<option value="">Select Playlist</option>`;
-
-//   const playlistsRef = collection(db, `users/${adminUID}/playlists`);
-//   const querySnapshot = await getDocs(playlistsRef);
-
-//   querySnapshot.forEach((doc) => {
-//     const playlist = doc.data();
-//     const option = document.createElement("option");
-//     option.value = doc.id;
-//     option.textContent = playlist.name || "Unnamed Playlist";
-//     option.dataset.media = JSON.stringify(playlist.media || []);
-//     playlistSelect.appendChild(option);
-//   });
-
-//   // Add event listener for playlist selection
-//   playlistSelect.addEventListener("change", () => {
-//     const selectedOption = playlistSelect.options[playlistSelect.selectedIndex];
-//     if (selectedOption.value) {
-//       document.getElementById("push-media-btn").dataset.playlistId = selectedOption.value;
-//       document.getElementById("push-media-btn").dataset.isPlaylist = "true";
-//     }
-//   });
-// }
 
 // Function to load playlists for the media selection dropdown
 async function loadPlaylistsForMediaSelection() {
@@ -803,110 +726,22 @@ function pushMediaByType(deviceId) {
 }
 
 
-// Function to push media based on selected type (group of devices)
-// function pushMediaByTypeToGroup(deviceIds) {
-//   const mediaTypeSelect = document.getElementById("media-type-select");
-//   const selectedType = mediaTypeSelect.value;
-//   const pushButton = document.getElementById("push-media-btn");
-
-//   // Get common settings
-//   const orientation = document.getElementById("orientation-select").value;
-//   const resizeMode = document.getElementById("resize-select").value;
-//   const delaySeconds = parseInt(document.getElementById("delay-input").value, 10);
-//   const audio = document.getElementById("audio-select").value;
-
-//   let mediaContent = [];
-
-//   // Handle different media types
-//   if (selectedType === "url") {
-//     const urlInput = document.getElementById("url-input");
-//     const url = urlInput.value.trim();
-//     if (!url) {
-//       showAlert("Please enter a valid URL");
-//       return;
-//     }
-//     mediaContent = [url];
-//   }
-//   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
-//     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
-//     if (mediaContent.length === 0) {
-//       showAlert("Please create a grid first");
-//       return;
-//     }
-//   }
-//   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
-//     const playlistId = pushButton.dataset.playlistId;
-//     if (!playlistId) {
-//       showAlert("Please select a playlist");
-//       return;
-//     }
-
-//     // For playlists with multiple devices
-//     const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
-//     getDoc(playlistRef)
-//       .then((playlistDoc) => {
-//         if (playlistDoc.exists()) {
-//           // Update each device in the group
-//           deviceIds.forEach(async (deviceId) => {
-//             const deviceRef = doc(db, "devices", deviceId);
-//             await updateDoc(deviceRef, {
-//               currentMedia: playlistDoc.data().media,
-//               orientation: orientation,
-//               resizeMode: resizeMode,
-//               delay: delaySeconds,
-//               audio: audio,
-//               lastContentPush: serverTimestamp(),
-//             });
-//           });
-//           showAlert("Playlist pushed to all devices in the group!");
-//         }
-//       })
-//       .catch((error) => console.error("Error pushing playlist to group:", error));
-//     return;
-//   }
-//   else {
-//     // For image/video, get the selected media
-//     const selectedMedia = document.querySelector(".media-item.selected");
-//     if (!selectedMedia) {
-//       showAlert("Please select media to push");
-//       return;
-//     }
-//     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
-
-//     mediaContent = [mediaUrl];
-//   }
-
-//   // Update each device in the group
-//   deviceIds.forEach(async (deviceId) => {
-//     const deviceRef = doc(db, "devices", deviceId);
-//     await updateDoc(deviceRef, {
-//       currentMedia: mediaContent,
-//       orientation: orientation,
-//       resizeMode: resizeMode,
-//       delay: delaySeconds,
-//       audio: audio,
-//       lastContentPush: serverTimestamp(),
-//     });
-//   });
-
-//   showAlert("Media pushed to all devices in the group!");
-// }
-
 
 async function pushMediaByTypeToGroup(deviceIds) {
   const mediaTypeSelect = document.getElementById("media-type-select");
   const selectedType = mediaTypeSelect.value;
   const pushButton = document.getElementById("push-media-btn");
 
-  // Get common settings
   const orientation = document.getElementById("orientation-select").value;
   const resizeMode = document.getElementById("resize-select").value;
   const delaySeconds = parseInt(document.getElementById("delay-input").value, 10);
   const audio = document.getElementById("audio-select").value;
 
   let mediaContent = [];
+  let webUrl = null;
+  let pdfUrl = null;
+  let isGridView = false;
 
-  // Handle URL type
   if (selectedType === "url") {
     const urlInput = document.getElementById("url-input");
     const url = urlInput.value.trim();
@@ -914,19 +749,34 @@ async function pushMediaByTypeToGroup(deviceIds) {
       showAlert("Please enter a valid URL");
       return;
     }
-    mediaContent = [url];
+    webUrl = url;
+    mediaContent = null;
   }
 
-  // Handle Grid type
-  else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
-    mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
-    if (mediaContent.length === 0) {
-      showAlert("Please create a grid first");
+  else if (selectedType === "pdf") {
+    const selectedMedia = document.querySelector(".media-item.selected");
+    if (!selectedMedia) {
+      showAlert("Please select a PDF to push");
       return;
     }
+    const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+    if (!mediaUrl) {
+      showAlert("PDF URL not found");
+      return;
+    }
+    pdfUrl = mediaUrl;
+    mediaContent = null;
   }
 
-  // Handle Playlist type
+  else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
+    mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
+    if (mediaContent.length < 2 || mediaContent.length % 2 !== 0) {
+      showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
+      return;
+    }
+    isGridView = true;
+  }
+
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
     if (!playlistId) {
@@ -946,10 +796,13 @@ async function pushMediaByTypeToGroup(deviceIds) {
             const deviceRef = doc(db, "devices", deviceId);
             await updateDoc(deviceRef, {
               currentMedia: media,
+              webUrl: null,
+              pdfUrl: null,
               orientation,
               resizeMode,
               delay: delaySeconds,
               audio,
+              isGridView: false,
               lastContentPush: serverTimestamp(),
             });
           })
@@ -967,7 +820,6 @@ async function pushMediaByTypeToGroup(deviceIds) {
     return;
   }
 
-  // Handle Image/Video type
   else {
     const selectedMedia = document.querySelector(".media-item.selected");
     if (!selectedMedia) {
@@ -975,8 +827,6 @@ async function pushMediaByTypeToGroup(deviceIds) {
       return;
     }
     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
-
-
     mediaContent = [mediaUrl];
   }
 
@@ -986,16 +836,27 @@ async function pushMediaByTypeToGroup(deviceIds) {
         const deviceRef = doc(db, "devices", deviceId);
         await updateDoc(deviceRef, {
           currentMedia: mediaContent,
+          webUrl: webUrl,
+          pdfUrl: pdfUrl,
           orientation,
           resizeMode,
           delay: delaySeconds,
           audio,
+          isGridView: isGridView,
           lastContentPush: serverTimestamp(),
         });
       })
     );
 
-    showAlert("Media pushed to all devices in the group!");
+    if (selectedType === "url") {
+      showAlert("URL pushed to all devices in the group!");
+    } else if (selectedType === "pdf") {
+      showAlert("PDF pushed to all devices in the group!");
+    } else if (isGridView) {
+      showAlert("Grid view pushed to all devices in the group!");
+    } else {
+      showAlert("Media pushed to all devices in the group!");
+    }
   } catch (error) {
     console.error("Error pushing media to group:", error);
     showAlert("An error occurred while pushing media to the group.");
