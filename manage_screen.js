@@ -146,7 +146,6 @@ function setupMediaTypeSelection() {
       addUrlBtn.addEventListener("click", () => {
       const urlInput = document.getElementById("url-input");
       const url = urlInput.value.trim();
-
       if (!url) {
         showAlert("Please enter a valid URL");
         return;
