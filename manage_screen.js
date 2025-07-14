@@ -142,97 +142,168 @@ function setupMediaTypeSelection() {
   });
 
   // Setup URL add button functionality
-//   const addUrlBtn = document.getElementById("url-input");
-//     addUrlBtn.addEventListener("click", () => {
-//     const urlInput = document.getElementById("url-input");
-//     const url = urlInput.value.trim();
+    const addUrlBtn = document.getElementById("url-input");
+      addUrlBtn.addEventListener("click", () => {
+      const urlInput = document.getElementById("url-input");
+      const url = urlInput.value.trim();
 
-//     if (!url) {
-//       showAlert("Please enter a valid URL");
-//       return;
-//     }
+      if (!url) {
+        showAlert("Please enter a valid URL");
+        return;
+      }
 
-//     // Create a virtual media item for the URL
-//     const mediaItem = document.createElement("li");
-//     mediaItem.className = "media-item selected";
-
-//     // Determine if it's likely an image or video based on extension
-//     const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
-//     const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
-
-//     let thumbnail;
-//     if (isVideo) {
-//       thumbnail = `<video src="${url}" class="thumbnail" muted></video>`;
-//     } else if (isImage || !isVideo) {
-//       // Default to image if we can't determine or it looks like an image
-//       thumbnail = `<img src="${url}" alt="URL Media" class="thumbnail" />`;
-//     }
-
-//     mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
-//       ${thumbnail}
-//     </button>`;
-
-//     // Clear previous selections and show this one
-//     document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
-//     mediaList.innerHTML = "";
-//     mediaList.appendChild(mediaItem);
-//     mediaList.style.display = "block";
-//   });
-// }
-
-document.getElementById("url-input").addEventListener("keydown", async (e) => {
-  if (e.key === "Enter") {
-    const urlInput = e.target;
-    const url = urlInput.value.trim();
-
-    if (!url) {
-      showAlert("Please enter a valid URL");
-      return;
-    }
-
-    // Validate URL type
-    const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
-    const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
-    const type = isVideo ? "video" : isImage ? "image" : "unknown";
-
-    try {
-      // Save to Firestore
-      const docRef = await addDoc(collection(db, `users/${adminUID}/media`), {
-        url,
-        type,
-        addedAt: new Date()
-      });
-
-      showAlert("Media URL added successfully!");
-
-      // Optional: Show media immediately (preview)
+      // Create a virtual media item for the URL
       const mediaItem = document.createElement("li");
       mediaItem.className = "media-item selected";
 
-      let thumbnail = type === "video"
-        ? `<video src="${url}" class="thumbnail" muted></video>`
-        : `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+      // Determine if it's likely an image or video based on extension
+      const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
+      const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
+
+      let thumbnail;
+      if (isVideo) {
+        thumbnail = `<video src="${url}" class="thumbnail" muted></video>`;
+      } else if (isImage || !isVideo) {
+        // Default to image if we can't determine or it looks like an image
+        thumbnail = `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+      }
 
       mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
         ${thumbnail}
       </button>`;
 
+      // Clear previous selections and show this one
       document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
       mediaList.innerHTML = "";
       mediaList.appendChild(mediaItem);
       mediaList.style.display = "block";
-
-    } catch (error) {
-      console.error("Error adding document: ", error);
-      showAlert("Failed to add media URL.");
-    }
+    });
   }
-});
-}
+
+  // document.getElementById("url-input").addEventListener("keydown", async (e) => {
+  //   if (e.key === "Enter") {
+  //     const urlInput = e.target;
+  //     const url = urlInput.value.trim();
+
+  //     if (!url) {
+  //       showAlert("Please enter a valid URL");
+  //       return;
+  //     }
+
+  //     // Validate URL type
+  //     const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(url);
+  //     const isImage = /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(url);
+  //     const type = isVideo ? "video" : isImage ? "image" : "unknown";
+
+  //     try {
+  //       // Save to Firestore
+  //       const docRef = await addDoc(collection(db, `users/${adminUID}/media`), {
+  //         url,
+  //         type,
+  //         addedAt: new Date()
+  //       });
+
+  //       showAlert("Media URL added successfully!");
+
+  //       // Optional: Show media immediately (preview)
+  //       const mediaItem = document.createElement("li");
+  //       mediaItem.className = "media-item selected";
+
+  //       let thumbnail = type === "video"
+  //         ? `<video src="${url}" class="thumbnail" muted></video>`
+  //         : `<img src="${url}" alt="URL Media" class="thumbnail" />`;
+
+  //       mediaItem.innerHTML = `<button class="select-media-btn" data-url="${url}">
+  //       ${thumbnail}
+  //     </button>`;
+
+  //       document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
+  //       mediaList.innerHTML = "";
+  //       mediaList.appendChild(mediaItem);
+  //       mediaList.style.display = "block";
+
+  //     } catch (error) {
+  //       console.error("Error adding document: ", error);
+  //       showAlert("Failed to add media URL.");
+  //     }
+  //   }
+  // });
+// }
 
 
 
 // Function to load media by type from Firebase
+// async function loadMediaByType(mediaType) {
+//   const mediaList = document.getElementById("media-list");
+//   mediaList.innerHTML = "";
+
+//   const existingGridBtn = document.querySelector(".grid-create-button");
+//   if (existingGridBtn) existingGridBtn.remove();
+
+//   // Get reference to the media collection for the current user
+//   const mediaRef = collection(db, `users/${adminUID}/media`);
+//   const querySnapshot = await getDocs(mediaRef);
+
+//   querySnapshot.forEach((doc) => {
+//     const media = doc.data();
+
+//     // Get media type and URL from the document
+//     const mediaTypeValue = media.mediaType || "";
+//     const mediaUrl = media.mediaUrl || "";
+
+//     // Check if mediaType contains image or video
+//     const isImage = mediaTypeValue.includes("image");
+//     const isVideo = mediaTypeValue.includes("video");
+
+//     // Filter based on the selected media type
+//     if (
+//       (mediaType === "image" && isImage) ||
+//       (mediaType === "video" && isVideo) ||
+//       (mediaType === "grid" && isImage) // For grid, we only show images
+//     ) {
+
+//       const mediaItem = document.createElement("li");
+//       mediaItem.className = "media-item";
+
+//       if (mediaType === "image" || mediaType === "grid") {
+//         mediaItem.innerHTML = `<button class="select-media-btn" data-url="${mediaUrl}" data-type="${mediaTypeValue}">
+//           <img src="${mediaUrl}" alt="${mediaTypeValue}" class="thumbnail" />
+//         </button>`;
+//       } else if (mediaType === "video") {
+//         mediaItem.innerHTML = `<button class="select-media-btn" data-url="${mediaUrl}" data-type="${mediaTypeValue}">
+//           <video src="${mediaUrl}" class="thumbnail" muted></video>
+//         </button>`;
+//       }
+
+//       // Add click event with the current media type
+//       const btn = mediaItem.querySelector(".select-media-btn");
+//       btn.addEventListener("click", () => {
+//         // In grid mode allow multiple selection, otherwise just single selection
+//         if (mediaType !== "grid") {
+//           document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
+//         }
+//         mediaItem.classList.toggle("selected");
+//       });
+
+//       mediaList.appendChild(mediaItem);
+//     }
+//   });
+
+//   // For grid layout, add special handling
+//   if (mediaType === "grid" && mediaList.children.length > 0) {
+//     addGridSelectionButton();
+//   }
+
+//   // Show a message if no media is found for the selected type
+//   if (mediaList.children.length === 0) {
+//     const noMediaMsg = document.createElement("p");
+//     noMediaMsg.textContent = `No ${mediaType} media found.`;
+//     noMediaMsg.style.textAlign = "center";
+//     noMediaMsg.style.color = "#666";
+//     mediaList.appendChild(noMediaMsg);
+//   }
+// }
+
 async function loadMediaByType(mediaType) {
   const mediaList = document.getElementById("media-list");
   mediaList.innerHTML = "";
@@ -240,28 +311,24 @@ async function loadMediaByType(mediaType) {
   const existingGridBtn = document.querySelector(".grid-create-button");
   if (existingGridBtn) existingGridBtn.remove();
 
-  // Get reference to the media collection for the current user
   const mediaRef = collection(db, `users/${adminUID}/media`);
   const querySnapshot = await getDocs(mediaRef);
 
   querySnapshot.forEach((doc) => {
     const media = doc.data();
-
-    // Get media type and URL from the document
     const mediaTypeValue = media.mediaType || "";
     const mediaUrl = media.mediaUrl || "";
 
-    // Check if mediaType contains image or video
     const isImage = mediaTypeValue.includes("image");
     const isVideo = mediaTypeValue.includes("video");
+    const isPdf = mediaTypeValue.includes("pdf");
 
-    // Filter based on the selected media type
     if (
       (mediaType === "image" && isImage) ||
       (mediaType === "video" && isVideo) ||
-      (mediaType === "grid" && isImage) // For grid, we only show images
+      (mediaType === "grid" && isImage) ||
+      (mediaType === "pdf" && isPdf)
     ) {
-
       const mediaItem = document.createElement("li");
       mediaItem.className = "media-item";
 
@@ -273,12 +340,14 @@ async function loadMediaByType(mediaType) {
         mediaItem.innerHTML = `<button class="select-media-btn" data-url="${mediaUrl}" data-type="${mediaTypeValue}">
           <video src="${mediaUrl}" class="thumbnail" muted></video>
         </button>`;
+      } else if (mediaType === "pdf") {
+        mediaItem.innerHTML = `<button class="select-media-btn" data-url="${mediaUrl}" data-type="${mediaTypeValue}">
+          <img src="/assets/pdf-icon.png" alt="PDF" class="thumbnail pdf-thumbnail" />
+        </button>`;
       }
 
-      // Add click event with the current media type
       const btn = mediaItem.querySelector(".select-media-btn");
       btn.addEventListener("click", () => {
-        // In grid mode allow multiple selection, otherwise just single selection
         if (mediaType !== "grid") {
           document.querySelectorAll(".media-item").forEach(item => item.classList.remove("selected"));
         }
@@ -289,12 +358,10 @@ async function loadMediaByType(mediaType) {
     }
   });
 
-  // For grid layout, add special handling
   if (mediaType === "grid" && mediaList.children.length > 0) {
     addGridSelectionButton();
   }
 
-  // Show a message if no media is found for the selected type
   if (mediaList.children.length === 0) {
     const noMediaMsg = document.createElement("p");
     noMediaMsg.textContent = `No ${mediaType} media found.`;
@@ -303,6 +370,7 @@ async function loadMediaByType(mediaType) {
     mediaList.appendChild(noMediaMsg);
   }
 }
+
 
 // Function to select media (modified to handle grid mode differently)
 function selectMedia(mediaItem, mediaType) {
@@ -444,9 +512,9 @@ function openDevicePopup(device, deviceId) {
   document.getElementById("push-media-btn").onclick = () => pushMediaByType(deviceId);
   // document.getElementById("push-playlist-btn").onclick = () => pushPlaylist(deviceId);
   document.getElementById("clear-restart-btn").onclick = () => clearAndRestart(deviceId);
-  if (document.getElementById("close-popup")) {
-    document.getElementById("close-popup").onclick = () => closePopup(popup);
-  }
+  // if (document.getElementById("close-popup")) {
+  //   document.getElementById("close-popup").onclick = () => closePopup(popup);
+  // }
 }
 
 // Similarly modify the openGroupPopup function
@@ -476,17 +544,146 @@ function openGroupPopup(group, groupId) {
 
   // Setup action buttons
   document.getElementById("push-media-btn").onclick = () => pushMediaByTypeToGroup(group.devices);
-  document.getElementById("push-playlist-btn").onclick = () => pushPlaylistToGroup(group.devices);
   document.getElementById("clear-restart-btn").onclick = () => clearAndRestartGroup(group.devices);
 }
 
 // Function to push media based on selected type (single device)
+// function pushMediaByType(deviceId) {
+//   const mediaTypeSelect = document.getElementById("media-type-select");
+//   const selectedType = mediaTypeSelect.value;
+//   const pushButton = document.getElementById("push-media-btn");
+
+//   // Get common settings
+//   const orientation = document.getElementById("orientation-select").value;
+//   const resizeMode = document.getElementById("resize-select").value;
+//   const delaySeconds = parseInt(document.getElementById("delay-input").value, 10);
+//   const audio = document.getElementById("audio-select").value;
+//   const deviceRef = doc(db, "devices", deviceId);
+
+//   let mediaContent = [];
+//   let isGridView = false;
+//   let webUrl = null;
+
+//   // Handle different media types
+//   if (selectedType === "url") {
+//     const urlInput = document.getElementById("url-input");
+//     const url = urlInput.value.trim();
+//     if (!url) {
+//       showAlert("Please enter a valid URL");
+//       return;
+//     }
+//     webUrl = url;
+//     mediaContent = null; // Set currentMedia to null for URL type
+//   }
+
+//   else if (selectedType === "pdf") {
+//     const selectedMedia = document.querySelector(".media-item.selected");
+//     if (!selectedMedia) {
+//       showAlert("Please select a PDF to push");
+//       return;
+//     }
+//     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+//     if (!mediaUrl) {
+//       showAlert("PDF URL not found");
+//       return;
+//     }
+//     pdfUrl = mediaUrl;
+//     mediaContent = null;
+//   }
+
+//   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
+//     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
+//     // if (mediaContent.length < 2) {
+//     //   showAlert("Please select at least 2 or 4 images for the grid view");
+//     //   return;
+//     // }
+//     // isGridView = true;
+//     if (mediaContent.length < 2 || mediaContent.length % 2 !== 0) {
+//       showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
+//       return;
+//     }
+//     isGridView = true;
+
+//   }
+//   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
+//     const playlistId = pushButton.dataset.playlistId;
+//     if (!playlistId) {
+//       showAlert("Please select a playlist");
+//       return;
+//     }
+
+//     // For playlists, we need to get the media array from Firebase
+//     const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
+//     getDoc(playlistRef)
+//       .then((playlistDoc) => {
+//         if (playlistDoc.exists()) {
+//           updateDoc(deviceRef, {
+//             currentMedia: playlistDoc.data().media,
+//             webUrl: null, // Clear webUrl for playlist
+//             orientation: orientation,
+//             resizeMode: resizeMode,
+//             delay: delaySeconds,
+//             audio: audio,
+//             isGridView: false,
+//             lastContentPush: serverTimestamp(),
+//           }).then(() => showAlert("Playlist pushed successfully!"));
+//         }
+//       })
+//       .catch((error) => console.error("Error pushing playlist:", error));
+//     return;
+//   }
+//   else {
+//     // For image/video, get the selected media
+//     const selectedMedia = document.querySelector(".media-item.selected");
+//     if (!selectedMedia) {
+//       showAlert("Please select media to push");
+//       return;
+//     }
+//     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+
+//     mediaContent = [mediaUrl];
+//   }
+
+//   // Create update data object
+//   const updateData = {
+//     orientation: orientation,
+//     resizeMode: resizeMode,
+//     delay: delaySeconds,
+//     audio: audio,
+//     isGridView: isGridView,
+//     lastContentPush: serverTimestamp(),
+//   };
+
+//   // Set currentMedia and webUrl fields based on selected type
+//   if (selectedType === "url") {
+//     updateData.currentMedia = null;
+//     updateData.webUrl = webUrl;
+//   } else {
+//     updateData.currentMedia = mediaContent;
+//     updateData.webUrl = null; // Clear webUrl for non-URL media
+//   }
+
+//   // Push to Firebase with appropriate fields
+//   updateDoc(deviceRef, updateData)
+//     .then(() => {
+//       if (selectedType === "url") {
+//         showAlert("URL pushed successfully!");
+//       } else if (isGridView) {
+//         showAlert("Grid view pushed successfully!");
+//       } else {
+//         showAlert("Media pushed successfully!");
+//       }
+//     })
+//     .catch((error) => console.error("Error pushing content:", error));
+// }
+
+
 function pushMediaByType(deviceId) {
   const mediaTypeSelect = document.getElementById("media-type-select");
   const selectedType = mediaTypeSelect.value;
   const pushButton = document.getElementById("push-media-btn");
 
-  // Get common settings
+  // Common settings
   const orientation = document.getElementById("orientation-select").value;
   const resizeMode = document.getElementById("resize-select").value;
   const delaySeconds = parseInt(document.getElementById("delay-input").value, 10);
@@ -496,8 +693,8 @@ function pushMediaByType(deviceId) {
   let mediaContent = [];
   let isGridView = false;
   let webUrl = null;
+  let pdfUrl = null;
 
-  // Handle different media types
   if (selectedType === "url") {
     const urlInput = document.getElementById("url-input");
     const url = urlInput.value.trim();
@@ -506,21 +703,29 @@ function pushMediaByType(deviceId) {
       return;
     }
     webUrl = url;
-    mediaContent = null; // Set currentMedia to null for URL type
+    mediaContent = null;
+  }
+  else if (selectedType === "pdf") {
+    const selectedMedia = document.querySelector(".media-item.selected");
+    if (!selectedMedia) {
+      showAlert("Please select a PDF to push");
+      return;
+    }
+    const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
+    if (!mediaUrl) {
+      showAlert("PDF URL not found");
+      return;
+    }
+    pdfUrl = mediaUrl;
+    mediaContent = null;
   }
   else if (selectedType === "grid" && pushButton.dataset.isGrid === "true") {
     mediaContent = JSON.parse(pushButton.dataset.gridUrls || "[]");
-    // if (mediaContent.length < 2) {
-    //   showAlert("Please select at least 2 or 4 images for the grid view");
-    //   return;
-    // }
-    // isGridView = true;
     if (mediaContent.length < 2 || mediaContent.length % 2 !== 0) {
       showAlert("Please select an even number of images (2, 4, 6...) for the grid view");
       return;
     }
     isGridView = true;
-
   }
   else if (selectedType === "playlist" && pushButton.dataset.isPlaylist === "true") {
     const playlistId = pushButton.dataset.playlistId;
@@ -529,14 +734,14 @@ function pushMediaByType(deviceId) {
       return;
     }
 
-    // For playlists, we need to get the media array from Firebase
     const playlistRef = doc(db, `users/${adminUID}/playlists`, playlistId);
     getDoc(playlistRef)
       .then((playlistDoc) => {
         if (playlistDoc.exists()) {
           updateDoc(deviceRef, {
             currentMedia: playlistDoc.data().media,
-            webUrl: null, // Clear webUrl for playlist
+            webUrl: null,
+            pdfUrl: null,
             orientation: orientation,
             resizeMode: resizeMode,
             delay: delaySeconds,
@@ -550,18 +755,15 @@ function pushMediaByType(deviceId) {
     return;
   }
   else {
-    // For image/video, get the selected media
     const selectedMedia = document.querySelector(".media-item.selected");
     if (!selectedMedia) {
       showAlert("Please select media to push");
       return;
     }
     const mediaUrl = selectedMedia.querySelector(".select-media-btn")?.dataset.url;
-
     mediaContent = [mediaUrl];
   }
 
-  // Create update data object
   const updateData = {
     orientation: orientation,
     resizeMode: resizeMode,
@@ -571,20 +773,27 @@ function pushMediaByType(deviceId) {
     lastContentPush: serverTimestamp(),
   };
 
-  // Set currentMedia and webUrl fields based on selected type
+  // Set media fields based on selected type
   if (selectedType === "url") {
     updateData.currentMedia = null;
     updateData.webUrl = webUrl;
+    updateData.pdfUrl = null;
+  } else if (selectedType === "pdf") {
+    updateData.currentMedia = null;
+    updateData.webUrl = null;
+    updateData.pdfUrl = pdfUrl;
   } else {
     updateData.currentMedia = mediaContent;
-    updateData.webUrl = null; // Clear webUrl for non-URL media
+    updateData.webUrl = null;
+    updateData.pdfUrl = null;
   }
 
-  // Push to Firebase with appropriate fields
   updateDoc(deviceRef, updateData)
     .then(() => {
       if (selectedType === "url") {
         showAlert("URL pushed successfully!");
+      } else if (selectedType === "pdf") {
+        showAlert("PDF pushed successfully!");
       } else if (isGridView) {
         showAlert("Grid view pushed successfully!");
       } else {
@@ -593,6 +802,7 @@ function pushMediaByType(deviceId) {
     })
     .catch((error) => console.error("Error pushing content:", error));
 }
+
 
 // Function to push media based on selected type (group of devices)
 // function pushMediaByTypeToGroup(deviceIds) {
@@ -876,6 +1086,8 @@ async function clearAndRestart(deviceId) {
     await updateDoc(deviceRef, {
       currentMedia: null,
       webUrl: null,
+      isGridView: false,
+      pdfUrl: null,
       commands: {
         clearContent: true,
         restartApp: true,
@@ -897,29 +1109,70 @@ async function clearAndRestart(deviceId) {
   }
 }
 
+// async function clearAndRestartGroup(deviceIds) {
+//   try {
+//     const userConfirmed = showConfirm(
+//       "All media in the application will be deleted for all selected devices. Do you want to proceed?"
+//     );
+
+//     if (!userConfirmed) {
+//       return; // Exit if the user cancels
+//     }
+
+//     for (const deviceId of deviceIds) {
+//       const deviceRef = doc(db, "devices", deviceId);
+
+//       // Set commands to true
+//       await updateDoc(deviceRef, {
+//         currentMedia: null,
+//         webUrl: null,
+//         isGridView: false,
+//         pdfUrl: null,
+//         commands: {
+//           clearContent: true,
+//           restartApp: true,
+//         },
+//       });
+
+//       // Wait for 1 second then reset commands
+//       setTimeout(async () => {
+//         await updateDoc(deviceRef, {
+//           commands: {
+//             clearContent: false,
+//             restartApp: false,
+//           },
+//         });
+//       }, 1000);
+//     }
+
+//     showAlert("Media cleared and restart command sent to all devices in the group!");
+//   } catch (error) {
+//     console.error("Error clearing and restarting group devices:", error);
+//   }
+// }
+
 async function clearAndRestartGroup(deviceIds) {
   try {
-    const userConfirmed = showConfirm(
+    const userConfirmed = await showConfirm(
       "All media in the application will be deleted for all selected devices. Do you want to proceed?"
     );
 
-    if (!userConfirmed) {
-      return; // Exit if the user cancels
-    }
+    if (!userConfirmed) return;
 
     for (const deviceId of deviceIds) {
       const deviceRef = doc(db, "devices", deviceId);
 
-      // Set commands to true
       await updateDoc(deviceRef, {
         currentMedia: null,
+        webUrl: null,
+        isGridView: false,
+        pdfUrl: null,
         commands: {
           clearContent: true,
           restartApp: true,
         },
       });
 
-      // Wait for 1 second then reset commands
       setTimeout(async () => {
         await updateDoc(deviceRef, {
           commands: {
@@ -935,6 +1188,7 @@ async function clearAndRestartGroup(deviceIds) {
     console.error("Error clearing and restarting group devices:", error);
   }
 }
+
 
 
 document.addEventListener('contextmenu', event => event.preventDefault());
