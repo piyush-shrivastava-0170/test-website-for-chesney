@@ -23,6 +23,13 @@ const auth = getAuth();
 let userId = null;
 let selectedMediaUrls = [];
 
+let currentPage = 1;
+const itemsPerPage = 8;
+let filteredMediaItems = []; // <-- Global array to track filtered items
+const paginationInfo = document.getElementById("page-info");
+const prevBtn = document.getElementById("prev-page");
+const nextBtn = document.getElementById("next-page");
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const mediaGrid = document.getElementById("media-grid");
@@ -50,99 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
       loadMedia(userId);
       loadPlaylists(userId);
     } else {
-      alert("Please log in to manage your media.");
+      showAlert("Please log in to manage your media.");
       window.location.href = "login.html";
     }
   });
 
-  // async function loadMedia(userId) {
-  //   mediaGrid.innerHTML = "";
-  //   const mediaRef = collection(db, "users", userId, "media");
-  //   const mediaSnapshot = await getDocs(mediaRef);
-
-  //   mediaSnapshot.forEach(async (doc) => {
-  //     const mediaData = doc.data();
-  //     const mediaItem = document.createElement("div");
-  //     mediaItem.classList.add("media-item");
-
-  //     try {
-  //       const storageRefObj = ref(storage, mediaData.mediaUrl);
-  //       await getDownloadURL(storageRefObj);
-
-  //       // Extract and decode the filename from the URL path
-  //       const urlParts = mediaData.mediaUrl.split('%2F');
-  //       const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
-
-  //       const isImage = mediaData.mediaType && mediaData.mediaType.startsWith("image");
-
-  //       // Add appropriate icon based on file type
-  //       let fileIcon = '';
-  //       if (isImage) {
-  //         fileIcon = '<span class="material-icons file-icon">image</span>';
-  //       } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
-  //         fileIcon = '<span class="material-icons file-icon">video</span>';
-  //       } else {
-  //         fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
-  //       }
-
-  //       let mediaElementHtml = '';
-
-  //       if (isImage) {
-  //         mediaElementHtml = `
-  //           <img src="${mediaData.mediaUrl}" alt="Media" class="media-thumbnail"
-  //                onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg';" />
-  //         `;
-  //       } else if (fileName.endsWith('.mp4') || fileName.endsWith('.webm')) {
-  //         const videoId = `video_${doc.id}`;
-  //         mediaElementHtml = `
-  //           <video id="${videoId}" class="media-thumbnail" preload="metadata" muted autoplay loop>
-  //             <source src="${mediaData.mediaUrl}" type="${mediaData.mediaType}">
-  //           </video>
-  //           <script>
-  //             document.getElementById('${videoId}').addEventListener('error', function() {
-  //               const img = document.createElement('img');
-  //               img.src = 'https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg';
-  //               img.className = 'media-thumbnail';
-  //               this.parentNode.replaceChild(img, this);
-  //             }, true);
-  //           </script>
-  //         `;
-  //       } else {
-  //         mediaElementHtml = `
-  //           <img src="https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg" alt="File" class="media-thumbnail" />
-  //         `;
-  //       }
-
-  //       mediaItem.innerHTML = `
-  //         ${mediaElementHtml}
-  //         <div class="file-item">
-  //           ${fileIcon}
-  //           <span class="file-name">${fileName}</span>
-  //         </div>
-  //         <div class="media-actions">
-  //           <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
-  //         </div>
-  //       `;
-
-  //       mediaItem.querySelector(".select-media-checkbox").addEventListener("change", (e) => {
-  //         toggleMediaSelection(mediaData.mediaUrl, e.target.checked);
-  //       });
-
-  //       mediaGrid.appendChild(mediaItem);
-  //     } catch (error) {
-  //       if (error.code === "storage/object-not-found") {
-  //         await deleteDoc(doc.ref);
-  //       } else {
-  //         console.error("Error verifying media file existence:", error);
-  //       }
-  //     }
-  //   });
-  // }
-
-  // COMBINED SOLUTION: Metadata Storage + Lazy Loading
-  // This approach reduces bandwidth by 80-90%
-
   async function loadMedia(userId) {
+    document.getElementById("filter-button").dispatchEvent(new Event("change"));
+
     mediaGrid.innerHTML = "";
     const mediaRef = collection(db, "users", userId, "media");
     const mediaSnapshot = await getDocs(mediaRef);
@@ -157,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (shouldAutoLoad) {
             loadActualMedia(mediaItem);
           } else {
-            // Show "Click to load" for manual loading
             showClickToLoad(mediaItem);
           }
           observer.unobserve(mediaItem);
@@ -165,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }, {
       threshold: 0.1,
-      rootMargin: '50px' // Start loading 50px before element comes into view
+      rootMargin: '50px'
     });
 
     mediaSnapshot.forEach(async (doc) => {
@@ -173,83 +94,65 @@ document.addEventListener("DOMContentLoaded", () => {
       const mediaItem = document.createElement("div");
       mediaItem.classList.add("media-item");
 
-      // Store data attributes for lazy loading
       mediaItem.dataset.mediaUrl = mediaData.mediaUrl;
       mediaItem.dataset.mediaType = mediaData.mediaType;
       mediaItem.dataset.docId = doc.id;
-      mediaItem.dataset.autoLoad = 'false'; // Set to 'true' for automatic loading
+      mediaItem.dataset.autoLoad = 'false';
 
-      // Use stored metadata - NO BANDWIDTH CONSUMPTION HERE!
       const fileName = mediaData.fileName || extractFileName(mediaData.mediaUrl);
       const fileType = mediaData.mediaType || '';
       const fileSize = mediaData.fileSize;
       const thumbnailUrl = mediaData.thumbnailUrl;
 
-      // Identify file type from metadata
       const isImage = fileType.startsWith("image");
       const isVideo = fileType.startsWith("video") || fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.webm');
 
-      // Get appropriate icon
       let fileIcon = '';
       if (isImage) {
-        fileIcon = '<span class="material-icons file-icon">image</span>';
+        fileIcon = '<span class="material-icons file-icon"></span>';
       } else if (isVideo) {
-        fileIcon = '<span class="material-icons file-icon">video</span>';
+        fileIcon = '<span class="material-icons file-icon"></span>';
       } else {
-        fileIcon = '<span class="material-icons file-icon">insert_drive_file</span>';
+        fileIcon = '<span class="material-icons file-icon">PDF</span>';
       }
 
-      // Create initial placeholder - NO BANDWIDTH USAGE
       let mediaElementHtml = '';
 
       if (thumbnailUrl) {
-        // Use small thumbnail if available (much smaller bandwidth)
         mediaElementHtml = `
-        <div class="media-placeholder" data-loaded="false">
-          <img src="${thumbnailUrl}" alt="Thumbnail" class="media-thumbnail thumbnail-small"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-          <div class="placeholder-icon-container" style="display: none;">
-            <span class="material-icons placeholder-icon">${isImage ? 'image' : isVideo ? 'video' : 'https://cdn.pixabay.com/photo/2015/02/22/17/56/loading-645268_1280.jpg'}</span>
-            <span class="placeholder-text">Preview</span>
+          <div class="media-placeholder" data-loaded="false">
+            <img src="${thumbnailUrl}" alt="Thumbnail" class="media-thumbnail thumbnail-small"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-icon-container" style="display: none;">
+              <span class="material-icons placeholder-icon">${isImage ? 'image' : isVideo ? 'video' : 'insert_drive_file'}</span>
+              <span class="placeholder-text">Preview</span>
+            </div>
           </div>
-        </div>
-      `;
+        `;
       } else {
-        // Show type-specific placeholder with SVG (no external requests)
         const placeholderSvg = createPlaceholderSvg(isImage, isVideo);
         mediaElementHtml = `
-        <div class="media-placeholder" data-loaded="false">
-          <div class="placeholder-icon-container">
-            ${placeholderSvg}
-            <span class="placeholder-text">${isImage ? 'Image' : isVideo ? 'Video' : 'File'}</span>
+          <div class="media-placeholder" data-loaded="false">
+            <div class="placeholder-icon-container">
+              ${placeholderSvg}
+              <span class="placeholder-text">${isImage ? 'Image' : isVideo ? 'Video' : 'File'}</span>
+            </div>
           </div>
-        </div>
-      `;
+        `;
       }
 
       mediaItem.innerHTML = `
-      ${mediaElementHtml}
-      <div class="file-item">
-        ${fileIcon}
-        <span class="file-name" title="${fileName}">${truncateFileName(fileName)}</span>
-        ${fileSize ? `<span class="file-size">${formatFileSize(fileSize)}</span>` : ''}
-      </div>
-      <div class="media-actions">
-        <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
-        <button class="load-media-btn" title="Load full media">
-          <span class="material-icons">visibility</span>
-        </button>
-      </div>
-    `;
+        ${mediaElementHtml}
+        <div class="file-item">
+          <div class="media-actions">
+            <input type="checkbox" class="select-media-checkbox" data-id="${doc.id}" data-url="${mediaData.mediaUrl}" />
+          </div>
+          <span class="file-name" title="${fileName}">${truncateFileName(fileName)}</span>
+          ${fileSize ? `<span class="file-size">${formatFileSize(fileSize)}</span>` : ''}
+        </div>
+      `;
 
-      // Add click handler for manual loading
-      const loadBtn = mediaItem.querySelector('.load-media-btn');
       const placeholder = mediaItem.querySelector('.media-placeholder');
-
-      loadBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        loadActualMedia(mediaItem);
-      });
 
       placeholder.addEventListener('click', () => {
         if (placeholder.dataset.loaded === 'false') {
@@ -262,11 +165,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       mediaGrid.appendChild(mediaItem);
-
-      // Start observing for lazy loading
       observer.observe(mediaItem);
     });
+
+    onMediaLoaded();
   }
+
 
   function createPlaceholderSvg(isImage, isVideo) {
     if (isImage) {
@@ -464,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Event Listeners
   openPlaylistModalBtn.addEventListener("click", () => {
     if (selectedMediaUrls.length === 0) {
-      alert("Please select at least one media item.");
+      showAlert("Please select at least one media item.");
       return;
     }
     playlistModal.style.display = "flex";
@@ -480,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
         media: selectedMediaUrls,
         createdAt: new Date().toISOString(),
       });
-      alert(`Playlist "${playlistName}" created and media added.`);
+      showAlert(`Playlist "${playlistName}" created and media added.`);
     }
 
     closeModal();
@@ -491,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedPlaylists = document.querySelectorAll(".playlist-option input:checked");
 
     if (selectedPlaylists.length === 0) {
-      alert("Please select at least one playlist to add media.");
+      showAlert("Please select at least one playlist to add media.");
       return;
     }
 
@@ -512,40 +416,172 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    alert("Selected media added to existing playlists.");
+    showAlert("Selected media added to existing playlists.");
     closeModal();
   });
 
+  // deleteSelectedMediaBtn.addEventListener("click", async () => {
+  //   if (selectedMediaUrls.length === 0) {
+  //     showAlert("Please select at least one media item to delete.");
+  //     return;
+  //   }
+
+  //   for (const mediaUrl of selectedMediaUrls) {
+  //     try {
+  //       // Delete the file from Firebase Storage
+  //       const mediaRef = ref(storage, mediaUrl);
+  //       await deleteObject(mediaRef);
+
+  //       // Delete the document from Firestore
+  //       const mediaDocQuery = query(collection(db, "users", userId, "media"), where("mediaUrl", "==", mediaUrl));
+  //       const mediaDocSnapshot = await getDocs(mediaDocQuery);
+
+  //       for (const docSnapshot of mediaDocSnapshot.docs) {
+  //         await deleteDoc(docSnapshot.ref);
+  //       }
+
+  //     } catch (error) {
+  //       console.error("Error deleting media:", error);
+  //       showAlert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
+  //     }
+  //   }
+
+  //   showAlert("Selected media deleted successfully.");
+  //   selectedMediaUrls = []; // Clear selected media array
+  //   loadMedia(userId); // Reload media
+  // });
+
+  // deleteSelectedMediaBtn.addEventListener("click", async () => {
+  //   if (selectedMediaUrls.length === 0) {
+  //     showAlert("Please select at least one media item to delete.");
+  //     return;
+  //   }
+  
+  //   const userConfirmed = await confirm("Are you sure you want to delete the selected media? This will also remove them from playlists.");
+  //   if (!userConfirmed) {
+  //     return;
+  //   }
+    
+  //   for (const mediaUrl of selectedMediaUrls) {
+  //     try {
+  //       // Delete from Firebase Storage
+  //       const mediaRef = ref(storage, mediaUrl);
+  //       await deleteObject(mediaRef);
+  
+  //       // Delete from Firestore media collection
+  //       const mediaDocQuery = query(
+  //         collection(db, "users", userId, "media"),
+  //         where("mediaUrl", "==", mediaUrl)
+  //       );
+  //       const mediaDocSnapshot = await getDocs(mediaDocQuery);
+  
+  //       for (const docSnapshot of mediaDocSnapshot.docs) {
+  //         await deleteDoc(docSnapshot.ref);
+  //       }
+  
+  //       // Remove media URL from all playlists
+  //       const playlistsRef = collection(db, "users", userId, "playlists");
+  //       const playlistsSnapshot = await getDocs(playlistsRef);
+  
+  //       for (const playlistDoc of playlistsSnapshot.docs) {
+  //         const playlistData = playlistDoc.data();
+  //         const currentMedia = playlistData.media || [];
+  
+  //         if (currentMedia.includes(mediaUrl)) {
+  //           const updatedMedia = currentMedia.filter(url => url !== mediaUrl);
+  //           await updateDoc(doc(playlistsRef, playlistDoc.id), {
+  //             media: updatedMedia
+  //           });
+  //         }
+  //       }
+  
+  //     } catch (error) {
+  //       console.error("Error deleting media:", error);
+  //       showAlert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
+  //     }
+  //   }
+  
+  //   showAlert("Selected media deleted successfully.");
+  //   selectedMediaUrls = []; // Clear selection
+  //   loadMedia(userId); // Refresh media gallery
+  // });
+  
+
   deleteSelectedMediaBtn.addEventListener("click", async () => {
     if (selectedMediaUrls.length === 0) {
-      alert("Please select at least one media item to delete.");
+      showAlert("Please select at least one media item to delete.");
       return;
     }
-
-    for (const mediaUrl of selectedMediaUrls) {
-      try {
-        // Delete the file from Firebase Storage
-        const mediaRef = ref(storage, mediaUrl);
-        await deleteObject(mediaRef);
-
-        // Delete the document from Firestore
-        const mediaDocQuery = query(collection(db, "users", userId, "media"), where("mediaUrl", "==", mediaUrl));
-        const mediaDocSnapshot = await getDocs(mediaDocQuery);
-
-        for (const docSnapshot of mediaDocSnapshot.docs) {
-          await deleteDoc(docSnapshot.ref);
-        }
-
-        console.log(`Deleted media: ${mediaUrl}`);
-      } catch (error) {
-        console.error("Error deleting media:", error);
-        alert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
-      }
+  
+    const userConfirmed = await confirm("Are you sure you want to delete the selected media? This will also remove them from playlists.");
+    if (!userConfirmed) {
+      return;
     }
-
-    alert("Selected media deleted successfully.");
-    selectedMediaUrls = []; // Clear selected media array
-    loadMedia(userId); // Reload media
+    
+    // Show loading spinner
+    showLoader("Deleting media...");
+    
+    try {
+      let deletedCount = 0;
+      
+      for (const mediaUrl of selectedMediaUrls) {
+        // Update progress
+        updateLoaderText(`Deleting media... (${deletedCount + 1}/${selectedMediaUrls.length})`);
+        
+        try {
+          // Delete from Firebase Storage
+          const mediaRef = ref(storage, mediaUrl);
+          await deleteObject(mediaRef);
+    
+          // Delete from Firestore media collection
+          const mediaDocQuery = query(
+            collection(db, "users", userId, "media"),
+            where("mediaUrl", "==", mediaUrl)
+          );
+          const mediaDocSnapshot = await getDocs(mediaDocQuery);
+    
+          for (const docSnapshot of mediaDocSnapshot.docs) {
+            await deleteDoc(docSnapshot.ref);
+          }
+    
+          // Remove media URL from all playlists
+          const playlistsRef = collection(db, "users", userId, "playlists");
+          const playlistsSnapshot = await getDocs(playlistsRef);
+    
+          for (const playlistDoc of playlistsSnapshot.docs) {
+            const playlistData = playlistDoc.data();
+            const currentMedia = playlistData.media || [];
+    
+            if (currentMedia.includes(mediaUrl)) {
+              const updatedMedia = currentMedia.filter(url => url !== mediaUrl);
+              await updateDoc(doc(playlistsRef, playlistDoc.id), {
+                media: updatedMedia
+              });
+            }
+          }
+          
+          deletedCount++;
+          
+        } catch (error) {
+          console.error("Error deleting media:", error);
+          showAlert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
+        }
+      }
+      
+      // Final success message
+      updateLoaderText("Finalizing deletion...");
+      
+      showAlert("Selected media deleted successfully.");
+      selectedMediaUrls = []; // Clear selection
+      loadMedia(userId); // Refresh media gallery
+      
+    } catch (error) {
+      console.error("Unexpected error during deletion:", error);
+      showAlert("An unexpected error occurred during deletion.");
+    } finally {
+      // Always hide the loader
+      hideLoader();
+    }
   });
 
   addMediaBtn.addEventListener("click", () => {
@@ -553,11 +589,91 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
+  // fileUploadInput.addEventListener("change", async (event) => {
+  //   const files = event.target.files;
+  //   if (!files || files.length === 0) {
+  //     showAlert("No files selected.");
+  //     return;
+  //   }
+
+  //   uploadOverlay.style.display = "flex";
+  //   uploadProgressFill.style.width = "0%";
+  //   uploadPercentage.textContent = "0%";
+
+  //   const totalFiles = files.length;
+
+  //   for (let i = 0; i < totalFiles; i++) {
+  //     const file = files[i];
+
+  //     uploadMessage.textContent = `Uploading Media... (${i + 1} of ${totalFiles})`;
+
+  //     try {
+  //       const storageRef = ref(storage, `users/${userId}/media/${file.name}`);
+  //       const uploadTask = uploadBytesResumable(storageRef, file);
+
+  //       await new Promise((resolve, reject) => {
+  //         uploadTask.on(
+  //           "state_changed",
+  //           (snapshot) => {
+  //             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //             uploadProgressFill.style.width = `${progress.toFixed(0)}%`;
+  //             uploadPercentage.textContent = `${progress.toFixed(0)}%`;
+  //           },
+  //           (error) => {
+  //             console.error("Upload failed:", error);
+  //             reject(error);
+  //           },
+  //           async () => {
+  //             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //             const mediaType = file.type;
+
+  //             const mediaRef = collection(db, "users", userId, "media");
+  //             await addDoc(mediaRef, {
+  //               mediaUrl: downloadURL,
+  //               mediaType: mediaType,
+  //               uploadedAt: new Date().toISOString(),
+  //             });
+
+  //             resolve();
+  //           }
+  //         );
+  //       });
+  //     } catch (error) {
+  //       console.error("File upload failed:", error);
+  //       showAlert(`Failed to upload ${file.name}: ${error.message}`);
+  //     }
+  //   }
+
+  //   uploadOverlay.style.display = "none";
+  //   loadMedia(userId);
+  // });
+
+
   fileUploadInput.addEventListener("change", async (event) => {
     const files = event.target.files;
     if (!files || files.length === 0) {
-      alert("No files selected.");
+      showAlert("No files selected.");
       return;
+    }
+
+    // Allowed file types
+    const allowedTypes = ["image/", "video/", "application/pdf"];
+    const maxFileSize = 150 * 1024 * 1024; // 150MB in bytes
+
+    // Validate all files before upload starts
+    for (let file of files) {
+      const isValidType = allowedTypes.some((type) => file.type.startsWith(type));
+      const isValidSize = file.size <= maxFileSize;
+
+      if (!isValidType) {
+        showAlert(`File is not an allowed type. Only images, videos, and PDFs are allowed.`);
+        return;
+      }
+
+      if (!isValidSize) {
+        showAlert(`File exceeds 20MB limit.`);
+        return;
+      }
     }
 
     uploadOverlay.style.display = "flex";
@@ -568,7 +684,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i = 0; i < totalFiles; i++) {
       const file = files[i];
-
       uploadMessage.textContent = `Uploading Media... (${i + 1} of ${totalFiles})`;
 
       try {
@@ -604,7 +719,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       } catch (error) {
         console.error("File upload failed:", error);
-        alert(`Failed to upload ${file.name}: ${error.message}`);
+        showAlert(`Failed to upload ${file.name}: ${error.message}`);
       }
     }
 
@@ -615,7 +730,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   closeModalBtn.addEventListener("click", closeModal);
-  // Get the close button element by its ID
   const closeButton = document.getElementById('close-view-popup');
   if (closeButton) {
     closeButton.addEventListener('click', function () {
@@ -625,12 +739,193 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     console.error('Close button element with ID "close-view-popup" not found');
   }
+
 });// Dom closing here
 
+function paginateMediaGrid() {
+  const totalItems = filteredMediaItems.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Clamp page
+  currentPage = Math.max(1, Math.min(currentPage, totalPages));
+
+  // Hide all first
+  document.querySelectorAll(".media-item").forEach(item => {
+    item.style.display = "none";
+  });
+
+  // Show only filtered items for this page
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+
+  filteredMediaItems.slice(start, end).forEach(item => {
+    item.style.display = "block";
+  });
+
+  // Update page info
+  paginationInfo.textContent = `Page ${totalPages === 0 ? 0 : currentPage} of ${totalPages}`;
+
+  // Update button state
+  prevBtn.disabled = currentPage <= 1;
+  nextBtn.disabled = currentPage >= totalPages;
+}
+
+prevBtn.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    paginateMediaGrid();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  const totalPages = Math.ceil(filteredMediaItems.length / itemsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    paginateMediaGrid();
+  }
+});
+
+
+function onMediaLoaded() {
+  const allItems = Array.from(document.querySelectorAll(".media-item"));
+  filteredMediaItems = allItems;
+  currentPage = 1;
+  paginateMediaGrid();
+}
+
+// Filter media based on selected type
+document.getElementById("filter-button").addEventListener("change", function () {
+  const selectedType = this.value.toLowerCase();
+  const allItems = Array.from(document.querySelectorAll(".media-item"));
+
+  filteredMediaItems = allItems.filter(item => {
+    const mediaType = (item.dataset.mediaType || "").toLowerCase();
+    const typeCategory = mediaType.split("/")[0]; // 'image', 'video', etc.
+
+    return (
+      selectedType === "all" ||
+      (selectedType === "image" && typeCategory === "image") ||
+      (selectedType === "video" && typeCategory === "video") ||
+      (selectedType === "pdf" && mediaType === "application/pdf")
+    );
+  });
+
+  currentPage = 1;
+  paginateMediaGrid();
+});
+
+
+
+
 // Disable right click in the page
-document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function (e) {
-  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-    return false;
+// document.addEventListener('contextmenu', event => event.preventDefault());
+// document.onkeydown = function (e) {
+//   if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+//     return false;
+//   }
+// };
+
+function showAlert(message) {
+  const alertBox = document.getElementById("custom-alert");
+  const alertMessage = document.getElementById("alert-message");
+  alertMessage.textContent = message;
+  alertBox.classList.remove("hidden");
+
+  // Auto-close after 3 seconds
+  setTimeout(() => {
+    alertBox.classList.add("hidden");
+  }, 3000);
+}
+
+function closeAlert() {
+  document.getElementById("custom-alert").classList.add("hidden");
+  
+}
+
+function confirm(message) {
+  return new Promise((resolve) => {  // ← This return was missing!
+    const confirmBox = document.getElementById("custom-confirm");
+    const messageBox = document.getElementById("confirm-message");
+    const yesBtn = document.getElementById("confirm-yes");
+    const noBtn = document.getElementById("confirm-no");
+
+    // Set message
+    messageBox.textContent = message;
+
+    // Show the confirm box
+    confirmBox.classList.remove("hidden");
+
+    let resolved = false;
+
+    const handleResponse = (response) => {
+      if (resolved) return;
+      resolved = true;
+      
+      confirmBox.classList.add("hidden");
+      cleanup();
+      resolve(response);
+    };
+
+    const keyHandler = (e) => {
+      if (e.key === "Escape") {
+        handleResponse(false);
+      } else if (e.key === "Enter") {
+        handleResponse(true);
+      }
+    };
+
+    const cleanup = () => {
+      document.removeEventListener("keydown", keyHandler);
+    };
+
+    yesBtn.addEventListener("click", () => handleResponse(true), { once: true });
+    noBtn.addEventListener("click", () => handleResponse(false), { once: true });
+    document.addEventListener("keydown", keyHandler);
+  });
+}
+
+// Loading Spinner Utility
+const LoadingSpinner = {
+  element: null,
+  textElement: null,
+  
+  init() {
+    this.element = document.getElementById("loading-spinner");
+    this.textElement = document.getElementById("loading-text");
+  },
+  
+  show(message = "Loading...") {
+    if (!this.element) this.init();
+    this.textElement.textContent = message;
+    this.element.classList.remove("hidden");
+  },
+  
+  hide() {
+    if (!this.element) this.init();
+    this.element.classList.add("hidden");
+  },
+  
+  updateText(message) {
+    if (!this.textElement) this.init();
+    this.textElement.textContent = message;
   }
 };
+
+// Alternative: Simple functions
+function showLoader(message = "Loading...") {
+  const spinner = document.getElementById("loading-spinner");
+  const textElement = document.getElementById("loading-text");
+  
+  textElement.textContent = message;
+  spinner.classList.remove("hidden");
+}
+
+function hideLoader() {
+  const spinner = document.getElementById("loading-spinner");
+  spinner.classList.add("hidden");
+}
+
+function updateLoaderText(message) {
+  const textElement = document.getElementById("loading-text");
+  textElement.textContent = message;
+}

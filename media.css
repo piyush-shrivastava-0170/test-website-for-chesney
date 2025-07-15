@@ -87,7 +87,7 @@ button:hover{transform:translateY(-2px)}
   width:100%;
   height:100%;
   object-fit:fill;
-  border-radius:var(--radius-lg);
+  /* border-radius:var(--radius-lg); */
 }
 
 .gallery-text{
@@ -184,7 +184,7 @@ button:hover{transform:translateY(-2px)}
   width:100%;
   height:180px;
   object-fit:cover;
-  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  /* border-radius:0 0 var(--radius-lg) var(--radius-lg); */
   background:var(--bg-card-solid); /* fallback tint */
 }
 
@@ -212,7 +212,10 @@ button:hover{transform:translateY(-2px)}
 
 /* Checkbox accent matches theme */
 .select-media-checkbox{
-  width:18px;height:18px;cursor:pointer;accent-color:var(--bg-primary);
+  width:20px;
+  height:20px;
+  cursor:pointer;
+  accent-color:white;
 }
 
 /* -------------------------------------------------------------
@@ -512,12 +515,12 @@ button:hover{transform:translateY(-2px)}
 
 /* Actions section */
 .media-actions {
-  padding: 8px 12px;
-  border-top: 1px solid #f3f4f6;
+  padding: 0 1px;
+  /* border-top: 1px solid #f3f4f6; */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fafafa;
+  background:var(--bg-primary);
 }
 
 .select-media-checkbox {
@@ -656,4 +659,179 @@ button:hover{transform:translateY(-2px)}
   margin-top: 4px;
   font-size: 14px;
   color: #ccc;
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  /* margin-top: 20px; */
+}
+
+.page-btn {
+  background-color: #8b73ff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+/* Alert and Confirm Message Design */
+.alert {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #8b73ff;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  max-width: 80%;
+  animation: fadeIn 0.3s ease;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+.alert button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: color 0.2s;
+}
+
+.alert button:hover {
+  color: #000;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: #8b73ff;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  z-index: 10000;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.confirm.hidden {
+  display: none;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirm-actions button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#confirm-yes {
+  background-color: white;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+#confirm-no {
+  background-color: #fff2f4;
+  color: #f44336;
+  border: 1px solid #f44336;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
 }

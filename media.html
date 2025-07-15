@@ -7,13 +7,14 @@
   <title>Media Management</title>
   <link rel="stylesheet" href="media.css">
 
+
 </head>
 
 <body>
   <div class="main-container">
     <div class="left-section">
       <div class="gallery-card">
-        <img src="./images/galleryleft.gif" alt="Gallery" class="gallery-image">
+        <img src="./images/gallery.gif" alt="Gallery" class="gallery-image">
 
       </div>
     </div>
@@ -26,13 +27,27 @@
       <div class="button-row">
         <button id="add-media-btn" class="add-media-button">+ Add Media</button>
         <button id="open-playlist-modal" class="add-media-button">Create Playlist</button>
-        <button id="filter-media" class="add-media-button">Filter Media</button>
+
+        <select id="filter-button" class="add-media-button">
+          <option value="All">All Media</option>
+          <option value="image">Image</option>
+          <option value="video">Video</option>
+          <option value="pdf">PDF</option>
+        </select>
+
         <button id="delete-selected-media" class="add-media-button delete-btn">🗑️ Delete </button>
         <input id="file-upload" type="file" style="display: none;" multiple />
       </div>
-     
+
       <div id="media-grid" class="media-grid "></div>
       
+      <div id="pagination" class="pagination">
+        <button id="prev-page" class="page-btn">Prev</button>
+        <span id="page-info"></span>
+        <button id="next-page" class="page-btn">Next</button>
+      </div>
+      
+
     </div>
 
     <div id="playlist-modal" class="modal">
@@ -62,9 +77,32 @@
     </div>
 
   </div>
+  <div id="custom-alert" class="alert hidden">
+    <span id="alert-message"></span>
+    <button onclick="closeAlert()">×</button>
+  </div>
 
+  <div id="custom-confirm" class="confirm hidden">
+    <div class="confirm-message" id="confirm-message"></div>
+    <div class="confirm-actions">
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
+    </div>
+  </div>
+
+ <!-- Reusable Loading Spinner -->
+<div id="loading-spinner" class="loading-overlay hidden">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">Loading...</div>
+  </div>
+</div>
+  
   <!-- Load JavaScript file -->
-  <script type="module" src="media.js"></script>
+  <script type="module" src="media.js">
+
+    
+  </script>
 </body>
 
 </html>
