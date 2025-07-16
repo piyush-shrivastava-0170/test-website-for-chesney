@@ -44,6 +44,26 @@
       </div>
     </div>
   </div>
+  <div id="custom-alert" class="alert hidden">
+    <span id="alert-message"></span>
+    <!-- <button onclick="closeAlert()">×</button> -->
+  </div>
+
+  <div id="custom-confirm" class="confirm hidden">
+    <div class="confirm-message" id="confirm-message"></div>
+    <div class="confirm-actions">
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
+    </div>
+  </div>
+
+ <!-- Reusable Loading Spinner -->
+<div id="loading-spinner" class="loading-overlay hidden">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">Loading...</div>
+  </div>
+</div>
 
   <!-- Firebase and JavaScript Integration -->
   <script type="module">
@@ -145,7 +165,7 @@ async function connectDevice(userId, deviceId) {
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        alert("Device not found in the system. Please check the Device Code.");
+        showAlert("Device not found in the system. Please check the Device Code.");
         return;
       }
 
@@ -158,7 +178,7 @@ async function connectDevice(userId, deviceId) {
       deviceSnapshot = await getDoc(deviceRef);
 
       if (!deviceSnapshot.exists()) {
-        alert("Device not found in the system. Please check the Device ID.");
+        showAlert("Device not found in the system. Please check the Device ID.");
         return;
       }
     }
@@ -166,7 +186,7 @@ async function connectDevice(userId, deviceId) {
     const deviceData = deviceSnapshot.data();
 
     if (deviceData.connectedBy && deviceData.connectedBy !== userId) {
-      alert("This device is already connected by another admin.");
+      showAlert("This device is already connected by another admin.");
       return;
     }
 
@@ -176,10 +196,10 @@ async function connectDevice(userId, deviceId) {
       connectedAt: new Date().toISOString(),
     });
 
-    alert("Device connected successfully!");
+    showAlert("Device connected successfully!");
   } catch (error) {
     console.error("Error connecting device:", error);
-    alert("An error occurred while connecting the device. Please try again.");
+    showAlert("An error occurred while connecting the device. Please try again.");
   }
 }
 
@@ -202,52 +222,69 @@ async function connectDevice(userId, deviceId) {
 
         });
 
-        alert("Device disconnected successfully!");
+        showAlert("Device disconnected successfully!");
       } catch (error) {
         console.error("Error disconnecting device:", error);
-        alert("An error occurred while disconnecting the device. Please try again.");
+        showAlert("An error occurred while disconnecting the device. Please try again.");
       }
     }
 
     /**
      * Load all devices connected by the current admin in real time.
      */
-    function loadDevices(userId) {
-      const devicesRef = collection(db, "devices");
-      const deviceList = document.getElementById("device-list");
+     function loadDevices(userId) {
+  const devicesRef = collection(db, "devices");
+  const deviceList = document.getElementById("device-list");
 
-      onSnapshot(devicesRef, (snapshot) => {
-        deviceList.innerHTML = ""; // Clear the list  
+  onSnapshot(devicesRef, (snapshot) => {
+    deviceList.innerHTML = ""; // Clear the list  
 
-        snapshot.forEach((doc) => {
-          const deviceData = doc.data();
-          if (deviceData.connectedBy === userId) {
-            const deviceItem = document.createElement("div");
-            deviceItem.classList.add("device-item");
-            deviceItem.innerHTML = `
-               <p>${deviceData.deviceCode || "Unnamed Device"}</p>
-           
-              
-             <h4>${new Date(deviceData.connectedAt).toLocaleDateString()}</h4>
-              <button class="disconnect-btn" data-id="${doc.id}">Disconnect</button>
-            `;
-            deviceList.appendChild(deviceItem);
+    snapshot.forEach((doc) => {
+      const deviceData = doc.data();
+      if (deviceData.connectedBy === userId) {
+        const deviceItem = document.createElement("div");
+        deviceItem.classList.add("device-item");
+        deviceItem.innerHTML = `
+           <p>${deviceData.deviceCode || "Unnamed Device"}</p>
+       
+          
+         <h4>${new Date(deviceData.connectedAt).toLocaleDateString()}</h4>
+          <button class="disconnect-btn" data-id="${doc.id}">Disconnect</button>
+        `;
+        deviceList.appendChild(deviceItem);
+      }
+    });
+
+    // Attach event listeners to disconnect buttons
+    const disconnectButtons = document.querySelectorAll(".disconnect-btn");
+    disconnectButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const deviceId = button.getAttribute("data-id");
+        const deviceName = button.closest('.device-item').querySelector('p').textContent;
+        
+        if (await confirm("Are you sure you want to disconnect this device?")) {
+          // Show loading spinner
+          showLoader(`Disconnecting device "${deviceName}"...`);
+          
+          try {
+            updateLoaderText("Removing device connection...");
+            await disconnectDevice(deviceId);
+            
+            updateLoaderText("Updating device list...");
+            // The onSnapshot will automatically update the UI
+            
+          } catch (error) {
+            console.error("Error disconnecting device:", error);
+            showAlert("Failed to disconnect device. Please try again.");
+          } finally {
+            // Always hide the loader
+            hideLoader();
           }
-        });
-
-        // Attach event listeners to disconnect buttons
-        const disconnectButtons = document.querySelectorAll(".disconnect-btn");
-        disconnectButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const deviceId = button.getAttribute("data-id");
-            if (confirm("Are you sure you want to disconnect this device?")) {
-              disconnectDevice(deviceId);
-            }
-          });
-        });
+        }
       });
-    }
-
+    });
+  });
+}
     /**
      * Initialize app and event listeners.
      */
@@ -267,7 +304,7 @@ async function connectDevice(userId, deviceId) {
             if (deviceId) {
               connectDevice(userId, deviceId);
             } else {
-              alert("Please enter a valid Device ID.");
+              showAlert("Please enter a valid Device ID.");
             }
           });
         } else {
@@ -296,6 +333,121 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Close button element with ID "close-view-popup" not found');
     }
 });
+
+
+
+// Disable right click in the page
+// document.addEventListener('contextmenu', event => event.preventDefault());
+// document.onkeydown = function (e) {
+//   if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+//     return false;
+//   }
+// };
+
+function showAlert(message) {
+  const alertBox = document.getElementById("custom-alert");
+  const alertMessage = document.getElementById("alert-message");
+  alertMessage.textContent = message;
+  alertBox.classList.remove("hidden");
+
+  // Auto-close after 3 seconds
+  setTimeout(() => {
+    alertBox.classList.add("hidden");
+  }, 3000);
+}
+
+function closeAlert() {
+  document.getElementById("custom-alert").classList.add("hidden");
+
+}
+
+function confirm(message) {
+  return new Promise((resolve) => {  // ← This return was missing!
+    const confirmBox = document.getElementById("custom-confirm");
+    const messageBox = document.getElementById("confirm-message");
+    const yesBtn = document.getElementById("confirm-yes");
+    const noBtn = document.getElementById("confirm-no");
+
+    // Set message
+    messageBox.textContent = message;
+
+    // Show the confirm box
+    confirmBox.classList.remove("hidden");
+
+    let resolved = false;
+
+    const handleResponse = (response) => {
+      if (resolved) return;
+      resolved = true;
+
+      confirmBox.classList.add("hidden");
+      cleanup();
+      resolve(response);
+    };
+
+    const keyHandler = (e) => {
+      if (e.key === "Escape") {
+        handleResponse(false);
+      } else if (e.key === "Enter") {
+        handleResponse(true);
+      }
+    };
+
+    const cleanup = () => {
+      document.removeEventListener("keydown", keyHandler);
+    };
+
+    yesBtn.addEventListener("click", () => handleResponse(true), { once: true });
+    noBtn.addEventListener("click", () => handleResponse(false), { once: true });
+    document.addEventListener("keydown", keyHandler);
+  });
+}
+
+// Loading Spinner Utility
+const LoadingSpinner = {
+  element: null,
+  textElement: null,
+
+  init() {
+    this.element = document.getElementById("loading-spinner");
+    this.textElement = document.getElementById("loading-text");
+  },
+
+  show(message = "Loading...") {
+    if (!this.element) this.init();
+    this.textElement.textContent = message;
+    this.element.classList.remove("hidden");
+  },
+
+  hide() {
+    if (!this.element) this.init();
+    this.element.classList.add("hidden");
+  },
+
+  updateText(message) {
+    if (!this.textElement) this.init();
+    this.textElement.textContent = message;
+  }
+};
+
+// Alternative: Simple functions
+function showLoader(message = "Loading...") {
+  const spinner = document.getElementById("loading-spinner");
+  const textElement = document.getElementById("loading-text");
+
+  textElement.textContent = message;
+  spinner.classList.remove("hidden");
+}
+
+function hideLoader() {
+  const spinner = document.getElementById("loading-spinner");
+  spinner.classList.add("hidden");
+}
+
+function updateLoaderText(message) {
+  const textElement = document.getElementById("loading-text");
+  textElement.textContent = message;
+}
   </script>
 </body>
 </html>

@@ -26,7 +26,7 @@
       <button class="create-group-button" id="showGroupModal">Create Group</button>
 
       <div id="groups-container">
-        <div>
+        <div id="select-all-container">
           <input type="checkbox" id="select-all-devices" />
           <label for="select-all-devices">Select All Devices</label>
         </div>
@@ -43,8 +43,9 @@
 
       <div id="group-details" class="group-details">
         <h2 id="group-details-title"></h2>
+        <span id="back-to-groups" class="close-modal">&times;</span>
         <ul id="group-devices-list" class="device-list"></ul>
-        <button class="back-button" id="back-to-groups">Back to Groups</button>
+        <!-- <button class="back-button" id="">Back to Groups</button> -->
       </div>
     </div>
   </div>
@@ -60,7 +61,26 @@
       <button id="createGroupBtn">Create Group</button>
     </div>
   </div>
+  <div id="custom-alert" class="alert hidden">
+    <span id="alert-message"></span>
+    <!-- <button onclick="closeAlert()">×</button> -->
+  </div>
 
+  <div id="custom-confirm" class="confirm hidden">
+    <div class="confirm-message" id="confirm-message"></div>
+    <div class="confirm-actions">
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
+    </div>
+  </div>
+
+ <!-- Reusable Loading Spinner -->
+<div id="loading-spinner" class="loading-overlay hidden">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">Loading...</div>
+  </div>
+</div>
   <!-- Load JavaScript files -->
   <script type="module" src="groups.js">
   </script>

@@ -75,6 +75,7 @@ body {
   padding: 24px;
   display: flex;
   flex-direction: column;
+  background-color: #5769ca;
 }
 
 .left-section img {
@@ -195,6 +196,7 @@ input[type="checkbox"] {
 
 .group-grid {
   grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  
 }
 
 /*  Device item */
@@ -280,6 +282,7 @@ label {
   margin-bottom: 20px;
 }
 
+
 /*  --------------------------------------------------------------------
         Group Details Overlay
         -------------------------------------------------------------------- */
@@ -291,7 +294,7 @@ label {
   /* shown via JS */
   flex-direction: column;
   background: var(--bg-primary);
-  border-radius: var(--radius-lg);
+  /* border-radius: var(--radius-lg); */
 }
 
 .group-details.active {
@@ -318,7 +321,7 @@ label {
         Modal (Create Group)
         -------------------------------------------------------------------- */
 .modal {
-  position: fixed;
+ position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -332,6 +335,7 @@ label {
   overflow-y: scroll;
   background-color: #97a2f1;
   z-index: 1000;
+  display: none;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -423,4 +427,154 @@ label {
   .right-section {
     flex: 1;
   }
+}
+
+/* Alert and Confirm Message Design */
+.alert {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #8b73ff;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  max-width: 80%;
+  animation: fadeIn 0.3s ease;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+.alert button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: color 0.2s;
+}
+
+.alert button:hover {
+  color: #000;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: #8b73ff;
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  z-index: 10000;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.confirm.hidden {
+  display: none;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirm-actions button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#confirm-yes {
+  background-color: white;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+#confirm-no {
+  background-color: #fff2f4;
+  color: #f44336;
+  border: 1px solid #f44336;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
 }
