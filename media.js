@@ -385,6 +385,14 @@ document.addEventListener("DOMContentLoaded", () => {
         createdAt: new Date().toISOString(),
       });
       showAlert(`Playlist "${playlistName}" created and media added.`);
+      // ✅ Clear checkboxes visually
+      document.querySelectorAll(".select-media-checkbox").forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+
+      // ✅ Clear selectedMediaUrls array
+      selectedMediaUrls = [];
+
     }
 
     closeModal();
@@ -456,37 +464,37 @@ document.addEventListener("DOMContentLoaded", () => {
   //     showAlert("Please select at least one media item to delete.");
   //     return;
   //   }
-  
+
   //   const userConfirmed = await confirm("Are you sure you want to delete the selected media? This will also remove them from playlists.");
   //   if (!userConfirmed) {
   //     return;
   //   }
-    
+
   //   for (const mediaUrl of selectedMediaUrls) {
   //     try {
   //       // Delete from Firebase Storage
   //       const mediaRef = ref(storage, mediaUrl);
   //       await deleteObject(mediaRef);
-  
+
   //       // Delete from Firestore media collection
   //       const mediaDocQuery = query(
   //         collection(db, "users", userId, "media"),
   //         where("mediaUrl", "==", mediaUrl)
   //       );
   //       const mediaDocSnapshot = await getDocs(mediaDocQuery);
-  
+
   //       for (const docSnapshot of mediaDocSnapshot.docs) {
   //         await deleteDoc(docSnapshot.ref);
   //       }
-  
+
   //       // Remove media URL from all playlists
   //       const playlistsRef = collection(db, "users", userId, "playlists");
   //       const playlistsSnapshot = await getDocs(playlistsRef);
-  
+
   //       for (const playlistDoc of playlistsSnapshot.docs) {
   //         const playlistData = playlistDoc.data();
   //         const currentMedia = playlistData.media || [];
-  
+
   //         if (currentMedia.includes(mediaUrl)) {
   //           const updatedMedia = currentMedia.filter(url => url !== mediaUrl);
   //           await updateDoc(doc(playlistsRef, playlistDoc.id), {
@@ -494,64 +502,64 @@ document.addEventListener("DOMContentLoaded", () => {
   //           });
   //         }
   //       }
-  
+
   //     } catch (error) {
   //       console.error("Error deleting media:", error);
   //       showAlert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
   //     }
   //   }
-  
+
   //   showAlert("Selected media deleted successfully.");
   //   selectedMediaUrls = []; // Clear selection
   //   loadMedia(userId); // Refresh media gallery
   // });
-  
+
 
   deleteSelectedMediaBtn.addEventListener("click", async () => {
     if (selectedMediaUrls.length === 0) {
       showAlert("Please select at least one media item to delete.");
       return;
     }
-  
+
     const userConfirmed = await confirm("Are you sure you want to delete the selected media? This will also remove them from playlists.");
     if (!userConfirmed) {
       return;
     }
-    
+
     // Show loading spinner
     showLoader("Deleting media...");
-    
+
     try {
       let deletedCount = 0;
-      
+
       for (const mediaUrl of selectedMediaUrls) {
         // Update progress
         updateLoaderText(`Deleting media... (${deletedCount + 1}/${selectedMediaUrls.length})`);
-        
+
         try {
           // Delete from Firebase Storage
           const mediaRef = ref(storage, mediaUrl);
           await deleteObject(mediaRef);
-    
+
           // Delete from Firestore media collection
           const mediaDocQuery = query(
             collection(db, "users", userId, "media"),
             where("mediaUrl", "==", mediaUrl)
           );
           const mediaDocSnapshot = await getDocs(mediaDocQuery);
-    
+
           for (const docSnapshot of mediaDocSnapshot.docs) {
             await deleteDoc(docSnapshot.ref);
           }
-    
+
           // Remove media URL from all playlists
           const playlistsRef = collection(db, "users", userId, "playlists");
           const playlistsSnapshot = await getDocs(playlistsRef);
-    
+
           for (const playlistDoc of playlistsSnapshot.docs) {
             const playlistData = playlistDoc.data();
             const currentMedia = playlistData.media || [];
-    
+
             if (currentMedia.includes(mediaUrl)) {
               const updatedMedia = currentMedia.filter(url => url !== mediaUrl);
               await updateDoc(doc(playlistsRef, playlistDoc.id), {
@@ -559,22 +567,22 @@ document.addEventListener("DOMContentLoaded", () => {
               });
             }
           }
-          
+
           deletedCount++;
-          
+
         } catch (error) {
           console.error("Error deleting media:", error);
           showAlert(`Failed to delete media: ${mediaUrl}. Error: ${error.message}`);
         }
       }
-      
+
       // Final success message
       updateLoaderText("Finalizing deletion...");
-      
+
       showAlert("Selected media deleted successfully.");
       selectedMediaUrls = []; // Clear selection
       loadMedia(userId); // Refresh media gallery
-      
+
     } catch (error) {
       console.error("Unexpected error during deletion:", error);
       showAlert("An unexpected error occurred during deletion.");
@@ -839,7 +847,7 @@ function showAlert(message) {
 
 function closeAlert() {
   document.getElementById("custom-alert").classList.add("hidden");
-  
+
 }
 
 function confirm(message) {
@@ -860,7 +868,7 @@ function confirm(message) {
     const handleResponse = (response) => {
       if (resolved) return;
       resolved = true;
-      
+
       confirmBox.classList.add("hidden");
       cleanup();
       resolve(response);
@@ -888,23 +896,23 @@ function confirm(message) {
 const LoadingSpinner = {
   element: null,
   textElement: null,
-  
+
   init() {
     this.element = document.getElementById("loading-spinner");
     this.textElement = document.getElementById("loading-text");
   },
-  
+
   show(message = "Loading...") {
     if (!this.element) this.init();
     this.textElement.textContent = message;
     this.element.classList.remove("hidden");
   },
-  
+
   hide() {
     if (!this.element) this.init();
     this.element.classList.add("hidden");
   },
-  
+
   updateText(message) {
     if (!this.textElement) this.init();
     this.textElement.textContent = message;
@@ -915,7 +923,7 @@ const LoadingSpinner = {
 function showLoader(message = "Loading...") {
   const spinner = document.getElementById("loading-spinner");
   const textElement = document.getElementById("loading-text");
-  
+
   textElement.textContent = message;
   spinner.classList.remove("hidden");
 }

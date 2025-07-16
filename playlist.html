@@ -13,7 +13,7 @@
     <!-- Left Section -->
     <div class="left-section">
       <div class="playlist-card">
-        <img src="./images/playlistgif.gif" alt="Playlist" class="playlist-image"> 
+        <img src="./icon/playlist.gif" alt="Playlist" class="playlist-image"> 
        
         <!-- <p class="playlist-text">PLAYLIST</p> -->
       </div>
@@ -37,6 +37,26 @@
     </div>
   </div>
 
+  <div id="custom-alert" class="alert hidden">
+    <span id="alert-message"></span>
+    <button onclick="closeAlert()">×</button>
+  </div>
+
+  <div id="custom-confirm" class="confirm hidden">
+    <div class="confirm-message" id="confirm-message"></div>
+    <div class="confirm-actions">
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
+    </div>
+  </div>
+
+ <!-- Reusable Loading Spinner -->
+<div id="loading-spinner" class="loading-overlay hidden">
+  <div class="loading-content">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loading-text">Loading...</div>
+  </div>
+</div>
   <!-- Load JavaScript file -->
   <script type="module" src="playlist.js"></script>
 </body>

@@ -115,6 +115,16 @@ button:hover{transform:translateY(-2px)}
 
 .add-media-button:hover{background:var(--accent-light)}
 
+.create-media-button{
+  background:var(--txt-light);
+  color:var(--accent);
+  padding:10px 20px;
+  font-size:1rem;
+  font-weight:700;
+  border-radius:var(--radius-lg);
+  margin-bottom: 15px;
+}
+
 .delete-btn{
   background:var(--danger);
   color:var(--txt-light);
@@ -263,11 +273,13 @@ button:hover{transform:translateY(-2px)}
   background:var(--bg-card-solid);
   border-radius:var(--radius-lg);
   margin-bottom:30px;
+  margin-right: 30px;
 }
 
 .playlist-option{
   padding:10px;
   border-bottom:1px solid rgba(255,255,255,.3);
+  
 }
 
 .playlist-option input[type="checkbox"]{
