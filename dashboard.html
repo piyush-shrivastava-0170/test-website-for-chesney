@@ -12,7 +12,7 @@
     <div class="left-section">
       <!-- Welcome Card -->
       <section class="welcome-card">
-        <img src="./images/logo1.png" alt="Company Logo" class="logo">
+        <img src="./images/logoblue.png" alt="Company Logo" class="logo">
         <p class="welcome-text">WELCOME, <span id="username">USER</span>!</p>
       </section>
 
@@ -31,6 +31,8 @@
 
     <!-- Right Section -->
     <div class="right-section">
+      <span id="close-view-popup" class="close-modal">&times;</span>
+
       <!-- User Info Card -->
       <section class="info-card">
         <h1>Hello, <span id="display-name">User</span>!</h1>
@@ -90,13 +92,33 @@
         if (confirm("Are you sure you want to log out?")) {
           try {
             await signOut(auth);
-            window.location.href = "index.html";
+            window.location.href = "login.html";
           } catch (error) {
             alert("Failed to log out. Please try again.");
           }
         }
       });
     });
+
+        // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the close button element by its ID
+    const closeButton = document.getElementById('close-view-popup');
+    
+    // Add a click event listener to the close button
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            // Navigate to the home page
+            window.location.href = 'service.html';
+            
+            // Alternative approaches:
+            // window.location.replace('/'); // Replaces current history entry
+            // window.location.assign('/');  // Same as window.location.href = '/'
+        });
+    } else {
+        console.error('Close button element with ID "close-view-popup" not found');
+    }
+});
   </script>
 </body>
 </html>

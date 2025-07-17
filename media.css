@@ -84,10 +84,10 @@ button:hover{transform:translateY(-2px)}
 }
 
 .gallery-image{
-  width:100%;
-  height:100%;
-  object-fit:fill;
-  /* border-radius:var(--radius-lg); */
+  width: 100%;
+  height: 100vh;
+  object-fit: fill;
+  
 }
 
 .gallery-text{

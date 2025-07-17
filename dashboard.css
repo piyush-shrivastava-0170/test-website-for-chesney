@@ -1,10 +1,26 @@
-/* Global Styles */
+/* Theme Variables - Applied from first CSS */
+:root {
+  --bg-primary: #97a2f1; /* page background */
+  --bg-card: rgba(255, 255, 255, 0.10); /* glassmorphic card */
+  --bg-card-solid: #5769ca; /* solid card fill */
+  --bg-right: #5769ca; /* right-hand pane */
+  --txt-light: #ffffff;
+  --txt-dark: #333333;
+  --accent: #5769ca; /* buttons/links */
+  --accent-light: #eafaff; /* button hover */
+  --danger: #f08080;
+  --radius-lg: 15px;
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, .20);
+  --blur: blur(12px);
+}
+
+/* Global Styles - Updated with theme colors */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f8eaff;
-  color: #333;
+  background-color: var(--bg-primary); /* Changed from #f8eaff */
+  color: var(--txt-dark);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,22 +36,22 @@ body {
   width: 90%;
   max-width: 1200px;
   height: 85vh;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
-/* Left Section */
+/* Left Section - Updated with theme colors */
 .left-section {
   width: 35%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
   border-right: 1px solid rgba(255, 255, 255, 0.3);
   padding: 30px;
-  background-color: #c4b3ff;
+  background-color: var(--bg-primary); /* Updated to match theme */
 }
 
 /* Welcome Card */
@@ -60,10 +76,10 @@ body {
   font-weight: 600;
   text-align: center;
   margin: 0;
-  color: white;
+  color: var(--txt-light);
 }
 
-/* Menu Section */
+/* Menu Section - Updated with theme colors */
 .menu {
   display: flex;
   flex-direction: column;
@@ -79,70 +95,73 @@ body {
 .menu-button {
   width: 100%;
   padding: 15px 20px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  color: white;
+  border-radius: var(--radius-lg);
+  color: var(--txt-light);
   font-size: 1rem;
   font-weight: 500;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  background-color: #9E77ED;
+  background-color: var(--bg-card-solid); /* Updated to match theme */
 }
 
 .menu-button:hover {
-  background: #8b73ff;
+  background: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #logout-btn {
   margin-top: auto;
-  background: #B692F6;
-  color: white;
+  background: linear-gradient(135deg, #ff5f5f, #d600009e); /* Using danger gradient from theme */
+  color: var(--txt-light);
+  border: 1px solid rgba(255, 80, 80, 0.6);
 }
 
 #logout-btn:hover {
-  background: #9E77ED;
+  background: linear-gradient(135deg, #ff1f1f, #b40000);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.5);
 }
 
-/* Right Section */
+/* Right Section - Updated with theme colors */
 .right-section {
   width: 65%;
   padding: 40px;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
   overflow-y: auto;
-  background-color: #8b73ff;
+  background-color: var(--bg-right); /* Updated to match theme */
 }
 
-/* Info Card */
+/* Info Card - Updated with theme colors */
 .info-card {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 15px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
   padding: 30px;
   margin-bottom: 30px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: #c4b3ff;
+  background-color: var(--bg-primary); /* Updated to match theme */
 }
 
 .info-card h1 {
   font-size: 2rem;
   margin-top: 0;
   margin-bottom: 15px;
-  color: white;
+  color: var(--txt-light);
 }
 
 .info-card p {
   font-size: 1.1rem;
   margin-bottom: 25px;
   opacity: 0.9;
-  color: white;
+  color: var(--txt-light);
 }
 
 /* User Details */
@@ -165,11 +184,11 @@ body {
 }
 
 .detail span {
-  color: white;
+  color: var(--txt-light);
   font-weight: 500;
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - Updated with theme colors */
 .right-section::-webkit-scrollbar {
   width: 8px;
 }
@@ -180,85 +199,99 @@ body {
 }
 
 .right-section::-webkit-scrollbar-thumb {
-  background: #9E77ED;
+  background: var(--bg-primary);
   border-radius: 4px;
 }
 
 .right-section::-webkit-scrollbar-thumb:hover {
-  background: #B692F6;
+  background: var(--accent);
 }
 
 /* Responsive styles */
 @media (max-width: 900px) {
   .main-container {
-    flex-direction: column;
-    height: auto;
-    min-height: 100vh;
+      flex-direction: column;
+      height: auto;
+      min-height: 100vh;
   }
 
   .left-section, .right-section {
-    width: 100%;
-    padding: 25px;
+      width: 100%;
+      padding: 25px;
   }
 
   .left-section {
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .welcome-card {
-    margin-bottom: 20px;
+      margin-bottom: 20px;
   }
 
   .menu {
-    margin-bottom: 20px;
-    gap: 10px;
+      margin-bottom: 20px;
+      gap: 10px;
   }
 
   #logout-btn {
-    margin-top: 20px;
+      margin-top: 20px;
   }
 
   .info-card {
-    padding: 20px;
+      padding: 20px;
   }
 
   .info-card h1 {
-    font-size: 1.8rem;
+      font-size: 1.8rem;
   }
 }
 
 @media (max-width: 500px) {
   .main-container {
-    width: 95%;
-    border-radius: 15px;
+      width: 95%;
+      border-radius: var(--radius-lg);
   }
 
   .left-section, .right-section {
-    padding: 20px;
+      padding: 20px;
   }
 
   .welcome-text {
-    font-size: 1.2rem;
+      font-size: 1.2rem;
   }
 
   .menu-button {
-    padding: 12px 15px;
-    font-size: 0.9rem;
+      padding: 12px 15px;
+      font-size: 0.9rem;
   }
 
   .info-card h1 {
-    font-size: 1.5rem;
+      font-size: 1.5rem;
   }
 
   .info-card p {
-    font-size: 1rem;
+      font-size: 1rem;
   }
 
   .detail {
-    font-size: 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+      font-size: 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
   }
+}/* Modal Close Buttons */
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--txt-light);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-modal:hover {
+  color: var(--accent-light);
 }

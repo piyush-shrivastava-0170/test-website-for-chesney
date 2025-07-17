@@ -73,58 +73,58 @@
 
 
   <main class="dashboard-container">
-   
-      <div class="sidebar">
+      <button onclick="location.href='dashboard.html'" class="sidebar" style="border: none;">
+      <!-- <div > -->
         <div class="grid-item empty-title"></div>
         <div class="sidebar-icon">+</div>
-        <div class="sidebar-header">TEAM<br>UPDATES</div>
-        <img src="./icon/analytics.png" alt="">
-      </div>
-
+        <div class="sidebar-header">my<br>profile</div>
+        <img src="./icon/icon_profile.png" alt="">
+      <!-- </div> -->
+    </button>
       <div class="grid-container">
         <button onclick="location.href='connect.html'" class="grid-item connect-screen">
-          <img src="./icon/connect_screen.png" alt="Connect Screen">
+          <img src="./icon/connect_screen_icon_up.png" alt="Connect Screen">
           <span>CONNECT SCREEN</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='manage.html'" class="grid-item manage-screen">
-          <img src="./icon/manage_screen_.png" alt="Manage Screen">
+          <img src="./icon/icon.png" alt="Manage Screen">
           <span>MANAGE SCREEN</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='media.html'" class="grid-item add-media">
-          <img src="./icon/gallery_icon.png" alt="Add Media">
+          <img src="./icon/icon_gallery_.png" alt="Add Media">
           <span>ADD MEDIA</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='playlist.html'" class="grid-item create-playlist">
-          <img src="./icon/playlist_icon_a.png" alt="Create Playlist">
+          <img src="./icon/icon_playlist.png" alt="Create Playlist">
           <span>CREATE PLAYLIST</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='groups.html'" class="grid-item group-devices">
-          <img src="./icon/group_icon_b.png" alt="Group Devices">
+          <img src="./icon/_iconGroup.png" alt="Group Devices">
           <span>GROUP DEVICES</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='analytics.html'" class="grid-item analytics">
-          <img src="./icon/analytics.png" alt="Analytics">
+          <img src="./icon/icon_analytics.png" alt="Analytics">
           <span>DATA ANALYTICS</span>
           <i class="arrow right"></i>
         </button>
 
         <button onclick="location.href='contactus.html'" class="grid-item contact-us">
-          <img src="./icon/contact.png" alt="Contact Us">
+          <img src="./icon/icon_contactus.png" alt="Contact Us">
           <span>CONTACT US</span>
           <i class="arrow right"></i>
         </button>
         <button onclick="location.href='contactus.html'" class="grid-item coming-soon">
-          <img src="./icon/analytics.png" alt="Contact Us">
+          <img src="./icon/application_icon.png" alt="Contact Us">
           <span>COMING SOON</span>
           <i class="arrow right"></i>
         </button>
@@ -155,23 +155,23 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth();
 
-      // document.addEventListener("DOMContentLoaded", () => {
-      //   onAuthStateChanged(auth, (user) => {
-      //     if (user) {
-      //       const displayName = user.displayName || user.email.split('@')[0];
-      //       document.querySelector('.welcome-text').textContent = `WELCOME ${displayName.toUpperCase()}`;
-      //     } else {
-      //       window.location.href = "login.html";
-      //     }
-      //   });
-      // });
+      document.addEventListener("DOMContentLoaded", () => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            const displayName = user.displayName || user.email.split('@')[0];
+            document.querySelector('.welcome-text').textContent = `WELCOME ${displayName.toUpperCase()}`;
+          } else {
+            window.location.href = "login.html";
+          }
+        });
+      });
 
-      document.addEventListener('contextmenu', event => event.preventDefault());
-      document.onkeydown = function (e) {
-        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-          return false;
-        }
-      };
+      // document.addEventListener('contextmenu', event => event.preventDefault());
+      // document.onkeydown = function (e) {
+      //   if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
+      //     return false;
+      //   }
+      // };
 
 
 
