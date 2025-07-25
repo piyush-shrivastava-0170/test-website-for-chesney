@@ -49,7 +49,7 @@ body {
 }
 
 /*  --------------------------------------------------------------------
-        Reusable “glass card” style
+        Reusable "glass card" style
         -------------------------------------------------------------------- */
 .glass {
   background: var(--bg-card);
@@ -60,7 +60,7 @@ body {
 }
 
 /*  --------------------------------------------------------------------
-        Layout (30 % / 70 %)
+        Layout (30 % / 70 %)
         -------------------------------------------------------------------- */
 .main-container {
   display: flex;
@@ -291,7 +291,7 @@ label {
   filter: brightness(1.1);
 }
 
-/*  “Create Group” main CTA */
+/*  "Create Group" main CTA */
 .create-group-button {
   align-self: flex-start;
   margin-bottom: 20px;
@@ -416,32 +416,6 @@ label {
 
 #groupNameInput::placeholder {
   color: rgba(255, 255, 255, .70);
-}
-
-/*  --------------------------------------------------------------------
-        Utilities & Media Queries
-        -------------------------------------------------------------------- */
-[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 768px) {
-  .main-container {
-    flex-direction: column;
-  }
-
-  .left-section,
-  .right-section {
-    width: 100%;
-  }
-
-  .left-section {
-    padding-bottom: 0;
-  }
-
-  .right-section {
-    flex: 1;
-  }
 }
 
 /* Alert and Confirm Message Design */
@@ -592,4 +566,622 @@ label {
 
 .hidden {
   display: none;
+}
+
+/*  --------------------------------------------------------------------
+        Mobile Responsive Design (existing)
+        -------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+  }
+
+  .left-section {
+    padding-bottom: 0;
+  }
+
+  .right-section {
+    flex: 1;
+  }
+}
+
+/* -------------------------------------------------------------
+   Large Screens - Progressive Font Size Scaling
+----------------------------------------------------------------*/
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  .toggle-buttons button {
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+  
+  .select-all {
+    font-size: 1.1rem;
+  }
+  
+  label {
+    font-size: 1.15rem;
+  }
+  
+  .group-box h4 {
+    font-size: 1.4rem;
+  }
+  
+  .group-box p {
+    font-size: 1.1rem;
+  }
+  
+  .device-list li {
+    font-size: 1.15rem;
+    padding: 14px 18px;
+  }
+  
+  .view-group-btn,
+  .create-group-button,
+  .delete-group-btn,
+  .back-button,
+  #createGroupBtn {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .close-modal,
+  .close {
+    font-size: 2.2rem;
+  }
+  
+  #groupNameInput {
+    padding: 14px;
+    font-size: 1rem;
+  }
+  
+  #selectedDevicesList {
+    padding: 18px;
+  }
+  
+  #selectedDevicesList li {
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+  
+  .alert {
+    font-size: 17px;
+    padding: 18px 26px;
+  }
+  
+  .confirm {
+    font-size: 17px;
+    padding: 26px 36px;
+  }
+  
+  .confirm-actions button {
+    padding: 10px 24px;
+    font-size: 16px;
+  }
+  
+  .loading-text {
+    font-size: 17px;
+  }
+  
+  /* Grid enhancements */
+  .device-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+  }
+  
+  .group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 18px;
+  }
+  
+  .device-item {
+    padding: 18px;
+    gap: 15px;
+  }
+  
+  .group-box {
+    padding: 24px;
+    gap: 10px;
+  }
+  
+  /* Checkbox scaling */
+  input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Extra Large Desktop (1440px+) */
+@media (min-width: 1440px) {
+  h2 {
+    font-size: 2rem;
+  }
+  
+  .toggle-buttons button {
+    padding: 12px 34px;
+    font-size: 1.1rem;
+  }
+  
+  .select-all {
+    font-size: 1.2rem;
+  }
+  
+  label {
+    font-size: 1.25rem;
+  }
+  
+  .group-box h4 {
+    font-size: 1.5rem;
+  }
+  
+  .group-box p {
+    font-size: 1.2rem;
+  }
+  
+  .device-list li {
+    font-size: 1.25rem;
+    padding: 16px 20px;
+  }
+  
+  .view-group-btn,
+  .create-group-button,
+  .delete-group-btn,
+  .back-button,
+  #createGroupBtn {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+  }
+  
+  .close-modal,
+  .close {
+    font-size: 2.4rem;
+  }
+  
+  #groupNameInput {
+    padding: 16px;
+    font-size: 1.1rem;
+  }
+  
+  #selectedDevicesList {
+    padding: 20px;
+    max-height: 240px;
+  }
+  
+  #selectedDevicesList li {
+    padding: 12px 0;
+    font-size: 1.1rem;
+  }
+  
+  .alert {
+    font-size: 18px;
+    padding: 20px 28px;
+  }
+  
+  .confirm {
+    font-size: 18px;
+    padding: 28px 38px;
+  }
+  
+  .confirm-actions button {
+    padding: 12px 26px;
+    font-size: 17px;
+  }
+  
+  .loading-text {
+    font-size: 18px;
+  }
+  
+  /* Grid enhancements */
+  .device-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 20px;
+  }
+  
+  .device-item {
+    padding: 20px;
+    gap: 16px;
+  }
+  
+  .group-box {
+    padding: 26px;
+    gap: 12px;
+  }
+  
+  /* Modal enhancements */
+  .modal {
+    max-width: 600px;
+    padding: 30px;
+  }
+  
+  .modal-content {
+    padding: 36px;
+  }
+  
+  /* Checkbox scaling */
+  input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Section padding */
+  .right-section {
+    padding: 30px;
+  }
+  
+  .group-details {
+    padding: 30px;
+  }
+}
+
+/* Ultra Large Desktop (1920px+) */
+@media (min-width: 1920px) {
+  h2 {
+    font-size: 2.4rem;
+  }
+  
+  .toggle-buttons button {
+    padding: 14px 38px;
+    font-size: 1.3rem;
+  }
+  
+  .select-all {
+    font-size: 1.4rem;
+  }
+  
+  label {
+    font-size: 1.4rem;
+  }
+  
+  .group-box h4 {
+    font-size: 1.7rem;
+  }
+  
+  .group-box p {
+    font-size: 1.4rem;
+  }
+  
+  .device-list li {
+    font-size: 1.4rem;
+    padding: 18px 24px;
+  }
+  
+  .view-group-btn,
+  .create-group-button,
+  .delete-group-btn,
+  .back-button,
+  #createGroupBtn {
+    padding: 14px 28px;
+    font-size: 1.3rem;
+  }
+  
+  .close-modal,
+  .close {
+    font-size: 2.8rem;
+  }
+  
+  #groupNameInput {
+    padding: 18px;
+    font-size: 1.3rem;
+  }
+  
+  #selectedDevicesList {
+    padding: 24px;
+    max-height: 280px;
+  }
+  
+  #selectedDevicesList li {
+    padding: 14px 0;
+    font-size: 1.3rem;
+  }
+  
+  .alert {
+    font-size: 20px;
+    padding: 22px 32px;
+  }
+  
+  .confirm {
+    font-size: 20px;
+    padding: 32px 42px;
+  }
+  
+  .confirm-actions button {
+    padding: 14px 28px;
+    font-size: 18px;
+  }
+  
+  .loading-text {
+    font-size: 20px;
+  }
+  
+  /* Grid enhancements */
+  .device-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  
+  .group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  
+  .device-item {
+    padding: 24px;
+    gap: 18px;
+  }
+  
+  .group-box {
+    padding: 30px;
+    gap: 14px;
+  }
+  
+  /* Modal enhancements */
+  .modal {
+    max-width: 700px;
+    padding: 36px;
+  }
+  
+  .modal-content {
+    padding: 40px;
+  }
+  
+  /* Checkbox scaling */
+  input[type="checkbox"] {
+    width: 26px;
+    height: 26px;
+  }
+  
+  /* Section padding */
+  .right-section {
+    padding: 36px;
+  }
+  
+  .group-details {
+    padding: 36px;
+  }
+  
+  /* Toggle buttons enhancements */
+  .toggle-buttons {
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .select-all {
+    gap: 15px;
+  }
+}
+
+/* 4K and Ultra Wide Screens (2560px+) */
+@media (min-width: 2560px) {
+  h2 {
+    font-size: 2.8rem;
+  }
+  
+  .toggle-buttons button {
+    padding: 16px 42px;
+    font-size: 1.5rem;
+  }
+  
+  .select-all {
+    font-size: 1.6rem;
+  }
+  
+  label {
+    font-size: 1.6rem;
+  }
+  
+  .group-box h4 {
+    font-size: 2rem;
+  }
+  
+  .group-box p {
+    font-size: 1.6rem;
+  }
+  
+  .device-list li {
+    font-size: 1.6rem;
+    padding: 22px 28px;
+  }
+  
+  .view-group-btn,
+  .create-group-button,
+  .delete-group-btn,
+  .back-button,
+  #createGroupBtn {
+    padding: 16px 32px;
+    font-size: 1.5rem;
+  }
+  
+  .close-modal,
+  .close {
+    font-size: 3.2rem;
+  }
+  
+  #groupNameInput {
+    padding: 22px;
+    font-size: 1.5rem;
+  }
+  
+  #selectedDevicesList {
+    padding: 28px;
+    max-height: 320px;
+  }
+  
+  #selectedDevicesList li {
+    padding: 16px 0;
+    font-size: 1.5rem;
+  }
+  
+  .alert {
+    font-size: 22px;
+    padding: 26px 36px;
+  }
+  
+  .confirm {
+    font-size: 22px;
+    padding: 36px 46px;
+  }
+  
+  .confirm-actions button {
+    padding: 16px 32px;
+    font-size: 20px;
+  }
+  
+  .loading-text {
+    font-size: 22px;
+  }
+  
+  /* Grid enhancements for 4K */
+  .device-grid {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 28px;
+  }
+  
+  .group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 28px;
+  }
+  
+  .device-item {
+    padding: 28px;
+    gap: 22px;
+  }
+  
+  .group-box {
+    padding: 36px;
+    gap: 16px;
+  }
+  
+  /* Modal enhancements for 4K */
+  .modal {
+    max-width: 800px;
+    padding: 40px;
+  }
+  
+  .modal-content {
+    padding: 48px;
+  }
+  
+  /* Checkbox scaling for 4K */
+  input[type="checkbox"] {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Maximum section padding for 4K */
+  .right-section {
+    padding: 40px;
+  }
+  
+  .group-details {
+    padding: 40px;
+  }
+  
+  /* Enhanced spacing for 4K */
+  .toggle-buttons {
+    gap: 18px;
+    margin-bottom: 25px;
+  }
+  
+  .select-all {
+    gap: 18px;
+  }
+  
+  /* Loading spinner scaling */
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 5px;
+  }
+  
+  .loading-content {
+    padding: 40px;
+    min-width: 250px;
+  }
+}
+
+/* Ultra-wide screens (3440px+) - Special handling for ultra-wide monitors */
+@media (min-width: 3440px) {
+  /* Prevent excessive stretching on ultra-wide displays */
+  .main-container {
+    max-width: 3200px;
+    margin: 0 auto;
+  }
+  
+  /* Optimize grids for ultra-wide */
+  .device-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    max-width: 1600px;
+    margin: 20px auto;
+  }
+  
+  .group-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    max-width: 1400px;
+    margin: 20px auto;
+  }
+  
+  /* Center content in right section */
+  .right-section {
+    align-items: center;
+  }
+  
+  .right-section > * {
+    width: 100%;
+    max-width: 1600px;
+  }
+  
+  /* Modal positioning for ultra-wide */
+  .modal {
+    max-width: 900px;
+  }
+}
+
+/* High DPI displays - Enhance visual quality */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .glass {
+    border-width: 0.5px;
+  }
+  
+  .device-item,
+  .group-box {
+    border-width: 0.5px;
+  }
+  
+  /* Enhance shadows for retina displays */
+  .modal {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .alert {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .confirm {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .loading-content {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Enhanced glassmorphism for retina */
+  .device-item,
+  .group-box {
+    backdrop-filter: blur(16px);
+  }
 }
