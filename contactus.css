@@ -1,5 +1,24 @@
 @import url('https://fonts.cdnfonts.com/css/norwester');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+/* Playfair Display */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap');
+
+/* Merriweather */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600&display=swap');
+
+/* Raleway */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
+
+/* Oswald */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+
+/* League Spartan */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@400;600&display=swap');
+
+
+
 
   /* Global Styles */
   * {
@@ -9,9 +28,10 @@
 }
 
 body {
-    font-family: 'Norwester', sans-serif;
+    font-family: 'Pathway Extreme', sans-serif;
      background-color: #97A2F1;
      color: white;
+     
 
 }
 
@@ -268,34 +288,35 @@ body {
     font-weight: bold;
     font-size: 25px;
     line-height: 1.2;
+      font-family: 'norwester', sans-serif;
 }
-
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    font-size: 25px;
-    font-weight: bold;
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .nav-links li {
-    cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 20px;
-    transition: background 0.3s;
+  border-radius: 20px;
+  transition: background 0.3s;
+  text-transform: capitalize;
 }
 
 .nav-links li:hover,
 .nav-links .active {
-    background: white;
-    color: #656ED3;
+  background: white;
+  color: #656ED3;
 }
 
 .nav-links li a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    /* padding: 10px; */
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 8px 12px; /* Moved padding from li to a */
+  border-radius: 20px; /* Ensure the anchor also has rounded corners */
+  cursor: pointer;
 }
 
 /* Mobile Responsive Styles (existing) */
@@ -355,133 +376,135 @@ body {
    Large Screens - Progressive Font Size Scaling
 ----------------------------------------------------------------*/
 
-/* Large Desktop (1200px+) */
-@media (min-width: 1200px) {
+/* 💻 14-15 inch Laptops (1200px-1600px) - REDUCED SIZES */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  /* Header scaling - SMALLER for laptops */
   .header h1 {
-    font-size: 2.8rem;
+    font-size: 2.7rem; /* Reduced from 2.8rem */
   }
   
   .header p {
-    font-size: 1.2rem;
-    max-width: 800px;
+    font-size: 1.15rem; /* Reduced from 1.2rem */
+    max-width: 750px; /* Reduced from 800px */
   }
   
+  /* Navbar scaling - SMALLER for laptops */
+  .logo span {
+    font-size: 26px; /* Reduced from 28px */
+  }
+  
+  .logo img {
+    height: 85px; /* Reduced from 90px */
+  }
+  
+  .nav-links {
+    font-size: 26px; /* Reduced from 28px */
+    gap: 32px; /* Reduced from 35px */
+  }
+  
+  .nav-links li a {
+    padding: 9px 14px; /* Reduced from 10px 16px */
+  }
+  
+  .navbar {
+    padding: 11px 45px; /* Reduced from 12px 50px */
+  }
+  
+  /* Contact sections scaling - SMALLER for laptops */
   .contact-info h2,
   .contact-form h2 {
-    font-size: 2rem;
+    font-size: 1.9rem; /* Reduced from 2rem */
   }
   
   .contact-details h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem; /* Reduced from 1.3rem */
   }
   
   .contact-details p {
-    font-size: 1.1rem;
+    font-size: 1.05rem; /* Reduced from 1.1rem */
   }
   
   .form-group label {
-    font-size: 1.1rem;
+    font-size: 1.05rem; /* Reduced from 1.1rem */
   }
   
   .form-group input,
   .form-group textarea {
-    font-size: 1.1rem;
-    padding: 14px 18px;
+    font-size: 1.05rem; /* Reduced from 1.1rem */
+    padding: 13px 17px; /* Reduced from 14px 18px */
   }
   
   .submit-btn {
-    font-size: 1.1rem;
-    padding: 14px 30px;
+    font-size: 1.05rem; /* Reduced from 1.1rem */
+    padding: 13px 28px; /* Reduced from 14px 30px */
   }
   
   .footer {
-    font-size: 1rem;
+    font-size: 0.95rem; /* Reduced from 1rem */
   }
   
-  /* Navbar scaling */
-  .logo span {
-    font-size: 28px;
-  }
-  
-  .logo img {
-    height: 90px;
-  }
-  
-  .nav-links {
-    font-size: 28px;
-    gap: 35px;
-  }
-  
-  .nav-links li {
-    padding: 10px 16px;
-  }
-  
-  .navbar {
-    padding: 12px 50px;
-  }
-  
-  /* Enhanced spacing */
+  /* Enhanced spacing - SMALLER for laptops */
   .container {
-    gap: 35px;
-    padding: 50px 0;
-    max-width: 1400px;
+    gap: 33px; /* Reduced from 35px */
+    padding: 47px 0; /* Reduced from 50px */
+    max-width: 1350px; /* Reduced from 1400px */
   }
   
   .contact-container {
-    gap: 35px;
+    gap: 33px; /* Reduced from 35px */
   }
   
   .contact-info,
   .contact-form {
-    min-width: 350px;
-    padding: 36px;
+    min-width: 330px; /* Reduced from 350px */
+    padding: 34px; /* Reduced from 36px */
   }
   
   .contact-item {
-    margin-bottom: 30px;
+    margin-bottom: 28px; /* Reduced from 30px */
   }
   
   .contact-icon {
-    width: 55px;
-    height: 55px;
-    margin-right: 18px;
+    width: 52px; /* Reduced from 55px */
+    height: 52px;
+    margin-right: 17px; /* Reduced from 18px */
   }
   
   .contact-icon svg {
-    width: 26px;
-    height: 26px;
+    width: 25px; /* Reduced from 26px */
+    height: 25px;
   }
   
   .social-icon {
-    width: 45px;
-    height: 45px;
+    width: 43px; /* Reduced from 45px */
+    height: 43px;
   }
   
   .social-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 21px; /* Reduced from 22px */
+    height: 21px;
   }
   
   .social-media {
-    gap: 18px;
-    margin-top: 35px;
+    gap: 17px; /* Reduced from 18px */
+    margin-top: 33px; /* Reduced from 35px */
   }
   
   .map-section {
-    height: 450px;
+    height: 430px; /* Reduced from 450px */
   }
   
   .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 23px; /* Reduced from 24px */
   }
   
   .form-group textarea {
-    min-height: 170px;
+    min-height: 162px; /* Reduced from 170px */
   }
 }
 
-/* Extra Large Desktop (1440px+) */
-@media (min-width: 1440px) {
+/* 🖥️ Large Desktop (1601px-1919px) - NORMAL LARGE SIZES */
+@media (min-width: 1601px) and (max-width: 1919px) {
   .header h1 {
     font-size: 3.2rem;
   }
@@ -537,7 +560,7 @@ body {
     gap: 40px;
   }
   
-  .nav-links li {
+  .nav-links li a {
     padding: 12px 18px;
   }
   
@@ -654,24 +677,24 @@ body {
   
   /* Navbar scaling */
   .logo span {
-    font-size: 36px;
+    font-size: 38px;
   }
   
   .logo img {
-    height: 110px;
+    height: 120px;
   }
   
   .nav-links {
-    font-size: 36px;
-    gap: 45px;
+    font-size: 38px;
+    gap: 50px;
   }
   
-  .nav-links li {
-    padding: 14px 20px;
+  .nav-links li a {
+    padding: 14px 22px;
   }
   
   .navbar {
-    padding: 18px 70px;
+    padding: 18px 80px;
   }
   
   /* Enhanced spacing */
@@ -787,24 +810,24 @@ body {
   
   /* Navbar scaling for 4K */
   .logo span {
-    font-size: 42px;
+    font-size: 45px;
   }
   
   .logo img {
-    height: 130px;
+    height: 140px;
   }
   
   .nav-links {
-    font-size: 42px;
-    gap: 55px;
+    font-size: 45px;
+    gap: 60px;
   }
   
-  .nav-links li {
-    padding: 16px 24px;
+  .nav-links li a {
+    padding: 16px 26px;
   }
   
   .navbar {
-    padding: 22px 80px;
+    padding: 22px 100px;
   }
   
   /* Maximum spacing for 4K */
@@ -887,7 +910,7 @@ body {
     border-radius: 15px;
   }
   
-  .nav-links li {
+  .nav-links li a {
     border-radius: 25px;
   }
 }
@@ -909,7 +932,7 @@ body {
   .navbar {
     max-width: 2800px;
     margin: 0 auto;
-    padding: 25px 100px;
+    padding: 25px 120px;
   }
   
   /* Map section constraints */
@@ -947,6 +970,11 @@ body {
   
   .submit-btn:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .nav-links li:hover,
+  .nav-links .active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
   /* Enhanced backdrop filter for retina */

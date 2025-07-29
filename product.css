@@ -1,4 +1,5 @@
 @import url('https://fonts.cdnfonts.com/css/norwester');
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@400;600&display=swap');
 
 * {
   margin: 0;
@@ -7,38 +8,35 @@
 }
 
 body {
-  font-family: 'Norwester', sans-serif;
+  font-family: 'Pathway Extreme', sans-serif;
   background-color: #A3A8FF;
   color: white;
-  
 }
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #656ED3;
-  padding: 10px 40px;
-  position: relative; /* make it part of stacking context */
-  z-index: 10;         /* bring it above any overlapping content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #656ED3;
+    padding: 10px 40px;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo img {
-  height: 80px;
+    height: 80px;
 }
 
 .logo span {
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 1.2;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 1.2;
+      font-family: 'norwester', sans-serif;
 }
-
 .nav-links {
   list-style: none;
   display: flex;
@@ -48,10 +46,9 @@ body {
 }
 
 .nav-links li {
-  cursor: pointer;
-  padding: 8px 12px;
   border-radius: 20px;
   transition: background 0.3s;
+  text-transform: capitalize;
 }
 
 .nav-links li:hover,
@@ -59,33 +56,36 @@ body {
   background: white;
   color: #656ED3;
 }
+
 .nav-links li a {
   text-decoration: none;
   color: inherit;
   display: block;
-  /* padding: 10px; */
-}.features {
+  padding: 8px 12px; /* Moved padding from li to a */
+  border-radius: 20px; /* Ensure the anchor also has rounded corners */
+  cursor: pointer;
+}
+
+.features {
   display: flex;
-  flex-wrap: wrap; /* allow items to wrap on smaller screens */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: stretch;
   background-color: #97a2f1;
   padding: 40px 10px;
-  font-family: 'Norwester', sans-serif;
+  font-family: 'Pathway Extreme', sans-serif;
   color: white;
   text-align: center;
   border-top: 1px solid #ccc;
-  /* gap: 20px; */
 }
 
 .feature {
-  flex: 1 1 22%; /* flex-grow, flex-shrink, flex-basis */
+  flex: 1 1 22%;
   display: flex;
   flex-direction: column;
   border-left: 2px solid #fff;
   overflow: hidden;
   min-width: 250px;
-  
 }
 
 .feature:first-child {
@@ -94,11 +94,10 @@ body {
 
 .feature img {
   width: 100%;
-  max-height: 440px; 
+  max-height: 440px;
   object-fit: contain;
   margin-bottom: 0;
 }
-
 
 .feature p {
   flex: 1;
@@ -112,7 +111,6 @@ body {
   padding: 20px 10px;
   width: 100%;
   box-sizing: border-box;
- 
 }
 
 .feature-title {
@@ -123,6 +121,273 @@ body {
   color: white;
 }
 
-.totem,.apex{
+.totem,
+.apex {
   background-color: #5769ca !important;
+}
+
+/* Mobile Styles (≤767px) */
+@media (max-width: 767px) {
+  .navbar {
+    padding: 8px 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .logo span {
+    font-size: 18px;
+  }
+  
+  .nav-links {
+    gap: 15px;
+    font-size: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .features {
+    flex-direction: column;
+    padding: 20px 5px;
+  }
+  
+  .feature {
+    min-width: auto;
+    border-left: none;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 10px;
+  }
+  
+  .feature:last-child {
+    border-bottom: none;
+  }
+  
+  .feature img {
+    max-height: 250px;
+  }
+  
+  .feature p {
+    font-size: 14px;
+    padding: 15px 8px;
+  }
+  
+  .feature-title {
+    font-size: 18px;
+  }
+}
+
+/* Tablet Styles (768px-1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    padding: 9px 30px;
+  }
+  
+  .logo img {
+    height: 65px;
+  }
+  
+  .logo span {
+    font-size: 22px;
+  }
+  
+  .nav-links {
+    gap: 25px;
+    font-size: 22px;
+  }
+  
+  .features {
+    padding: 30px 8px;
+  }
+  
+  .feature {
+    flex: 1 1 45%;
+    min-width: 300px;
+  }
+  
+  .feature img {
+    max-height: 350px;
+  }
+  
+  .feature p {
+    font-size: 15px;
+    padding: 18px 9px;
+  }
+  
+  .feature-title {
+    font-size: 20px;
+  }
+}
+
+/* Small Desktop (1025px-1199px) */
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .navbar {
+    padding: 10px 40px;
+  }
+  
+  .logo img {
+    height: 80px;
+  }
+  
+  .logo span {
+    font-size: 25px;
+  }
+  
+  .nav-links {
+    gap: 30px;
+    font-size: 25px;
+  }
+  
+  .features {
+    padding: 40px 10px;
+  }
+  
+  .feature {
+    flex: 1 1 22%;
+    min-width: 250px;
+  }
+  
+  .feature img {
+    max-height: 440px;
+  }
+  
+  .feature p {
+    font-size: 16px;
+    padding: 20px 10px;
+  }
+  
+  .feature-title {
+    font-size: 22px;
+  }
+}
+
+/* 💻 Laptop Optimization (1200px-1600px) - REDUCED SIZES */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .navbar {
+    padding: 11px 45px; /* reduced from 12px 50px */
+  }
+  
+  .logo img {
+    height: 85px; /* reduced from 90px */
+  }
+  
+  .logo span {
+    font-size: 26px; /* reduced from 28px */
+  }
+  
+  .nav-links {
+    gap: 32px; /* reduced from 35px */
+    font-size: 26px; /* reduced from 28px */
+  }
+  
+  .features {
+    padding: 42px 12px; /* reduced from 45px 15px */
+  }
+  
+  .feature {
+    flex: 1 1 22%;
+    min-width: 265px; /* reduced from 280px */
+  }
+  
+  .feature img {
+    max-height: 465px; /* reduced from 490px */
+  }
+  
+  .feature p {
+    font-size: 17px; /* reduced from 18px */
+    padding: 21px 11px; /* reduced from 22px 12px */
+  }
+  
+  .feature-title {
+    font-size: 23px; /* reduced from 25px */
+    margin-bottom: 7px; /* reduced from 8px */
+  }
+}
+
+/* 🖥️ Large Desktop (1601px-1919px) - NORMAL LARGE SIZES */
+@media (min-width: 1601px) and (max-width: 1919px) {
+  .navbar {
+    padding: 12px 50px;
+  }
+  
+  .logo img {
+    height: 90px;
+  }
+  
+  .logo span {
+    font-size: 28px;
+  }
+  
+  .nav-links {
+    gap: 35px;
+    font-size: 28px;
+  }
+  
+  .features {
+    padding: 45px 15px;
+  }
+  
+  .feature {
+    flex: 1 1 22%;
+    min-width: 280px;
+  }
+  
+  .feature img {
+    max-height: 490px;
+  }
+  
+  .feature p {
+    font-size: 18px;
+    padding: 22px 12px;
+  }
+  
+  .feature-title {
+    font-size: 25px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Ultra Large Desktop (1920px+) */
+@media (min-width: 1920px) {
+  .navbar {
+    padding: 14px 60px;
+  }
+  
+  .logo img {
+    height: 100px;
+  }
+  
+  .logo span {
+    font-size: 32px;
+  }
+  
+  .nav-links {
+    gap: 40px;
+    font-size: 32px;
+  }
+  
+  .features {
+    padding: 50px 20px;
+  }
+  
+  .feature {
+    flex: 1 1 22%;
+    min-width: 320px;
+  }
+  
+  .feature img {
+    max-height: 550px;
+  }
+  
+  .feature p {
+    font-size: 20px;
+    padding: 25px 15px;
+  }
+  
+  .feature-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
 }

@@ -1,4 +1,5 @@
-@import url('https://fonts.cdnfonts.com/css/norwester');
+@import url("https://fonts.cdnfonts.com/css/norwester");
+@import url("https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@400;600&display=swap");
 
 * {
   margin: 0;
@@ -7,8 +8,8 @@
 }
 
 body {
-  font-family: 'Norwester', sans-serif;
-  background-color: #A3A8FF;
+  font-family: "Pathway Extreme", sans-serif;
+  background-color: #a3a8ff;
   color: white;
 }
 
@@ -16,10 +17,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #656ED3;
+  background-color: #656ed3;
   padding: 10px 40px;
   position: relative; /* make it part of stacking context */
-  z-index: 10;         /* bring it above any overlapping content */
+  z-index: 10; /* bring it above any overlapping content */
 }
 
 .logo {
@@ -36,6 +37,7 @@ body {
   font-weight: bold;
   font-size: 25px;
   line-height: 1.2;
+  font-family: "norwester", sans-serif;
 }
 
 .nav-links {
@@ -47,8 +49,6 @@ body {
 }
 
 .nav-links li {
-  cursor: pointer;
-  padding: 8px 12px;
   border-radius: 20px;
   transition: background 0.3s;
 }
@@ -56,13 +56,16 @@ body {
 .nav-links li:hover,
 .nav-links .active {
   background: white;
-  color: #656ED3;
+  color: #656ed3;
 }
+
 .nav-links li a {
   text-decoration: none;
   color: inherit;
   display: block;
-  /* padding: 10px; */
+  padding: 8px 12px; /* Moved padding from li to a */
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 .main-section {
@@ -128,7 +131,7 @@ body {
 
 .promo-card {
   max-width: 500px;
-  font-family: 'Norwester', sans-serif;
+  font-family: "Norwester", sans-serif;
   color: white;
 }
 
@@ -153,7 +156,6 @@ body {
   margin-bottom: 30px;
   position: relative; /* ADD THIS */
   z-index: 10;
-
 }
 
 .btn-orange {
@@ -228,17 +230,15 @@ body {
   width: 700px;
   opacity: 0.8;
   pointer-events: none;
- 
 }
-
 
 .grid-item.empty-tile {
   /* width: 200px; */
   height: 45px;
-  background-color: #656ED3;
+  background-color: #656ed3;
   /* border: 2px solid #ffffff; */
   /* border-radius: 25px; */
-  margin: 75px auto 0; 
+  margin: 75px auto 0;
   text-align: center;
   line-height: 45px;
   font-size: 1rem;
@@ -248,6 +248,8 @@ body {
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* Mobile Responsive Design (existing) */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -327,5 +329,489 @@ body {
   .grid-item.empty-tile {
     width: 100%;
     margin-top: 40px;
+  }
+}
+
+/* -------------------------------------------------------------
+   Large Screens - Progressive Font Size Scaling
+----------------------------------------------------------------*/
+
+/* 💻 14-15 inch Laptops (1200px-1600px) - REDUCED SIZES */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  /* Navbar scaling - SMALLER for laptops */
+  .logo span {
+    font-size: 26px; /* Reduced from 28px */
+  }
+  
+  .logo img {
+    height: 85px; /* Reduced from 90px */
+  }
+  
+  .nav-links {
+    font-size: 26px; /* Reduced from 28px */
+    gap: 32px; /* Reduced from 35px */
+  }
+  
+  .nav-links li a {
+    padding: 9px 14px; /* Reduced from 10px 16px */
+  }
+  
+  .navbar {
+    padding: 11px 45px; /* Reduced from 12px 50px */
+  }
+  
+  /* Main content scaling - SMALLER for laptops */
+  .headline {
+    font-size: 42px; /* Reduced from 46px */
+    margin-bottom: 26px; /* Reduced from 28px */
+  }
+  
+  .subtext {
+    font-size: 19px; /* Reduced from 20px */
+    margin-bottom: 34px; /* Reduced from 36px */
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    font-size: 15px; /* Reduced from 16px */
+    padding: 15px 26px; /* Reduced from 16px 28px */
+  }
+  
+  .stars {
+    font-size: 15px; /* Reduced from 16px */
+  }
+  
+  .stars span {
+    font-size: 13px; /* Reduced from 14px */
+  }
+  
+  .grid-item.empty-tile {
+    height: 48px; /* Reduced from 50px */
+    line-height: 48px;
+    font-size: 1.05rem; /* Reduced from 1.1rem */
+    margin: 80px auto 0; /* Reduced from 85px */
+  }
+  
+  /* Layout enhancements - SMALLER for laptops */
+  .main-section {
+    gap: 65px; /* Reduced from 70px */
+    padding: 85px 5%; /* Reduced from 90px */
+  }
+  
+  .promo-card {
+    max-width: 520px; /* Reduced from 550px */
+  }
+  
+  .promo-buttons {
+    gap: 15px; /* Reduced from 16px */
+    margin-bottom: 33px; /* Reduced from 35px */
+  }
+  
+  .rating-section {
+    gap: 32px; /* Reduced from 35px */
+  }
+  
+  .rating img {
+    width: 34px; /* Reduced from 36px */
+    height: 34px;
+  }
+  
+  .dots {
+    margin-top: 43px; /* Reduced from 45px */
+    gap: 11px; /* Reduced from 12px */
+  }
+  
+  .dot {
+    width: 17px; /* Reduced from 18px */
+    height: 17px;
+  }
+  
+  .dotimage img {
+    width: 750px; /* Reduced from 800px */
+  }
+}
+
+/* 🖥️ Large Desktop (1601px-1919px) - NORMAL LARGE SIZES */
+@media (min-width: 1601px) and (max-width: 1919px) {
+  /* Navbar scaling */
+  .logo span {
+    font-size: 32px;
+  }
+  
+  .logo img {
+    height: 100px;
+  }
+  
+  .nav-links {
+    font-size: 32px;
+    gap: 40px;
+  }
+  
+  .nav-links li a {
+    padding: 12px 18px;
+  }
+  
+  .navbar {
+    padding: 15px 60px;
+  }
+  
+  /* Main content scaling */
+  .headline {
+    font-size: 53px;
+    margin-bottom: 32px;
+  }
+  
+  .subtext {
+    font-size: 23px;
+    margin-bottom: 42px;
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    font-size: 18px;
+    padding: 18px 32px;
+  }
+  
+  .stars {
+    font-size: 18px;
+  }
+  
+  .stars span {
+    font-size: 16px;
+  }
+  
+  .grid-item.empty-tile {
+    height: 55px;
+    line-height: 55px;
+    font-size: 1.2rem;
+    margin: 95px auto 0;
+  }
+  
+  /* Layout enhancements */
+  .main-section {
+    gap: 80px;
+    padding: 100px 5%;
+  }
+  
+  .promo-card {
+    max-width: 600px;
+  }
+  
+  .promo-buttons {
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  
+  .rating-section {
+    gap: 40px;
+  }
+  
+  .rating img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .rating {
+    gap: 12px;
+  }
+  
+  .dots {
+    margin-top: 50px;
+    gap: 14px;
+  }
+  
+  .dot {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .dotimage img {
+    width: 900px;
+  }
+}
+
+/* Ultra Large Desktop (1920px+) */
+@media (min-width: 1920px) {
+  /* Navbar scaling */
+  .logo span {
+    font-size: 38px;
+  }
+  
+  .logo img {
+    height: 120px;
+  }
+  
+  .nav-links {
+    font-size: 38px;
+    gap: 50px;
+  }
+  
+  .nav-links li a {
+    padding: 14px 22px;
+  }
+  
+  .navbar {
+    padding: 18px 80px;
+  }
+  
+  /* Main content scaling */
+  .headline {
+    font-size: 62px;
+    margin-bottom: 36px;
+  }
+  
+  .subtext {
+    font-size: 27px;
+    margin-bottom: 48px;
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    font-size: 21px;
+    padding: 21px 38px;
+  }
+  
+  .stars {
+    font-size: 21px;
+  }
+  
+  .stars span {
+    font-size: 18px;
+  }
+  
+  .grid-item.empty-tile {
+    height: 65px;
+    line-height: 65px;
+    font-size: 1.4rem;
+    margin: 110px auto 0;
+  }
+  
+  /* Layout enhancements */
+  .main-section {
+    gap: 100px;
+    padding: 120px 5%;
+  }
+  
+  .promo-card {
+    max-width: 700px;
+  }
+  
+  .promo-buttons {
+    gap: 22px;
+    margin-bottom: 45px;
+  }
+  
+  .rating-section {
+    gap: 45px;
+  }
+  
+  .rating img {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .rating {
+    gap: 15px;
+  }
+  
+  .dots {
+    margin-top: 60px;
+    gap: 16px;
+  }
+  
+  .dot {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .dotimage img {
+    width: 1100px;
+  }
+  
+  .white-box {
+    border-radius: 8px;
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    border-radius: 12px;
+  }
+}
+
+/* 4K and Ultra Wide Screens (2560px+) */
+@media (min-width: 2560px) {
+  /* Navbar scaling for 4K */
+  .logo span {
+    font-size: 45px;
+  }
+  
+  .logo img {
+    height: 140px;
+  }
+  
+  .nav-links {
+    font-size: 45px;
+    gap: 60px;
+  }
+  
+  .nav-links li a {
+    padding: 16px 26px;
+  }
+  
+  .navbar {
+    padding: 22px 100px;
+  }
+  
+  /* Main content scaling for 4K */
+  .headline {
+    font-size: 74px;
+    margin-bottom: 42px;
+  }
+  
+  .subtext {
+    font-size: 32px;
+    margin-bottom: 56px;
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    font-size: 25px;
+    padding: 25px 45px;
+  }
+  
+  .stars {
+    font-size: 25px;
+  }
+  
+  .stars span {
+    font-size: 22px;
+  }
+  
+  .grid-item.empty-tile {
+    height: 75px;
+    line-height: 75px;
+    font-size: 1.6rem;
+    margin: 130px auto 0;
+  }
+  
+  /* Maximum layout enhancements for 4K */
+  .main-section {
+    gap: 120px;
+    padding: 140px 5%;
+  }
+  
+  .promo-card {
+    max-width: 800px;
+  }
+  
+  .promo-buttons {
+    gap: 26px;
+    margin-bottom: 55px;
+  }
+  
+  .rating-section {
+    gap: 55px;
+  }
+  
+  .rating img {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .rating {
+    gap: 18px;
+  }
+  
+  .dots {
+    margin-top: 70px;
+    gap: 20px;
+  }
+  
+  .dot {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .dotimage img {
+    width: 1300px;
+  }
+  
+  .white-box {
+    border-radius: 12px;
+  }
+  
+  .btn-orange,
+  .btn-outline {
+    border-radius: 15px;
+  }
+  
+  .nav-links li a {
+    border-radius: 25px;
+  }
+}
+
+/* Ultra-wide screens (3440px+) - Special handling for ultra-wide monitors */
+@media (min-width: 3440px) {
+  /* Prevent excessive stretching on ultra-wide displays */
+  .main-section {
+    max-width: 2800px;
+    margin: 0 auto;
+    padding: 160px 5%;
+  }
+  
+  /* Enhanced navbar for ultra-wide */
+  .navbar {
+    max-width: 3200px;
+    margin: 0 auto;
+    padding: 25px 120px;
+  }
+  
+  /* Optimize content layout for ultra-wide */
+  .left-box,
+  .right-box {
+    max-width: 45%;
+  }
+  
+  .promo-card {
+    max-width: 900px;
+  }
+  
+  /* Dotimage positioning for ultra-wide */
+  .dotimage img {
+    width: 1500px;
+  }
+  
+  /* Grid item constraints */
+  .grid-item.empty-tile {
+    max-width: 400px;
+    margin: 150px auto 0;
+  }
+}
+
+/* High DPI displays - Enhance visual quality */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Enhance shadows for retina displays */
+  .grid-item.empty-tile {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-orange:hover,
+  .btn-outline:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-links li:hover,
+  .nav-links .active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Crisp image rendering */
+  .white-box img,
+  .white-box video,
+  .dotimage img,
+  .rating img,
+  .logo img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 }
