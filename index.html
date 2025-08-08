@@ -2,96 +2,1303 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chesney Signage</title>
-  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/norwester" />
-  <link rel="stylesheet" href="home2.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="CHESNEY Signage - Enterprise digital signage solutions. Cloud-based content management for digital displays. Free to start, trusted by thousands.">
+    <meta name="keywords" content="digital signage, cloud signage, display management, content management system">
+    <meta name="author" content="CHESNEY Signage">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="CHESNEY Signage - Smart Digital Display Solutions">
+    <meta property="og:description"
+        content="Transform your business with cloud-based digital signage. Free to start, enterprise-ready.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chesneysignage.com">
+
+    <title>CHESNEY Signage - Enterprise Digital Display Solutions | Cloud CMS</title>
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Modern CSS Reset */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* CSS Variables - Industry Standard Design System */
+        :root {
+            /* Colors - Modern Purple/Violet Palette */
+            --primary-50: #f5f3ff;
+            --primary-100: #ede9fe;
+            --primary-200: #ddd6fe;
+            --primary-300: #c4b5fd;
+            --primary-400: #a78bfa;
+            --primary-500: #8b5cf6;
+            --primary-600: #7c3aed;
+            --primary-700: #6d28d9;
+            --primary-800: #5b21b6;
+            --primary-900: #4c1d95;
+
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            /* Semantic Colors */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+
+            /* Typography Scale */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-display: 'Space Grotesk', var(--font-sans);
+
+            /* Type Scale - Perfect Fourth (1.333) */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            --text-6xl: 3.75rem;
+            --text-7xl: 4.5rem;
+
+            /* Spacing Scale */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+
+            /* Shadows - Tailwind Style */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Z-index Scale */
+            --z-dropdown: 1000;
+            --z-sticky: 1020;
+            --z-fixed: 1030;
+            --z-backdrop: 1040;
+            --z-modal: 1050;
+            --z-popover: 1060;
+            --z-tooltip: 1070;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--gray-900);
+                --text-primary: var(--gray-50);
+            }
+        }
+
+        /* Base Styles */
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: var(--text-base);
+            line-height: 1.5;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Focus Styles - Accessibility */
+        :focus {
+            outline: 2px solid var(--primary-500);
+            outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        /* Hero Background - Modern Gradient Mesh */
+        .hero-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(to bottom right, var(--primary-50), var(--gray-50));
+            overflow: hidden;
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(circle at 20% 30%, var(--primary-200) 0%, transparent 40%),
+                radial-gradient(circle at 80% 60%, var(--primary-100) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, var(--primary-300) 0%, transparent 30%);
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(-5%, -5%) scale(1.1);
+            }
+
+            66% {
+                transform: translate(5%, -5%) scale(0.95);
+            }
+        }
+
+        /* Animated Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary-300);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary-400);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--primary-200);
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(-30px, -50px) scale(1.1);
+            }
+
+            50% {
+                transform: translate(30px, -30px) scale(0.9);
+            }
+
+            75% {
+                transform: translate(-20px, 20px) scale(1.05);
+            }
+        }
+
+        /* Header - Modern Glass Morphism */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: var(--z-sticky);
+            transition: all var(--transition-base);
+        }
+
+        .header-inner {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-base);
+        }
+
+        .header.scrolled .header-inner {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            padding: 0 var(--space-6);
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            text-decoration: none;
+            transition: transform var(--transition-fast);
+        }
+
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            /* background: linear-gradient(135deg, var(--primary-500), var(--primary-700)); */
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: var(--text-xl);
+        }
+
+        .logo-icon img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: var(--space-6);
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: var(--text-sm);
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-600);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-600);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: calc(72px + var(--space-16)) var(--space-6) var(--space-16);
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Hero Text */
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: var(--primary-100);
+            color: var(--primary-700);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-bottom: var(--space-6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .hero-badge i {
+            font-size: var(--text-xs);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--gray-900);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: var(--text-lg);
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: var(--space-8);
+            max-width: 90%;
+        }
+
+        /* Trust Indicators */
+        .trust-indicators {
+            display: flex;
+            gap: var(--space-6);
+            margin-bottom: var(--space-10);
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+        }
+
+        .trust-item i {
+            color: var(--success);
+            font-size: var(--text-base);
+        }
+
+        /* CTA Buttons */
+        .hero-cta {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-12);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: var(--text-base);
+            text-decoration: none;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-600);
+            color: var(--primary-600);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Social Proof */
+        .social-proof {
+            display: flex;
+            gap: var(--space-8);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .rating-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            background: white;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            transition: all var(--transition-base);
+        }
+
+        .rating-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .rating-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .rating-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .stars {
+            color: var(--warning);
+            font-size: var(--text-sm);
+        }
+
+        .rating-text {
+            font-size: var(--text-xs);
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .display-mockup {
+            position: relative;
+            background: var(--gray-900);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-4);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform var(--transition-slow);
+        }
+
+        .display-mockup:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .display-screen {
+            background: var(--gray-800);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .display-content {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Animated Elements */
+        .floating-element {
+            position: absolute;
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: var(--space-4);
+            animation: floatElement 4s ease-in-out infinite;
+        }
+
+        .floating-element-1 {
+            top: -20px;
+            right: -20px;
+            animation-delay: 0s;
+        }
+
+        .floating-element-2 {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatElement {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-100);
+            color: var(--primary-600);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .metric-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-value {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .metric-label {
+            font-size: var(--text-xs);
+            color: var(--gray-600);
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: rgba(16, 185, 129, 0.1);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .status-text {
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-12);
+            }
+
+            .hero-visual {
+                order: -1;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .hero-description {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: calc(72px + var(--space-8)) var(--space-4) var(--space-8);
+            }
+
+            .hero-title {
+                font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .social-proof {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .floating-element {
+                display: none;
+            }
+
+            .display-mockup {
+                transform: none;
+            }
+        }
+
+        /* Loading Animation */
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shimmer 2s linear infinite;
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes shimmer {
+            to {
+                left: 100%;
+            }
+        }
+
+        /* Accessibility - Skip to Content */
+        .skip-to-content {
+            position: absolute;
+            top: -100px;
+            left: var(--space-4);
+            background: var(--primary-600);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            z-index: var(--z-tooltip);
+        }
+
+        .skip-to-content:focus {
+            top: var(--space-4);
+        }
+
+        /* Performance - Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+
+            .header,
+            .hero-bg,
+            .orb {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 0;
+            }
+
+            .hero-content {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Skip to Content - Accessibility -->
+    <a href="#main" class="skip-to-content">Skip to content</a>
 
-  <header class="navbar">
-    <div class="logo">
-      <img src="./images/chesney_logo.png" alt="Chesney Signage Logo" />
-      <span>CHESNEY<br>Signage</span>
+    <!-- Hero Background -->
+    <div class="hero-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-    <nav>
-      <ul class="nav-links">
-        <li class="active"><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="service.html">Services</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="contactus.html">Contact</a></li>
-      </ul>
-      <!-- <div class="hamburger">☰</div> -->
-    </nav>
-  </header>
 
-  <main class="main-section">
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <nav class="nav container" role="navigation" aria-label="Main navigation">
+                <a href="/" class="logo" aria-label="CHESNEY Signage Home">
+                    <div class="logo-icon"><img src="./images/chesney_logo.png" alt=""></div>
+                    <span class="logo-text">CHESNEY</span>
+                </a>
 
+                <div class="nav-menu">
+                    <ul class="nav-links" role="list">
+                    <li><a href="/index.html" class="nav-link active" aria-current="page">Home</a></li>
+                    <li><a href="/about.html" class="nav-link">About</a></li>
+                    <li><a href="/service.html" class="nav-link">Solutions</a></li>
+                    <!-- <li><a href="/pricing" class="nav-link">Pricing</a></li> -->
+                    <!-- <li><a href="/resources" class="nav-link">Resources</a></li> -->
+                    <li><a href="/contact" class="nav-link">Contact</a></li>
+                </ul>
 
-    <!-- 🟩 Image or Video second (right side) -->
-    <div class="left-box">
-      <div class="white-box">
-        <!-- Use video if needed -->
-        <!-- <video controls autoplay muted loop>
-          <source src="./images/home_page_video_ads.mp4" type="video/mp4" />
-        </video> -->
-        <img src="./images/gii.gif" alt="Monitor with content" />
-      </div>
-      <div class="stand">
-        <!-- <img src="./images/home_page_stand.png" alt="Standee" /> -->
-      </div>
-      <div class="dots">
-        <!-- <span class="dot active-dot"></span> -->
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </div>
-    <!-- 🟩 Text first (left side) -->
-    <div class="right-box">
-      <div class="promo-card">
-        <h1 class="headline">Effortless Content Sharing<br>on Any Screen,<br>Anywhere</h1>
-        <p class="subtext">
-          Engage your audience with smart, seamless digital displays using CHESNEY—your free cloud-based signage
-          solution.
-        </p>
-
-        <div class="promo-buttons">
-          <button class="btn-orange" onclick="window.location.href='login.html'">
-            Get started for FREE
-          </button>
-          
-          <button class="btn-outline" onclick="window.location.href='contactus.html'">Book a demo</button>
+                    <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                </div>
+            </nav>
         </div>
-        <div class="rating-section">
-          <div class="rating">
-            <img src="./images/playstore.png" alt="Playstore logo">
-            <div class="stars">
-              ⭐⭐⭐⭐⭐<br><span>4.9/5 on Playstore</span>
-            </div>
-          </div>
-          <div class="rating">
-            <img src="./images/indiamart.png" alt="Indiamart logo">
-            <div class="stars">
-              ⭐⭐⭐⭐⭐<br><span>4.8/5 on Indiamart</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </header>
 
-    <div class="dotimage">
-      <img src="./images/home_dot_dot.png" alt="Design dots" />
-     
-    </div>
-    
-  </main>
-  <!-- <div class="grid-item empty-tile"></div>  -->
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <!-- Hero Text -->
+                    <div class="hero-text">
+                        <div class="hero-badge">
+                            <i class="fas fa-rocket"></i>
+                            <span>Trusted by 10,000+ businesses</span>
+                        </div>
 
-  <!-- <script src="script.js"></script> -->
+                        <h1 id="hero-title" class="hero-title">
+                            Effortless Content Management for
+                            <span class="gradient-text">Digital Displays</span>
+                        </h1>
+
+                        <p class="hero-description">
+                            Transform any screen into a powerful communication tool. CHESNEY's cloud-based platform
+                            makes digital signage simple, scalable, and surprisingly affordable.
+                        </p>
+
+                        <div class="trust-indicators">
+                            <div class="trust-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Free forever plan</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>No credit card required</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>5-minute setup</span>
+                            </div>
+                        </div>
+
+                        <div class="hero-cta">
+                            <a href="/signup" class="btn btn-primary">
+                                <i class="fas fa-play"></i>
+                                Start Free Trial
+                            </a>
+                            <a href="/demo" class="btn btn-secondary">
+                                <i class="fas fa-calendar"></i>
+                                Book Live Demo
+                            </a>
+                        </div>
+
+                        <div class="social-proof">
+                            <div class="rating-card">
+                                <img src="/images/google-transparent.png" alt="Google" class="rating-logo">
+                                <div class="rating-info">
+                                    <div class="stars">★★★★★</div>
+                                    <div class="rating-text">4.9/5 on Google</div>
+                                </div>
+                            </div>
+
+                            <div class="rating-card">
+                                <img src="/images/indiamart.png" alt="Capterra" class="rating-logo">
+                                <div class="rating-info">
+                                    <div class="stars">★★★★★</div>
+                                    <div class="rating-text">4.8/5 on Indiamart</div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="rating-card">
+                                <img src="/images/g2-icon.svg" alt="G2" class="rating-logo">
+                                <div class="rating-info">
+                                    <div class="stars">★★★★★</div>
+                                    <div class="rating-text">Leader in Digital Signage</div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual -->
+                    <div class="hero-visual">
+                        <div class="display-mockup">
+                            <div class="status-indicator">
+                                <span class="status-dot"></span>
+                                <span class="status-text">Live Preview</span>
+                            </div>
+
+                            <div class="display-screen">
+                                <img src="./images/pexels-evonics-1058276.jpg" alt="CHESNEY digital signage display preview"
+                                    class="display-content">
+                                <div class="shimmer"></div>
+                            </div>
+
+                            <!-- Floating Metrics -->
+                            <div class="floating-element floating-element-1">
+                                <div class="metric">
+                                    <div class="metric-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="metric-text">
+                                        <span class="metric-value">+127%</span>
+                                        <span class="metric-label">Engagement</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="floating-element floating-element-2">
+                                <div class="metric">
+                                    <div class="metric-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="metric-text">
+                                        <span class="metric-value">5 min</span>
+                                        <span class="metric-label">Setup Time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Modern JavaScript - ES6+
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        let lastScroll = 0;
+
+        const handleScroll = () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            lastScroll = currentScroll;
+        };
+
+        // Throttle scroll events for performance
+        let scrollTimer;
+        window.addEventListener('scroll', () => {
+            if (scrollTimer) return;
+
+            scrollTimer = setTimeout(() => {
+                handleScroll();
+                scrollTimer = null;
+            }, 100);
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe animation elements
+        document.querySelectorAll('.hero-text, .hero-visual, .rating-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+                mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+                navLinks.classList.toggle('mobile-menu-open');
+            });
+        }
+
+        // Performance metrics for demo
+        const updateMetrics = () => {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes('%')) {
+                    const base = parseInt(metric.textContent);
+                    const variation = Math.floor(Math.random() * 10) - 5;
+                    metric.textContent = `+${base + variation}%`;
+                }
+            });
+        };
+
+        // Update metrics periodically
+        setInterval(updateMetrics, 5000);
+
+        // Lazy loading for images
+        if ('loading' in HTMLImageElement.prototype) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.dataset.src;
+            });
+        }
+
+        // PWA Support - Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
+
+        // Analytics - Track CTA clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Track with your analytics provider
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        'event_category': 'CTA',
+                        'event_label': button.textContent.trim()
+                    });
+                }
+            });
+        });
+
+        // A11y - Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-nav');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Preload critical resources
+        const preloadLink = document.createElement('link');
+        preloadLink.rel = 'preload';
+        preloadLink.as = 'image';
+        preloadLink.href = '/images/display-preview.jpg';
+        document.head.appendChild(preloadLink);
+
+        // Check for WebP support
+        const checkWebP = (callback) => {
+            const webP = new Image();
+            webP.onload = webP.onerror = () => {
+                callback(webP.height === 2);
+            };
+            webP.src =
+                'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        };
+
+        checkWebP((support) => {
+            if (support) {
+                document.documentElement.classList.add('webp');
+            }
+        });
+    </script>
+
+    <!-- Mobile Menu Styles -->
+    <style>
+        @media (max-width: 768px) {
+            .nav-links.mobile-menu-open {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: white;
+                box-shadow: var(--shadow-lg);
+                padding: var(--space-4);
+                gap: var(--space-4);
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .nav-link {
+                padding: var(--space-3) 0;
+                border-bottom: 1px solid var(--gray-100);
+            }
+
+            .nav-link:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* Keyboard Navigation Styles */
+        body.keyboard-nav *:focus {
+            outline: 2px solid var(--primary-500);
+            outline-offset: 2px;
+        }
+
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* WebP Support */
+        .webp .hero-visual img {
+            content: url('/images/display-preview.webp');
+        }
+    </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "CHESNEY Signage",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web, iOS, Android",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "2847"
+            },
+            "description": "Cloud-based digital signage software for businesses. Free plan available.",
+            "screenshot": "https://chesneysignage.com/images/screenshot.jpg",
+            "featureList": [
+                "Cloud-based content management",
+                "Real-time updates",
+                "Multi-screen support",
+                "Analytics dashboard",
+                "Template library",
+                "API access"
+            ]
+        }
+    </script>
 </body>
 
 </html>

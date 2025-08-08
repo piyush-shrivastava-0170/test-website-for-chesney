@@ -3,38 +3,816 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connect Devices</title>
-  <link rel="stylesheet" href="connect.css">
- 
-</head>
-<body>
+  <meta name="description" content="Connect and manage your CHESNEY digital signage devices from one central dashboard">
+  <title>Connect Devices - CHESNEY Signage</title>
   
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+ <style>
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Design System Variables */
+    :root {
+      /* Colors - Modern Purple/Violet Palette */
+      --primary-50: #f5f3ff;
+      --primary-100: #ede9fe;
+      --primary-200: #ddd6fe;
+      --primary-300: #c4b5fd;
+      --primary-400: #a78bfa;
+      --primary-500: #8b5cf6;
+      --primary-600: #7c3aed;
+      --primary-700: #6d28d9;
+      --primary-800: #5b21b6;
+      --primary-900: #4c1d95;
+      
+      /* Neutral Colors */
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      
+      /* Semantic Colors */
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --info: #3b82f6;
+      --led-green: #00ff88;
+      
+      /* Typography Scale */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-display: 'Space Grotesk', var(--font-sans);
+      
+      /* Type Scale */
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: 1.875rem;
+      --text-4xl: 2.25rem;
+      --text-5xl: 3rem;
+      
+      /* Spacing Scale */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --space-24: 6rem;
+      
+      /* Border Radius */
+      --radius-sm: 0.25rem;
+      --radius-md: 0.375rem;
+      --radius-lg: 0.5rem;
+      --radius-xl: 0.75rem;
+      --radius-2xl: 1rem;
+      --radius-3xl: 1.5rem;
+      --radius-full: 9999px;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      
+      /* Transitions */
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Base Styles */
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--gray-900);
+      background: linear-gradient(to bottom right, var(--primary-50), var(--gray-50));
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background Pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 20% 30%, var(--primary-200) 0%, transparent 40%),
+        radial-gradient(circle at 80% 60%, var(--primary-100) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, var(--primary-300) 0%, transparent 30%);
+      filter: blur(60px);
+      opacity: 0.3;
+      z-index: -1;
+      animation: meshMove 20s ease-in-out infinite;
+    }
+
+    @keyframes meshMove {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-5%, -5%) scale(1.1); }
+      66% { transform: translate(5%, -5%) scale(0.95); }
+    }
+
+    /* Main Container */
+    .main-container {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-8);
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-8);
+      min-height: 100vh;
+      align-items: start;
+    }
+
+    /* Left Section */
+    .left-section {
+      position: sticky;
+      top: var(--space-8);
+    }
+
+    .connect-screen-box {
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+      border-radius: var(--radius-3xl);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-2xl);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      animation: fadeInLeft 0.8s ease-out;
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .connect-screen-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .connect-image {
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .subtitle-text {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: white;
+      margin-top: var(--space-6);
+      position: relative;
+      z-index: 1;
+    }
+
+    .highlight {
+      background: linear-gradient(90deg, var(--led-green), #00ff44);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Right Section */
+    .right-section {
+      background: white;
+      border-radius: var(--radius-3xl);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      animation: fadeInRight 0.8s ease-out;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Close Button */
+    .close-modal {
+      position: absolute;
+      top: var(--space-6);
+      right: var(--space-6);
+      width: 40px;
+      height: 40px;
+      background: var(--gray-100);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: var(--text-xl);
+      color: var(--gray-600);
+      transition: all var(--transition-base);
+    }
+
+    .close-modal:hover {
+      background: var(--primary-100);
+      color: var(--primary-600);
+      transform: rotate(90deg);
+    }
+
+    /* Form Section */
+    .right-section h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: var(--space-8);
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #connect-form {
+      display: flex;
+      gap: var(--space-4);
+      margin-bottom: var(--space-12);
+    }
+
+    .connectform {
+      flex: 1;
+      padding: var(--space-4) var(--space-6);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      font-size: var(--text-base);
+      font-family: var(--font-sans);
+      transition: all var(--transition-base);
+      background: var(--gray-50);
+    }
+
+    .connectform:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+    }
+
+    #connect-form button {
+      padding: var(--space-4) var(--space-8);
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+      color: white;
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: var(--text-base);
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+      white-space: nowrap;
+    }
+
+    #connect-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.4);
+    }
+
+    #connect-form button:active {
+      transform: translateY(0);
+    }
+
+    /* Device List Header */
+    .header-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      padding: var(--space-4) var(--space-6);
+      background: var(--gray-50);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-4);
+      border: 1px solid var(--gray-200);
+    }
+
+    .header-container h3 {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Device List */
+    #device-list {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: var(--space-2);
+    }
+
+    #device-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #device-list::-webkit-scrollbar-track {
+      background: var(--gray-100);
+      border-radius: var(--radius-full);
+    }
+
+    #device-list::-webkit-scrollbar-thumb {
+      background: var(--primary-300);
+      border-radius: var(--radius-full);
+    }
+
+    #device-list::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-400);
+    }
+
+    /* Device Item */
+    .device-item {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr 1fr;
+      align-items: center;
+      padding: var(--space-4) var(--space-6);
+      background: var(--gray-50);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-3);
+      transition: all var(--transition-base);
+      border: 2px solid transparent;
+    }
+
+    .device-item:hover {
+      background: white;
+      border-color: var(--primary-100);
+      transform: translateX(5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .device-item p {
+      font-weight: 600;
+      color: var(--gray-800);
+      margin: 0;
+    }
+
+    .device-item h4 {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    .disconnect-btn {
+      padding: var(--space-2) var(--space-4);
+      background: var(--error);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      font-family: var(--font-sans);
+    }
+
+    .disconnect-btn:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Alert Styles */
+    .alert {
+      position: fixed;
+      top: var(--space-8);
+      right: var(--space-8);
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: var(--space-4) var(--space-6);
+      box-shadow: var(--shadow-xl);
+      border-left: 4px solid var(--primary-600);
+      max-width: 400px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .alert.hidden {
+      display: none;
+    }
+
+    #alert-message {
+      color: var(--gray-800);
+      font-size: var(--text-base);
+      font-weight: 500;
+    }
+
+    /* Confirm Dialog */
+    .confirm {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-2xl);
+      max-width: 400px;
+      width: 90%;
+      z-index: 1001;
+      animation: fadeInScale 0.3s ease-out;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    .confirm.hidden {
+      display: none;
+    }
+
+    .confirm-message {
+      font-size: var(--text-lg);
+      color: var(--gray-800);
+      margin-bottom: var(--space-6);
+      text-align: center;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+    }
+
+    .confirm-actions button {
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-base);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      border: none;
+      font-family: var(--font-sans);
+    }
+
+    #confirm-yes {
+      background: var(--primary-600);
+      color: white;
+    }
+
+    #confirm-yes:hover {
+      background: var(--primary-700);
+      transform: translateY(-2px);
+    }
+
+    #confirm-no {
+      background: var(--gray-200);
+      color: var(--gray-700);
+    }
+
+    #confirm-no:hover {
+      background: var(--gray-300);
+      transform: translateY(-2px);
+    }
+
+    /* Loading Spinner */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .loading-overlay.hidden {
+      display: none;
+    }
+
+    .loading-content {
+      background: white;
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+      box-shadow: var(--shadow-2xl);
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--primary-200);
+      border-top-color: var(--primary-600);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: var(--text-base);
+      color: var(--gray-700);
+      font-weight: 500;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+
+      .left-section {
+        position: relative;
+      }
+
+      .connect-screen-box {
+        padding: var(--space-6);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        padding: var(--space-4);
+      }
+
+      .right-section {
+        padding: var(--space-6);
+      }
+
+      .right-section h2 {
+        font-size: var(--text-2xl);
+      }
+
+      #connect-form {
+        flex-direction: column;
+      }
+
+      .header-container {
+        display: none;
+      }
+
+      .device-item {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+        text-align: left;
+      }
+      
+      .device-name-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-2);
+      }
+      
+      .device-status {
+        margin-bottom: var(--space-2);
+      }
+      
+      .disconnect-btn {
+        width: 100%;
+        margin-top: var(--space-2);
+      }
+
+      .alert {
+        right: var(--space-4);
+        left: var(--space-4);
+        max-width: none;
+      }
+    }
+
+    /* Focus Styles */
+    :focus {
+      outline: 2px solid var(--primary-500);
+      outline-offset: 2px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    /* Empty State */
+    #device-list:empty::after {
+      content: 'No devices connected yet';
+      display: block;
+      text-align: center;
+      padding: var(--space-8);
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    /* Device Status Indicator */
+    .device-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-weight: 500;
+    }
+
+    .device-status.active {
+      background: var(--success);
+      color: white;
+    }
+
+    .device-status.inactive {
+      background: var(--gray-400);
+      color: white;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Connection Success Animation */
+    @keyframes connectionSuccess {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .device-item.new-connection {
+      animation: connectionSuccess 0.5s ease-out;
+    }
+
+    /* Device Info Tooltip */
+    .device-info {
+      position: relative;
+      display: inline-block;
+      margin-left: var(--space-2);
+      cursor: help;
+    }
+
+    .device-info i {
+      color: var(--gray-400);
+      font-size: var(--text-sm);
+    }
+
+    .device-info:hover i {
+      color: var(--primary-600);
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gray-900);
+      color: white;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-xs);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+
+    .device-info:hover .tooltip {
+      opacity: 1;
+    }
+
+    .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid var(--gray-900);
+    }
+    </style>
+</head>
+
+<body>
   <div class="main-container">
     <!-- Left Section -->
     <div class="left-section">
-      <!-- Connect Screen Box -->
       <div class="connect-screen-box">
         <img src="./images/connect_screen_left.png" alt="connect" class="connect-image">
-        <!-- <div class="subtitle-text">
+        <div class="subtitle-text">
           Turn Any Screen Into a <span class="highlight">Digital Billboard</span>
-        </div> -->
-        
-     </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Red Box -->
-     
+    <!-- Right Section -->
     <div class="right-section">
       <span id="close-view-popup" class="close-modal">&times;</span>
-         <h2>Enter your device code to connect.</h2> 
+      <h2>Connect Your Device</h2> 
+      
       <form id="connect-form">
-        <input type="text" id="device-id" placeholder="Enter Device ID" required  class="connectform"/>
-        <button type="submit">Connect Device</button>
+        <input 
+          type="text" 
+          id="device-id" 
+          placeholder="Enter 7-digit code (e.g., ABC1234)" 
+          required 
+          class="connectform"
+          maxlength="20"
+          pattern="[A-Za-z0-9\s\-]+"
+          title="Please enter letters and numbers only"
+          aria-describedby="device-id-error"
+        />
+        <span id="device-id-error" class="hidden" role="alert">Please enter letters and numbers only</span>
+        <button type="submit">
+          <i class="fas fa-link" style="margin-right: 8px;"></i>
+          Connect Device
+        </button>
       </form>
 
       <div class="header-container">
-        <h3>Connected Devices</h3>
-        <h3>Connected date</h3>
+        <h3>Device Name</h3>
+        <h3>Status</h3>
+        <h3>Connected Date</h3>
         <h3>Action</h3>
       </div>
        
@@ -44,11 +822,13 @@
       </div>
     </div>
   </div>
+
+  <!-- Alert Box -->
   <div id="custom-alert" class="alert hidden">
     <span id="alert-message"></span>
-    <!-- <button onclick="closeAlert()">×</button> -->
   </div>
 
+  <!-- Confirm Dialog -->
   <div id="custom-confirm" class="confirm hidden">
     <div class="confirm-message" id="confirm-message"></div>
     <div class="confirm-actions">
@@ -57,13 +837,13 @@
     </div>
   </div>
 
- <!-- Reusable Loading Spinner -->
-<div id="loading-spinner" class="loading-overlay hidden">
-  <div class="loading-content">
-    <div class="spinner"></div>
-    <div class="loading-text" id="loading-text">Loading...</div>
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="loading-overlay hidden">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loading-text">Loading...</div>
+    </div>
   </div>
-</div>
 
   <!-- Firebase and JavaScript Integration -->
   <script type="module">
@@ -98,119 +878,113 @@
     const db = getFirestore(app);
     const auth = getAuth();
 
-   
+    // Connect Device Function with validation
+    async function connectDevice(userId, deviceId) {
+      try {
+        // Show loading immediately
+        showLoader("Validating device...");
+        
+        let deviceRef;
+        let deviceSnapshot;
 
-//     async function connectDevice(userId, deviceId) {
-//   try {
-//     let deviceRef;
-//     let deviceSnapshot;
+        // Normalize input to uppercase and remove spaces
+        const normalizedId = deviceId.toUpperCase().trim().replace(/\s/g, '');
 
-//     if (deviceId.length === 7) {
-//       // Handle device code lookup
-//       const devicesCollection = collection(db, "devices");
-//       const q = query(devicesCollection, where("deviceCode", "==", deviceId));
-//       const querySnapshot = await getDocs(q);
+        // Validate input format
+        if (normalizedId.length !== 7 && normalizedId.length < 10) {
+          hideLoader();
+          showAlert("Invalid format. Please enter a 7-character code or valid device ID.");
+          return;
+        }
 
-//       if (querySnapshot.empty) {
-//         alert("Device not found in the system. Please check the Device Code.");
-//         return;
-//       }
+        updateLoaderText("Searching for device...");
 
-//       // Get the first matching document
-//       deviceSnapshot = querySnapshot.docs[0];
-//       deviceRef = deviceSnapshot.ref;
-//     } else {
-//       // Handle direct device ID lookup
-//       deviceRef = doc(db, "devices", deviceId);
-//       deviceSnapshot = await getDoc(deviceRef);
+        if (normalizedId.length === 7) {
+          // Handle device code lookup
+          const devicesCollection = collection(db, "devices");
+          const q = query(devicesCollection, where("deviceCode", "==", normalizedId));
+          const querySnapshot = await getDocs(q);
 
-//       if (!deviceSnapshot.exists()) {
-//         alert("Device not found in the system. Please check the Device ID.");
-//         return;
-//       }
-//     }
+          if (querySnapshot.empty) {
+            hideLoader();
+            showAlert("Device not found. Please check the code and try again.");
+            return;
+          }
 
-//     const deviceData = deviceSnapshot.data();
+          // Get the first matching document
+          deviceSnapshot = querySnapshot.docs[0];
+          deviceRef = deviceSnapshot.ref;
+        } else {
+          // Handle direct device ID lookup (Firestore doc ID)
+          deviceRef = doc(db, "devices", normalizedId);
+          deviceSnapshot = await getDoc(deviceRef);
 
-//     if (deviceData.connectedBy && deviceData.connectedBy !== userId) {
-//       alert("This device is already connected by another admin.");
-//       return;
-//     }
+          if (!deviceSnapshot.exists()) {
+            hideLoader();
+            showAlert("Device not found. Please check the ID and try again.");
+            return;
+          }
+        }
 
-//     await updateDoc(deviceRef, {
-//       connectedBy: userId,
-//       status: "active",
-//       connectedAt: new Date().toISOString(),
-//     });
+        const deviceData = deviceSnapshot.data();
 
-//     alert("Device connected successfully!");
-//   } catch (error) {
-//     console.error("Error connecting device:", error);
-//     alert("An error occurred while connecting the device. Please try again.");
-//   }
-// }
+        // Check if device is already connected
+        if (deviceData.connectedBy) {
+          if (deviceData.connectedBy === userId) {
+            hideLoader();
+            showAlert("This device is already connected to your account.");
+            return;
+          } else {
+            hideLoader();
+            showAlert("This device is registered to another account.");
+            return;
+          }
+        }
 
-async function connectDevice(userId, deviceId) {
-  try {
-    let deviceRef;
-    let deviceSnapshot;
+        updateLoaderText("Connecting device...");
 
-    // Normalize input to uppercase
-    const upperDeviceId = deviceId.toUpperCase();
+        // Connect the device
+        await updateDoc(deviceRef, {
+          connectedBy: userId,
+          status: "active",
+          connectedAt: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+          deviceName: deviceData.deviceName || deviceData.deviceCode || "Unnamed Device"
+        });
 
-    if (upperDeviceId.length === 7) {
-      // Handle device code lookup
-      const devicesCollection = collection(db, "devices");
-      const q = query(devicesCollection, where("deviceCode", "==", upperDeviceId));
-      const querySnapshot = await getDocs(q);
+        hideLoader();
+        showAlert("✅ Device connected successfully!");
+        document.getElementById("device-id").value = "";
+        
+        // Add success animation to the new device
+        setTimeout(() => {
+          const newDevice = document.querySelector('.device-item:last-child');
+          if (newDevice) {
+            newDevice.classList.add('new-connection');
+          }
+        }, 100);
 
-      if (querySnapshot.empty) {
-        showAlert("Device not found in the system. Please check the Device Code.");
-        return;
-      }
-
-      // Get the first matching document
-      deviceSnapshot = querySnapshot.docs[0];
-      deviceRef = deviceSnapshot.ref;
-    } else {
-      // Handle direct device ID lookup (Firestore doc ID)
-      deviceRef = doc(db, "devices", upperDeviceId);
-      deviceSnapshot = await getDoc(deviceRef);
-
-      if (!deviceSnapshot.exists()) {
-        showAlert("Device not found in the system. Please check the Device ID.");
-        return;
+      } catch (error) {
+        console.error("Error connecting device:", error);
+        hideLoader();
+        showAlert("❌ Connection failed. Please try again.");
       }
     }
 
-    const deviceData = deviceSnapshot.data();
-
-    if (deviceData.connectedBy && deviceData.connectedBy !== userId) {
-      showAlert("This device is already connected by another admin.");
-      return;
-    }
-
-    await updateDoc(deviceRef, {
-      connectedBy: userId,
-      status: "active",
-      connectedAt: new Date().toISOString(),
-    });
-
-    showAlert("Device connected successfully!");
-  } catch (error) {
-    console.error("Error connecting device:", error);
-    showAlert("An error occurred while connecting the device. Please try again.");
-  }
-}
-
-
-    /**
-     * Disconnect a device.
-     */
+    // Disconnect Device Function with enhanced cleanup
     async function disconnectDevice(deviceId) {
       try {
         const deviceRef = doc(db, "devices", deviceId);
+        
+        // First get device data for cleanup
+        const deviceSnap = await getDoc(deviceRef);
+        if (!deviceSnap.exists()) {
+          throw new Error("Device not found");
+        }
 
+        updateLoaderText("Removing device connection...");
+
+        // Update device document
         await updateDoc(deviceRef, {
           connectedBy: null,
           status: "inactive",
@@ -219,75 +993,77 @@ async function connectDevice(userId, deviceId) {
           webUrl: null,
           isGridView: false,
           deviceGroup: null,
-
+          lastDisconnected: new Date().toISOString()
         });
 
-        showAlert("Device disconnected successfully!");
+        updateLoaderText("Cleaning up device data...");
+        
       } catch (error) {
         console.error("Error disconnecting device:", error);
-        showAlert("An error occurred while disconnecting the device. Please try again.");
+        throw error;
       }
     }
 
-    /**
-     * Load all devices connected by the current admin in real time.
-     */
-     function loadDevices(userId) {
-  const devicesRef = collection(db, "devices");
-  const deviceList = document.getElementById("device-list");
+    // Load Devices Function
+    function loadDevices(userId) {
+      const devicesRef = collection(db, "devices");
+      const deviceList = document.getElementById("device-list");
 
-  onSnapshot(devicesRef, (snapshot) => {
-    deviceList.innerHTML = ""; // Clear the list  
+      onSnapshot(devicesRef, (snapshot) => {
+        deviceList.innerHTML = "";
 
-    snapshot.forEach((doc) => {
-      const deviceData = doc.data();
-      if (deviceData.connectedBy === userId) {
-        const deviceItem = document.createElement("div");
-        deviceItem.classList.add("device-item");
-        deviceItem.innerHTML = `
-           <p>${deviceData.deviceCode || "Unnamed Device"}</p>
-       
-          
-         <h4>${new Date(deviceData.connectedAt).toLocaleDateString()}</h4>
-          <button class="disconnect-btn" data-id="${doc.id}">Disconnect</button>
-        `;
-        deviceList.appendChild(deviceItem);
-      }
-    });
-
-    // Attach event listeners to disconnect buttons
-    const disconnectButtons = document.querySelectorAll(".disconnect-btn");
-    disconnectButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const deviceId = button.getAttribute("data-id");
-        const deviceName = button.closest('.device-item').querySelector('p').textContent;
-        
-        if (await confirm("Are you sure you want to disconnect this device?")) {
-          // Show loading spinner
-          showLoader(`Disconnecting device "${deviceName}"...`);
-          
-          try {
-            updateLoaderText("Removing device connection...");
-            await disconnectDevice(deviceId);
-            
-            updateLoaderText("Updating device list...");
-            // The onSnapshot will automatically update the UI
-            
-          } catch (error) {
-            console.error("Error disconnecting device:", error);
-            showAlert("Failed to disconnect device. Please try again.");
-          } finally {
-            // Always hide the loader
-            hideLoader();
+        snapshot.forEach((doc) => {
+          const deviceData = doc.data();
+          if (deviceData.connectedBy === userId) {
+            const deviceItem = document.createElement("div");
+            deviceItem.classList.add("device-item");
+            deviceItem.innerHTML = `
+              <div class="device-name-wrapper">
+                <p>${deviceData.deviceName || deviceData.deviceCode || "Unnamed Device"}</p>
+                <span class="device-info">
+                  <i class="fas fa-info-circle"></i>
+                  <span class="tooltip">Device ID: ${doc.id}</span>
+                </span>
+              </div>
+              <div class="device-status ${deviceData.status === 'active' ? 'active' : 'inactive'}">
+                <span class="status-dot"></span>
+                ${deviceData.status === 'active' ? 'Active' : 'Inactive'}
+              </div>
+              <h4>${deviceData.connectedAt ? new Date(deviceData.connectedAt).toLocaleDateString() : 'N/A'}</h4>
+              <button class="disconnect-btn" data-id="${doc.id}">
+                <i class="fas fa-unlink" style="margin-right: 4px;"></i>
+                Disconnect
+              </button>
+            `;
+            deviceList.appendChild(deviceItem);
           }
-        }
+        });
+
+        // Attach event listeners to disconnect buttons
+        const disconnectButtons = document.querySelectorAll(".disconnect-btn");
+        disconnectButtons.forEach((button) => {
+          button.addEventListener("click", async () => {
+            const deviceId = button.getAttribute("data-id");
+            const deviceName = button.closest('.device-item').querySelector('p').textContent;
+            
+            if (await confirm(`Are you sure you want to disconnect "${deviceName}"?`)) {
+              showLoader(`Disconnecting device "${deviceName}"...`);
+              try {
+                await disconnectDevice(deviceId);
+                showAlert("✅ Device disconnected successfully!");
+              } catch (error) {
+                console.error("Error disconnecting device:", error);
+                showAlert("❌ Failed to disconnect device. Please try again.");
+              } finally {
+                hideLoader();
+              }
+            }
+          });
+        });
       });
-    });
-  });
-}
-    /**
-     * Initialize app and event listeners.
-     */
+    }
+
+    // Initialize app
     document.addEventListener("DOMContentLoaded", () => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -298,13 +1074,18 @@ async function connectDevice(userId, deviceId) {
 
           // Handle device connection
           const connectForm = document.getElementById("connect-form");
-          connectForm.addEventListener("submit", (event) => {
+          connectForm.addEventListener("submit", async (event) => {
             event.preventDefault();
             const deviceId = document.getElementById("device-id").value.trim();
             if (deviceId) {
-              connectDevice(userId, deviceId);
-            } else {
-              showAlert("Please enter a valid Device ID.");
+              showLoader("Connecting device...");
+              try {
+                await connectDevice(userId, deviceId);
+              } catch (error) {
+                console.error("Error:", error);
+              } finally {
+                hideLoader();
+              }
             }
           });
         } else {
@@ -314,140 +1095,163 @@ async function connectDevice(userId, deviceId) {
       });
     });
 
-    // Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the close button element by its ID
-    const closeButton = document.getElementById('close-view-popup');
-    
-    // Add a click event listener to the close button
-    if (closeButton) {
+    // Close button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const closeButton = document.getElementById('close-view-popup');
+      
+      if (closeButton) {
         closeButton.addEventListener('click', function() {
-            // Navigate to the home page
-            window.location.href = 'service.html';
-            
-            // Alternative approaches:
-            // window.location.replace('/'); // Replaces current history entry
-            // window.location.assign('/');  // Same as window.location.href = '/'
+          window.location.href = 'service.html';
         });
-    } else {
-        console.error('Close button element with ID "close-view-popup" not found');
-    }
-});
-
-
-
-// Disable right click in the page
-// document.addEventListener('contextmenu', event => event.preventDefault());
-// document.onkeydown = function (e) {
-//   if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-//     return false;
-//   }
-// };
-
-function showAlert(message) {
-  const alertBox = document.getElementById("custom-alert");
-  const alertMessage = document.getElementById("alert-message");
-  alertMessage.textContent = message;
-  alertBox.classList.remove("hidden");
-
-  // Auto-close after 3 seconds
-  setTimeout(() => {
-    alertBox.classList.add("hidden");
-  }, 3000);
-}
-
-function closeAlert() {
-  document.getElementById("custom-alert").classList.add("hidden");
-
-}
-
-function confirm(message) {
-  return new Promise((resolve) => {  // ← This return was missing!
-    const confirmBox = document.getElementById("custom-confirm");
-    const messageBox = document.getElementById("confirm-message");
-    const yesBtn = document.getElementById("confirm-yes");
-    const noBtn = document.getElementById("confirm-no");
-
-    // Set message
-    messageBox.textContent = message;
-
-    // Show the confirm box
-    confirmBox.classList.remove("hidden");
-
-    let resolved = false;
-
-    const handleResponse = (response) => {
-      if (resolved) return;
-      resolved = true;
-
-      confirmBox.classList.add("hidden");
-      cleanup();
-      resolve(response);
-    };
-
-    const keyHandler = (e) => {
-      if (e.key === "Escape") {
-        handleResponse(false);
-      } else if (e.key === "Enter") {
-        handleResponse(true);
       }
-    };
+    });
 
-    const cleanup = () => {
-      document.removeEventListener("keydown", keyHandler);
-    };
+    // Alert functions with icons
+    function showAlert(message, type = 'info') {
+      const alertBox = document.getElementById("custom-alert");
+      const alertMessage = document.getElementById("alert-message");
+      
+      // Add icon based on message content
+      if (message.includes('✅')) {
+        alertBox.style.borderLeftColor = 'var(--success)';
+      } else if (message.includes('❌')) {
+        alertBox.style.borderLeftColor = 'var(--error)';
+      } else {
+        alertBox.style.borderLeftColor = 'var(--primary-600)';
+      }
+      
+      alertMessage.textContent = message;
+      alertBox.classList.remove("hidden");
 
-    yesBtn.addEventListener("click", () => handleResponse(true), { once: true });
-    noBtn.addEventListener("click", () => handleResponse(false), { once: true });
-    document.addEventListener("keydown", keyHandler);
-  });
-}
+      // Auto-close after 3 seconds
+      setTimeout(() => {
+        alertBox.classList.add("hidden");
+      }, 3000);
+    }
 
-// Loading Spinner Utility
-const LoadingSpinner = {
-  element: null,
-  textElement: null,
+    function closeAlert() {
+      document.getElementById("custom-alert").classList.add("hidden");
+    }
 
-  init() {
-    this.element = document.getElementById("loading-spinner");
-    this.textElement = document.getElementById("loading-text");
-  },
+    // Confirm dialog function
+    function confirm(message) {
+      return new Promise((resolve) => {
+        const confirmBox = document.getElementById("custom-confirm");
+        const messageBox = document.getElementById("confirm-message");
+        const yesBtn = document.getElementById("confirm-yes");
+        const noBtn = document.getElementById("confirm-no");
 
-  show(message = "Loading...") {
-    if (!this.element) this.init();
-    this.textElement.textContent = message;
-    this.element.classList.remove("hidden");
-  },
+        // Set message
+        messageBox.textContent = message;
 
-  hide() {
-    if (!this.element) this.init();
-    this.element.classList.add("hidden");
-  },
+        // Show the confirm box
+        confirmBox.classList.remove("hidden");
 
-  updateText(message) {
-    if (!this.textElement) this.init();
-    this.textElement.textContent = message;
-  }
-};
+        let resolved = false;
 
-// Alternative: Simple functions
-function showLoader(message = "Loading...") {
-  const spinner = document.getElementById("loading-spinner");
-  const textElement = document.getElementById("loading-text");
+        const handleResponse = (response) => {
+          if (resolved) return;
+          resolved = true;
 
-  textElement.textContent = message;
-  spinner.classList.remove("hidden");
-}
+          confirmBox.classList.add("hidden");
+          cleanup();
+          resolve(response);
+        };
 
-function hideLoader() {
-  const spinner = document.getElementById("loading-spinner");
-  spinner.classList.add("hidden");
-}
+        const keyHandler = (e) => {
+          if (e.key === "Escape") {
+            handleResponse(false);
+          } else if (e.key === "Enter") {
+            handleResponse(true);
+          }
+        };
 
-function updateLoaderText(message) {
-  const textElement = document.getElementById("loading-text");
-  textElement.textContent = message;
-}
+        const cleanup = () => {
+          document.removeEventListener("keydown", keyHandler);
+        };
+
+        yesBtn.addEventListener("click", () => handleResponse(true), { once: true });
+        noBtn.addEventListener("click", () => handleResponse(false), { once: true });
+        document.addEventListener("keydown", keyHandler);
+      });
+    }
+
+    // Loading spinner functions
+    function showLoader(message = "Loading...") {
+      const spinner = document.getElementById("loading-spinner");
+      const textElement = document.getElementById("loading-text");
+
+      textElement.textContent = message;
+      spinner.classList.remove("hidden");
+    }
+
+    function hideLoader() {
+      const spinner = document.getElementById("loading-spinner");
+      spinner.classList.add("hidden");
+    }
+
+    function updateLoaderText(message) {
+      const textElement = document.getElementById("loading-text");
+      textElement.textContent = message;
+    }
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Ctrl/Cmd + K to focus on device input
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('device-id').focus();
+      }
+      
+      // Escape to close alerts/modals
+      if (e.key === 'Escape') {
+        const alert = document.getElementById('custom-alert');
+        const confirm = document.getElementById('custom-confirm');
+        
+        if (!alert.classList.contains('hidden')) {
+          alert.classList.add('hidden');
+        }
+        if (!confirm.classList.contains('hidden')) {
+          document.getElementById('confirm-no').click();
+        }
+      }
+    });
+
+    // Add device search functionality
+    function addDeviceSearch() {
+      const searchContainer = document.createElement('div');
+      searchContainer.style.marginBottom = 'var(--space-4)';
+      searchContainer.innerHTML = `
+        <input 
+          type="text" 
+          id="device-search" 
+          placeholder="Search connected devices..." 
+          class="connectform"
+          style="width: 100%; margin-bottom: var(--space-4);"
+        />
+      `;
+      
+      const deviceListContainer = document.querySelector('.header-container');
+      deviceListContainer.parentNode.insertBefore(searchContainer, deviceListContainer);
+      
+      const searchInput = document.getElementById('device-search');
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const deviceItems = document.querySelectorAll('.device-item');
+        
+        deviceItems.forEach(item => {
+          const deviceName = item.querySelector('p').textContent.toLowerCase();
+          if (deviceName.includes(searchTerm)) {
+            item.style.display = 'grid';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Initialize search after DOM is loaded
+    setTimeout(addDeviceSearch, 1000);
   </script>
 </body>
 </html>

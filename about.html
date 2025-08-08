@@ -4,82 +4,1303 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us - Chesney Signage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="about.css" />
+    <meta name="description" content="About CHESNEY Signage - Learn about our innovative cloud-based digital signage solutions for businesses and institutions.">
+    <meta name="keywords" content="digital signage, cloud signage, about chesney, content management system">
+    <meta name="author" content="CHESNEY Signage">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="About CHESNEY Signage - Digital Display Solutions">
+    <meta property="og:description" content="Discover how CHESNEY Signage transforms screen communication with scalable, user-friendly cloud technology.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chesneysignage.com/about">
+    
+    <title>About Us - CHESNEY Signage | Our Story & Mission</title>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* Modern CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* CSS Variables - Consistent with brand but unique styling */
+        :root {
+            /* Colors - Modern Purple/Violet Palette */
+            --primary-50: #f5f3ff;
+            --primary-100: #ede9fe;
+            --primary-200: #ddd6fe;
+            --primary-300: #c4b5fd;
+            --primary-400: #a78bfa;
+            --primary-500: #8b5cf6;
+            --primary-600: #7c3aed;
+            --primary-700: #6d28d9;
+            --primary-800: #5b21b6;
+            --primary-900: #4c1d95;
+            
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Semantic Colors */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            
+            /* Typography Scale */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-display: 'Space Grotesk', var(--font-sans);
+            
+            /* Type Scale */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            --text-6xl: 3.75rem;
+            
+            /* Spacing Scale */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Z-index Scale */
+            --z-dropdown: 1000;
+            --z-sticky: 1020;
+            --z-fixed: 1030;
+            --z-backdrop: 1040;
+            --z-modal: 1050;
+            --z-popover: 1060;
+            --z-tooltip: 1070;
+        }
+
+        /* Base Styles */
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: var(--text-base);
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            overflow-x: hidden;
+        }
+
+        /* Focus Styles */
+        :focus {
+            outline: 2px solid var(--primary-500);
+            outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+        }
+
+        /* Header - Consistent with home but simplified */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: var(--z-sticky);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-base);
+        }
+
+        .header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            text-decoration: none;
+            transition: transform var(--transition-fast);
+        }
+
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            /* background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); */
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: var(--text-xl);
+        }
+         .logo-icon img {
+            height: 50px;
+            width: 50px;
+        }
+
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: var(--space-6);
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: var(--text-sm);
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-600);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-600);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        /* Hero Section - Unique design for About page */
+        .hero {
+            padding-top: calc(72px + var(--space-16));
+            padding-bottom: var(--space-16);
+            background: linear-gradient(180deg, var(--primary-50) 0%, transparent 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background pattern */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--primary-100) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, var(--primary-100) 0%, transparent 50%);
+            opacity: 0.5;
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: var(--primary-100);
+            color: var(--primary-700);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--gray-900);
+            margin-bottom: var(--space-6);
+        }
+
+        .page-title .gradient-text {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-description {
+            font-size: var(--text-xl);
+            color: var(--gray-600);
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: var(--space-24) 0;
+            background: white;
+            position: relative;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            align-items: center;
+            margin-bottom: var(--space-24);
+        }
+
+        .story-content {
+            opacity: 0;
+            animation: slideInLeft 0.8s ease-out 0.2s forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -var(--space-3);
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-600);
+            border-radius: var(--radius-full);
+        }
+
+        .story-text {
+            font-size: var(--text-lg);
+            color: var(--gray-600);
+            line-height: 1.8;
+            margin-bottom: var(--space-6);
+        }
+
+        .story-highlight {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--primary-700);
+            margin-bottom: var(--space-6);
+        }
+
+        .story-visual {
+            position: relative;
+            opacity: 0;
+            animation: slideInRight 0.8s ease-out 0.4s forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            transform: rotate(-3deg);
+            transition: transform var(--transition-slow);
+        }
+
+        .image-grid:hover {
+            transform: rotate(0deg);
+        }
+
+        .grid-image {
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            transition: all var(--transition-base);
+        }
+
+        .grid-image:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .grid-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid-image:nth-child(1) {
+            transform: translateY(-20px);
+        }
+
+        .grid-image:nth-child(3) {
+            transform: translateY(20px);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: var(--space-24) 0;
+            background: var(--gray-50);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        .value-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-400), var(--primary-600));
+            transform: translateX(-100%);
+            transition: transform var(--transition-base);
+        }
+
+        .value-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-100);
+            color: var(--primary-600);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-4);
+        }
+
+        .value-title {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-3);
+        }
+
+        .value-description {
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: var(--space-24) 0;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-8);
+            position: relative;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-6);
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+            opacity: 0;
+            animation: countUp 2s ease-out forwards;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-label {
+            font-size: var(--text-lg);
+            opacity: 0.9;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: var(--space-24) 0;
+            background: white;
+        }
+
+        .team-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto var(--space-12);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        .team-member {
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .team-member:nth-child(1) { animation-delay: 0.1s; }
+        .team-member:nth-child(2) { animation-delay: 0.2s; }
+        .team-member:nth-child(3) { animation-delay: 0.3s; }
+        .team-member:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .member-avatar {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto var(--space-4);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            border: 4px solid var(--primary-100);
+            transition: all var(--transition-base);
+        }
+
+        .member-avatar:hover {
+            border-color: var(--primary-600);
+            transform: scale(1.05);
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-name {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .member-role {
+            color: var(--primary-600);
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: var(--space-24) 0;
+            background: var(--gray-50);
+            text-align: center;
+        }
+
+        .cta-box {
+            background: white;
+            border-radius: var(--radius-3xl);
+            padding: var(--space-16);
+            box-shadow: var(--shadow-xl);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-100) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+
+        .cta-content {
+            position: relative;
+        }
+
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
+        }
+
+        .cta-description {
+            font-size: var(--text-lg);
+            color: var(--gray-600);
+            margin-bottom: var(--space-8);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: var(--text-base);
+            text-decoration: none;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-600);
+            color: var(--primary-600);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-16) 0 var(--space-8);
+            background: var(--gray-900);
+            color: var(--gray-300);
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: var(--text-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-8);
+            }
+
+            .image-grid {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding-top: calc(72px + var(--space-8));
+            }
+
+            .page-title {
+                font-size: var(--text-4xl);
+            }
+
+            .values-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Accessibility */
+        .skip-to-content {
+            position: absolute;
+            top: -100px;
+            left: var(--space-4);
+            background: var(--primary-600);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            z-index: var(--z-tooltip);
+        }
+
+        .skip-to-content:focus {
+            top: var(--space-4);
+        }
+
+        /* Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="logo">
-          <img src="./images/chesney_logo.png" alt="Chesney Signage Logo" />
-          <span>CHESNEY<br>Signage</span>
-        </div>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li class="active"><a href="about.html">About</a></li>
-            <li><a href="service.html">Services</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="contactus.html">Contact</a></li>
-          </ul>
-          <!-- <div class="hamburger">☰</div> -->
+    <!-- Skip to Content -->
+    <a href="#main" class="skip-to-content">Skip to content</a>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container" role="navigation" aria-label="Main navigation">
+            <a href="/" class="logo" aria-label="CHESNEY Signage Home">
+                    <div class="logo-icon"><img src="./images/chesney_logo.png" alt=""></div>
+                    <span class="logo-text">CHESNEY</span>
+                </a>
+            
+            <div class="nav-menu">
+                <ul class="nav-links" role="list">
+                    <li><a href="/index.html" class="nav-link">Home</a></li>
+                    <li><a href="/about" class="nav-link active" aria-current="page">About</a></li>
+                    <li><a href="/service.html" class="nav-link">Solutions</a></li>
+                    <!-- <li><a href="/pricing" class="nav-link">Pricing</a></li> -->
+                    <!-- <li><a href="/resources" class="nav-link">Resources</a></li> -->
+                    <li><a href="/contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
         </nav>
-      </header>
+    </header>
 
-    <main class="main-section">
-
-
-        <!-- 🟩 Image or Video second (right side) -->
-        <div class="left-box">
-            <div class="white-box">
-                <!-- Use video if needed -->
-                <!-- <video controls autoplay muted loop>
-          <source src="./images/home_page_video_with_stand.mp4" type="video/mp4" />
-        </video> -->
-                <img src="./images/3.png" alt="Monitor with content" />
-            </div>
-            <div class="stand">
-                <!-- <img src="./images/home_page_stand.png" alt="Standee" /> -->
-            </div>
-            <!-- <div class="dots">
-        <span class="dot active-dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div> -->
-        </div>
-        <!--  Text first (left side) -->
-        <div class="right-box">
-            <div class="promo-card">
-                <h1 class="headline">About Us</h1>
-                <p class="subtext">
-                    Chesney Signage delivers innovative digital signage solutions through a robust, cloud-based
-                    platform. We help businesses and institutions manage, schedule, and display multimedia content
-                    across remote screens with efficiency and ease. Scalable, reliable, and user-friendly—our technology
-                    redefines modern screen communication for impactful visual engagement and operational control.
-                </p>
-
-                <div class="promo-buttons">
-                    <button class="btn-orange"
-                        onclick="window.open('https://play.google.com/store/apps/details?id=com.chesneysignage.chesney_cloud&hl=en_IN', '_blank')">
-                        <img src="images/playstore.png"
-                            alt="Play Store" style="height: 20px; vertical-align: middle; margin-right: 8px;">
-                        Get it on Play Store
-                    </button>
-
-                    <button class="btn-outline" onclick="window.location.href='contactus.html'">Book a demo</button>
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="page-title">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="page-badge">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About Us</span>
+                    </div>
+                    
+                    <h1 id="page-title" class="page-title">
+                        Transforming Digital Communication
+                        <br>
+                        <span class="gradient-text">One Screen at a Time</span>
+                    </h1>
+                    
+                    <p class="page-description">
+                        Since 2020, CHESNEY Signage has been pioneering cloud-based digital signage solutions that empower businesses to communicate effectively, engage audiences, and drive results.
+                    </p>
                 </div>
-       
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-content">
+                        <h2 class="section-title">Our Story</h2>
+                        
+                        <p class="story-highlight">
+                            "Every great innovation starts with a simple question: How can we make this better?"
+                        </p>
+                        
+                        <p class="story-text">
+                            CHESNEY Signage was born from the frustration of managing traditional display systems. Our founders recognized that businesses needed a simpler, more powerful way to control their digital displays without complex hardware or technical expertise.
+                        </p>
+                        
+                        <p class="story-text">
+                            Today, we serve over 10,000 businesses worldwide, from small cafes to multinational corporations, all unified by one goal: delivering impactful visual communication that drives engagement and results.
+                        </p>
+                    </div>
+                    
+                    <div class="story-visual">
+                        <div class="image-grid">
+                            <div class="grid-image">
+                                <img src="/images/testimage.png" alt="CHESNEY office" loading="lazy">
+                            </div>
+                            <div class="grid-image">
+                                <img src="/images/testimage.png" alt="CHESNEY team collaboration" loading="lazy">
+                            </div>
+                            <div class="grid-image">
+                                <img src="/images/testimage.png" alt="Digital signage technology" loading="lazy">
+                            </div>
+                            <div class="grid-image">
+                                <img src="/images/testimage.png" alt="Happy customers" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title" style="text-align: center; margin-bottom: var(--space-4);">Our Core Values</h2>
+                <p style="text-align: center; color: var(--gray-600); max-width: 600px; margin: 0 auto;">
+                    These principles guide everything we do at CHESNEY Signage
+                </p>
+                
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="value-title">Innovation First</h3>
+                        <p class="value-description">
+                            We constantly push boundaries to deliver cutting-edge solutions that anticipate tomorrow's needs today.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="value-title">Customer-Centric</h3>
+                        <p class="value-description">
+                            Your success is our success. We listen, adapt, and evolve based on real customer feedback and needs.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="value-title">Reliability</h3>
+                        <p class="value-description">
+                            99.9% uptime isn't just a metric—it's our promise. Your content displays when you need it, always.
+                        </p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="value-title">Sustainability</h3>
+                        <p class="value-description">
+                            Cloud-based solutions mean less hardware waste and lower energy consumption for a greener future.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="10000">0</div>
+                        <div class="stat-label">Active Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="50">0</div>
+                        <div class="stat-label">Countries Served</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1000000">0</div>
+                        <div class="stat-label">Displays Managed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="99.9">0</div>
+                        <div class="stat-label">% Uptime</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <h2 class="section-title" style="text-align: center;">Meet Our Leadership</h2>
+                
+                <div class="team-intro">
+                    <p class="story-text">
+                        Our diverse team brings together expertise from technology, design, and business to create solutions that truly make a difference.
+                    </p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <img src="/images/profilesample.jpeg" alt="CEO">
+                        </div>
+                        <h3 class="member-name">Chethan R</h3>
+                        <p class="member-role">CEO & Founder</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <img src="/images/profilesample.jpeg" alt="CTO">
+                        </div>
+                        <h3 class="member-name">Nagesh Rao</h3>
+                        <p class="member-role">COO & Co-Founder</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <img src="/images/profilesample.jpeg" alt="Head of Design">
+                        </div>
+                        <h3 class="member-name">Marks Carlen</h3>
+                        <p class="member-role">CTO</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <img src="/images/profilesample.jpeg" alt="VP Sales">
+                        </div>
+                        <h3 class="member-name">James Wilson</h3>
+                        <p class="member-role">VP of Sales</p>
+                    </div>
+                </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-box">
+                    <div class="cta-content">
+                        <h2 class="cta-title">Ready to Transform Your Digital Signage?</h2>
+                        <p class="cta-description">
+                            Join thousands of businesses already using CHESNEY to power their digital displays
+                        </p>
+                        
+                        <div class="cta-buttons">
+                            <a href="/signup" class="btn btn-primary">
+                                <i class="fas fa-rocket"></i>
+                                Start Free Trial
+                            </a>
+                            <a href="/contact" class="btn btn-secondary">
+                                <i class="fas fa-comments"></i>
+                                Talk to Sales
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">© 2024 CHESNEY Signage. All rights reserved.</p>
             </div>
         </div>
+    </footer>
 
-        <div class="dotimage">
-            <img src="./images/home_dot_dot.png" alt="Design dots" />
-        </div>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CHESNEY Signage",
+        "url": "https://chesneysignage.com",
+        "logo": "https://chesneysignage.com/images/logo.png",
+        "description": "Cloud-based digital signage solutions for businesses worldwide",
+        "foundingDate": "2020",
+        "founders": [
+            {
+                "@type": "Person",
+                "name": "Sarah Chen",
+                "jobTitle": "CEO"
+            },
+            {
+                "@type": "Person",
+                "name": "Michael Roberts",
+                "jobTitle": "CTO"
+            }
+        ],
+        "numberOfEmployees": "50-100",
+        "sameAs": [
+            "https://twitter.com/chesneysignage",
+            "https://linkedin.com/company/chesneysignage",
+            "https://facebook.com/chesneysignage"
+        ]
+    }
+    </script>
+
+    <script>
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        let lastScroll = 0;
+
+        const handleScroll = () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        };
+
+        // Throttle scroll events
+        let scrollTimer;
+        window.addEventListener('scroll', () => {
+            if (scrollTimer) return;
+            
+            scrollTimer = setTimeout(() => {
+                handleScroll();
+                scrollTimer = null;
+            }, 100);
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Counter animation for stats
+                    if (entry.target.classList.contains('stat-number')) {
+                        animateCounter(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.story-content, .story-visual, .value-card, .team-member, .stat-number').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseFloat(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (target === 99.9) {
+                    element.textContent = current.toFixed(1) + '%';
+                } else if (target >= 1000) {
+                    element.textContent = Math.floor(current).toLocaleString() + '+';
+                } else {
+                    element.textContent = Math.floor(current) + '+';
+                }
+            }, 16);
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
         
-    </main>
-    <!-- <div class="grid-item empty-tile"></div>  -->
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+                mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+                navLinks.classList.toggle('mobile-menu-open');
+            });
+        }
 
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // A11y - Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-nav');
+        });
+
+        // Mobile menu styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .nav-links.mobile-menu-open {
+                    display: flex;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    flex-direction: column;
+                    background: white;
+                    box-shadow: var(--shadow-lg);
+                    padding: var(--space-4);
+                    gap: var(--space-4);
+                    animation: slideDown 0.3s ease-out;
+                }
+
+                .nav-link {
+                    padding: var(--space-3) 0;
+                    border-bottom: 1px solid var(--gray-100);
+                }
+
+                .nav-link:last-child {
+                    border-bottom: none;
+                }
+            }
+
+            body.keyboard-nav *:focus {
+                outline: 2px solid var(--primary-500);
+                outline-offset: 2px;
+            }
+
+            .visible {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 
 </html>
