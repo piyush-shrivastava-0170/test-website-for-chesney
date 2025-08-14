@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Connect and manage your CHESNEY digital signage devices from one central dashboard">
-  <title>Connect Devices - CHESNEY Signage</title>
+  <meta name="description" content="Connect and manage your digital signage devices with CHESNEY's cloud-based platform">
+  <meta name="keywords" content="digital signage, device management, CHESNEY, connect devices">
+  <title>Connect Devices | CHESNEY Signage Platform</title>
   
-  <!-- Preconnect -->
+  <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -14,16 +15,16 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
- <style>
-    /* CSS Reset */
+  
+  <style>
+    /* Modern CSS Reset */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    /* Design System Variables */
+    /* CSS Variables - CHESNEY Signage Theme */
     :root {
       /* Colors - Modern Purple/Violet Palette */
       --primary-50: #f5f3ff;
@@ -51,10 +52,17 @@
       
       /* Semantic Colors */
       --success: #10b981;
+      --success-50: #ecfdf5;
+      --success-100: #d1fae5;
       --warning: #f59e0b;
+      --warning-50: #fffbeb;
+      --warning-100: #fef3c7;
       --error: #ef4444;
+      --error-50: #fef2f2;
+      --error-100: #fee2e2;
       --info: #3b82f6;
-      --led-green: #00ff88;
+      --info-50: #eff6ff;
+      --info-100: #dbeafe;
       
       /* Typography Scale */
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -106,6 +114,15 @@
       --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Z-index Scale */
+      --z-dropdown: 1000;
+      --z-sticky: 1020;
+      --z-fixed: 1030;
+      --z-backdrop: 1040;
+      --z-modal: 1050;
+      --z-popover: 1060;
+      --z-tooltip: 1070;
     }
 
     /* Base Styles */
@@ -121,544 +138,10 @@
       font-size: var(--text-base);
       line-height: 1.6;
       color: var(--gray-900);
-      background: linear-gradient(to bottom right, var(--primary-50), var(--gray-50));
+      background: var(--gray-50);
       min-height: 100vh;
-      position: relative;
       overflow-x: hidden;
-    }
-
-    /* Background Pattern */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: 
-        radial-gradient(circle at 20% 30%, var(--primary-200) 0%, transparent 40%),
-        radial-gradient(circle at 80% 60%, var(--primary-100) 0%, transparent 40%),
-        radial-gradient(circle at 40% 80%, var(--primary-300) 0%, transparent 30%);
-      filter: blur(60px);
-      opacity: 0.3;
-      z-index: -1;
-      animation: meshMove 20s ease-in-out infinite;
-    }
-
-    @keyframes meshMove {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(-5%, -5%) scale(1.1); }
-      66% { transform: translate(5%, -5%) scale(0.95); }
-    }
-
-    /* Main Container */
-    .main-container {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: var(--space-8);
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: var(--space-8);
-      min-height: 100vh;
-      align-items: start;
-    }
-
-    /* Left Section */
-    .left-section {
-      position: sticky;
-      top: var(--space-8);
-    }
-
-    .connect-screen-box {
-      background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
-      border-radius: var(--radius-3xl);
-      padding: var(--space-10);
-      box-shadow: var(--shadow-2xl);
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-      animation: fadeInLeft 0.8s ease-out;
-    }
-
-    @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .connect-screen-box::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .connect-image {
-      width: 100%;
-      max-width: 350px;
-      height: auto;
-      position: relative;
-      z-index: 1;
-      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .subtitle-text {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 700;
-      color: white;
-      margin-top: var(--space-6);
-      position: relative;
-      z-index: 1;
-    }
-
-    .highlight {
-      background: linear-gradient(90deg, var(--led-green), #00ff44);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Right Section */
-    .right-section {
-      background: white;
-      border-radius: var(--radius-3xl);
-      padding: var(--space-10);
-      box-shadow: var(--shadow-xl);
-      position: relative;
-      animation: fadeInRight 0.8s ease-out;
-    }
-
-    @keyframes fadeInRight {
-      from {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    /* Close Button */
-    .close-modal {
-      position: absolute;
-      top: var(--space-6);
-      right: var(--space-6);
-      width: 40px;
-      height: 40px;
-      background: var(--gray-100);
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: var(--text-xl);
-      color: var(--gray-600);
-      transition: all var(--transition-base);
-    }
-
-    .close-modal:hover {
-      background: var(--primary-100);
-      color: var(--primary-600);
-      transform: rotate(90deg);
-    }
-
-    /* Form Section */
-    .right-section h2 {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: var(--space-8);
-      background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    #connect-form {
-      display: flex;
-      gap: var(--space-4);
-      margin-bottom: var(--space-12);
-    }
-
-    .connectform {
-      flex: 1;
-      padding: var(--space-4) var(--space-6);
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-xl);
-      font-size: var(--text-base);
-      font-family: var(--font-sans);
-      transition: all var(--transition-base);
-      background: var(--gray-50);
-    }
-
-    .connectform:focus {
-      outline: none;
-      border-color: var(--primary-500);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
-    }
-
-    #connect-form button {
-      padding: var(--space-4) var(--space-8);
-      background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
-      color: white;
-      border: none;
-      border-radius: var(--radius-xl);
-      font-size: var(--text-base);
-      font-weight: 600;
-      font-family: var(--font-sans);
-      cursor: pointer;
-      transition: all var(--transition-base);
-      box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
-      white-space: nowrap;
-    }
-
-    #connect-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.4);
-    }
-
-    #connect-form button:active {
-      transform: translateY(0);
-    }
-
-    /* Device List Header */
-    .header-container {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1.5fr 1fr;
-      padding: var(--space-4) var(--space-6);
-      background: var(--gray-50);
-      border-radius: var(--radius-xl);
-      margin-bottom: var(--space-4);
-      border: 1px solid var(--gray-200);
-    }
-
-    .header-container h3 {
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Device List */
-    #device-list {
-      max-height: 400px;
-      overflow-y: auto;
-      padding-right: var(--space-2);
-    }
-
-    #device-list::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    #device-list::-webkit-scrollbar-track {
-      background: var(--gray-100);
-      border-radius: var(--radius-full);
-    }
-
-    #device-list::-webkit-scrollbar-thumb {
-      background: var(--primary-300);
-      border-radius: var(--radius-full);
-    }
-
-    #device-list::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-400);
-    }
-
-    /* Device Item */
-    .device-item {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1.5fr 1fr;
-      align-items: center;
-      padding: var(--space-4) var(--space-6);
-      background: var(--gray-50);
-      border-radius: var(--radius-xl);
-      margin-bottom: var(--space-3);
-      transition: all var(--transition-base);
-      border: 2px solid transparent;
-    }
-
-    .device-item:hover {
-      background: white;
-      border-color: var(--primary-100);
-      transform: translateX(5px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .device-item p {
-      font-weight: 600;
-      color: var(--gray-800);
-      margin: 0;
-    }
-
-    .device-item h4 {
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--gray-600);
-      margin: 0;
-    }
-
-    .disconnect-btn {
-      padding: var(--space-2) var(--space-4);
-      background: var(--error);
-      color: white;
-      border: none;
-      border-radius: var(--radius-lg);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition-base);
-      font-family: var(--font-sans);
-    }
-
-    .disconnect-btn:hover {
-      background: #dc2626;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    /* Alert Styles */
-    .alert {
-      position: fixed;
-      top: var(--space-8);
-      right: var(--space-8);
-      background: white;
-      border-radius: var(--radius-xl);
-      padding: var(--space-4) var(--space-6);
-      box-shadow: var(--shadow-xl);
-      border-left: 4px solid var(--primary-600);
-      max-width: 400px;
-      z-index: 1000;
-      animation: slideIn 0.3s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    .alert.hidden {
-      display: none;
-    }
-
-    #alert-message {
-      color: var(--gray-800);
-      font-size: var(--text-base);
-      font-weight: 500;
-    }
-
-    /* Confirm Dialog */
-    .confirm {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      border-radius: var(--radius-2xl);
-      padding: var(--space-8);
-      box-shadow: var(--shadow-2xl);
-      max-width: 400px;
-      width: 90%;
-      z-index: 1001;
-      animation: fadeInScale 0.3s ease-out;
-    }
-
-    @keyframes fadeInScale {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    .confirm.hidden {
-      display: none;
-    }
-
-    .confirm-message {
-      font-size: var(--text-lg);
-      color: var(--gray-800);
-      margin-bottom: var(--space-6);
-      text-align: center;
-    }
-
-    .confirm-actions {
-      display: flex;
-      gap: var(--space-4);
-      justify-content: center;
-    }
-
-    .confirm-actions button {
-      padding: var(--space-3) var(--space-6);
-      border-radius: var(--radius-lg);
-      font-size: var(--text-base);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all var(--transition-base);
-      border: none;
-      font-family: var(--font-sans);
-    }
-
-    #confirm-yes {
-      background: var(--primary-600);
-      color: white;
-    }
-
-    #confirm-yes:hover {
-      background: var(--primary-700);
-      transform: translateY(-2px);
-    }
-
-    #confirm-no {
-      background: var(--gray-200);
-      color: var(--gray-700);
-    }
-
-    #confirm-no:hover {
-      background: var(--gray-300);
-      transform: translateY(-2px);
-    }
-
-    /* Loading Spinner */
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-
-    .loading-overlay.hidden {
-      display: none;
-    }
-
-    .loading-content {
-      background: white;
-      border-radius: var(--radius-2xl);
-      padding: var(--space-8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-4);
-      box-shadow: var(--shadow-2xl);
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid var(--primary-200);
-      border-top-color: var(--primary-600);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      font-size: var(--text-base);
-      color: var(--gray-700);
-      font-weight: 500;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .main-container {
-        grid-template-columns: 1fr;
-        gap: var(--space-6);
-      }
-
-      .left-section {
-        position: relative;
-      }
-
-      .connect-screen-box {
-        padding: var(--space-6);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .main-container {
-        padding: var(--space-4);
-      }
-
-      .right-section {
-        padding: var(--space-6);
-      }
-
-      .right-section h2 {
-        font-size: var(--text-2xl);
-      }
-
-      #connect-form {
-        flex-direction: column;
-      }
-
-      .header-container {
-        display: none;
-      }
-
-      .device-item {
-        grid-template-columns: 1fr;
-        gap: var(--space-2);
-        text-align: left;
-      }
       
-      .device-name-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--space-2);
-      }
-      
-      .device-status {
-        margin-bottom: var(--space-2);
-      }
-      
-      .disconnect-btn {
-        width: 100%;
-        margin-top: var(--space-2);
-      }
-
-      .alert {
-        right: var(--space-4);
-        left: var(--space-4);
-        max-width: none;
-      }
     }
 
     /* Focus Styles */
@@ -671,177 +154,1197 @@
       outline: none;
     }
 
-    /* Empty State */
-    #device-list:empty::after {
-      content: 'No devices connected yet';
-      display: block;
-      text-align: center;
-      padding: var(--space-8);
-      color: var(--gray-500);
-      font-style: italic;
+    /* Skip to Content */
+    .skip-to-content {
+      position: absolute;
+      top: -100px;
+      left: var(--space-4);
+      background: var(--primary-600);
+      color: white;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      z-index: var(--z-tooltip);
+      font-weight: 600;
     }
 
-    /* Device Status Indicator */
-    .device-status {
-      display: inline-flex;
+    .skip-to-content:focus {
+      top: var(--space-4);
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: var(--space-4) 0;
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      /* background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); */
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: var(--text-lg);
+    }
+    .logo-icon img {
+            height: 50px;
+            width: 50px;
+        }
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--gray-900);
+      letter-spacing: -0.02em;
+    }
+
+    .breadcrumb {
+      display: flex;
       align-items: center;
       gap: var(--space-2);
-      font-size: var(--text-xs);
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-full);
-      font-weight: 500;
-    }
-
-    .device-status.active {
-      background: var(--success);
-      color: white;
-    }
-
-    .device-status.inactive {
-      background: var(--gray-400);
-      color: white;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    /* Connection Success Animation */
-    @keyframes connectionSuccess {
-      0% { transform: scale(0.8); opacity: 0; }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .device-item.new-connection {
-      animation: connectionSuccess 0.5s ease-out;
-    }
-
-    /* Device Info Tooltip */
-    .device-info {
-      position: relative;
-      display: inline-block;
-      margin-left: var(--space-2);
-      cursor: help;
-    }
-
-    .device-info i {
-      color: var(--gray-400);
+      color: var(--gray-500);
       font-size: var(--text-sm);
     }
 
-    .device-info:hover i {
+    .breadcrumb a {
+      color: var(--primary-600);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--primary-700);
+    }
+
+    .close-btn {
+      background: var(--gray-100);
+      border: none;
+      padding: var(--space-2);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--gray-600);
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .close-btn:hover {
+      background: var(--gray-200);
+      color: var(--gray-700);
+    }
+
+    /* Main Container */
+    .main-container {
+      width: 100%;
+      min-height: calc(100vh - 80px);
+      display: grid;
+      grid-template-columns: 30% 70%;
+      gap: 0;
+      align-items: stretch;
+
+    }
+
+    /* Left Section - Hero */
+    .hero-section {
+      height: 100%;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8);
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+
+    }
+
+    .hero-content {
+      text-align: center;
+      padding: var(--space-8);
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+      /* border-radius: var(--radius-3xl); */
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 30s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-6);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+      position: relative;
+    }
+
+    .hero-description {
+      font-size: var(--text-lg);
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: var(--space-8);
+      position: relative;
+    }
+
+    .hero-image {
+      position: relative;
+      /* margin-bottom: var(--space-6); */
+    }
+
+    .connect-image {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      /* border-radius: var(--radius-2xl); */
+      /* box-shadow: var(--shadow-2xl); */
+      animation: float 6s ease-in-out infinite;
+      position: relative;
+    
+     
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: var(--space-4);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      margin-bottom: var(--space-1);
+    }
+
+    .stat-label {
+      font-size: var(--text-sm);
+      opacity: 0.8;
+    }
+
+    /* Right Section - Form */
+    .form-section {
+      background: white;
+      height: 100%;
+      min-height: calc(100vh - 80px);
+      overflow-y: auto;
+      border-left: 1px solid var(--gray-200);
+    }
+
+    .form-header {
+      padding: var(--space-8);
+      border-bottom: 1px solid var(--gray-200);
+      background: linear-gradient(135deg, var(--gray-50), var(--primary-50));
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    .form-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-subtitle {
+      color: var(--gray-600);
+      font-size: var(--text-lg);
+      line-height: 1.5;
+    }
+
+    .form-content {
+      padding: var(--space-8);
+    }
+
+    /* Connection Form */
+    .connect-form {
+      margin-bottom: var(--space-8);
+    }
+
+    .input-group {
+      margin-bottom: var(--space-6);
+    }
+
+    .input-label {
+      display: block;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: var(--space-2);
+      font-size: var(--text-sm);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: var(--space-4) var(--space-4) var(--space-4) var(--space-12);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      font-size: var(--text-base);
+      font-family: var(--font-sans);
+      transition: all var(--transition-base);
+      background: var(--gray-50);
+    }
+
+    .input-field:focus {
+      border-color: var(--primary-500);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    .input-field::placeholder {
+      color: var(--gray-400);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: var(--text-lg);
+    }
+
+    .input-field:focus + .input-icon {
+      color: var(--primary-500);
+    }
+
+    .input-help {
+      margin-top: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-6);
+      border: none;
+      border-radius: var(--radius-xl);
+      font-size: var(--text-base);
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      min-height: 48px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(139, 92, 246, 0.3);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px 0 rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Device Management Section */
+    .devices-section {
+      margin-top: var(--space-8);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: between;
+      margin-bottom: var(--space-6);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .section-subtitle {
+      color: var(--gray-600);
+      font-size: var(--text-sm);
+    }
+
+    .devices-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-6);
+      background: var(--primary-50);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--primary-200);
+      margin-bottom: var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--primary-700);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Devices List with better scrolling */
+    .devices-list {
+      max-height: calc(100vh - 500px);
+      overflow-y: auto;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--gray-200);
+    }
+
+    .device-item {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background: white;
+      border-bottom: 1px solid var(--gray-100);
+      transition: all var(--transition-base);
+      align-items: center;
+    }
+
+    .device-item:last-child {
+      border-bottom: none;
+    }
+
+    .device-item:hover {
+      background: var(--gray-50);
+    }
+
+    .device-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .device-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-100);
+      color: var(--primary-600);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-lg);
+      flex-shrink: 0;
+    }
+
+    .device-details h4 {
+      font-weight: 600;
+      color: var(--gray-900);
+      font-size: var(--text-base);
+      margin-bottom: var(--space-1);
+    }
+
+    .device-id {
+      font-size: var(--text-sm);
+      color: var(--gray-500);
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    }
+
+    .device-date {
+      color: var(--gray-600);
+      font-size: var(--text-sm);
+    }
+
+    .device-actions {
+      display: flex;
+      gap: var(--space-2);
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--gray-700);
+      border: 2px solid var(--gray-200);
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary-600);
       color: var(--primary-600);
     }
 
-    .tooltip {
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--gray-900);
+    .btn-danger {
+      background: linear-gradient(135deg, var(--error), #dc2626);
       color: white;
-      padding: var(--space-2) var(--space-3);
-      border-radius: var(--radius-lg);
-      font-size: var(--text-xs);
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--transition-fast);
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm);
+      box-shadow: 0 2px 8px 0 rgba(239, 68, 68, 0.3);
     }
 
-    .device-info:hover .tooltip {
-      opacity: 1;
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px 0 rgba(239, 68, 68, 0.4);
     }
 
-    .tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 6px solid var(--gray-900);
+    .empty-state {
+      text-align: center;
+      padding: var(--space-16) var(--space-8);
+      color: var(--gray-500);
     }
-    </style>
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-4xl);
+      margin: 0 auto var(--space-4);
+    }
+
+    .empty-title {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: var(--space-2);
+    }
+
+    .empty-description {
+      font-size: var(--text-base);
+      line-height: 1.6;
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: var(--space-8);
+      right: var(--space-8);
+      background: white;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      z-index: var(--z-tooltip);
+      max-width: 400px;
+      animation: slideInRight 0.3s ease-out;
+      border-left: 4px solid var(--primary-500);
+      overflow: hidden;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .notification.hidden {
+      display: none;
+    }
+
+    .notification-content {
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: start;
+      gap: var(--space-3);
+    }
+
+    .notification-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: var(--space-1);
+    }
+
+    .notification-icon.success {
+      color: var(--success);
+    }
+
+    .notification-icon.error {
+      color: var(--error);
+    }
+
+    .notification-icon.warning {
+      color: var(--warning);
+    }
+
+    .notification-icon.info {
+      color: var(--info);
+    }
+
+    .notification-text {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .notification-message {
+      color: var(--gray-600);
+      font-size: var(--text-sm);
+      line-height: 1.5;
+    }
+
+    .notification-close {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      transition: color var(--transition-fast);
+    }
+
+    .notification-close:hover {
+      color: var(--gray-600);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+      animation: fadeIn 0.3s ease-out;
+      padding: var(--space-4);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-overlay.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-2xl);
+      max-width: 500px;
+      width: 100%;
+      animation: scaleIn 0.3s ease-out;
+      overflow: hidden;
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .modal-header {
+      padding: var(--space-6) var(--space-6) var(--space-4);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .modal-title {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .modal-description {
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    .modal-body {
+      padding: var(--space-6);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: flex-end;
+      padding: var(--space-4) var(--space-6) var(--space-6);
+      background: var(--gray-50);
+    }
+
+    /* Loading Spinner */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .loading-overlay.hidden {
+      display: none;
+    }
+
+    .loading-content {
+      background: white;
+      padding: var(--space-8);
+      border-radius: var(--radius-2xl);
+      text-align: center;
+      box-shadow: var(--shadow-2xl);
+      animation: scaleIn 0.3s ease-out;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid var(--primary-100);
+      border-left-color: var(--primary-600);
+      border-radius: var(--radius-full);
+      animation: spin 1s linear infinite;
+      margin: 0 auto var(--space-4);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .loading-description {
+      color: var(--gray-600);
+      font-size: var(--text-sm);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .main-container {
+        grid-template-columns: 35% 65%;
+      }
+      
+      .hero-section {
+        padding: var(--space-4);
+      }
+
+      .hero-content {
+        padding: var(--space-6);
+      }
+
+      .hero-title {
+        font-size: var(--text-2xl);
+      }
+
+      .hero-description {
+        font-size: var(--text-base);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+      }
+
+      .stat-item {
+        padding: var(--space-3);
+      }
+
+      .stat-number {
+        font-size: var(--text-xl);
+      }
+
+      .stat-label {
+        font-size: var(--text-xs);
+      }
+
+      .hero-badge {
+        font-size: var(--text-xs);
+        padding: var(--space-1) var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .connect-image {
+        max-width: 300px;
+      }
+
+      .form-title {
+        font-size: var(--text-2xl);
+      }
+
+      .form-subtitle {
+        font-size: var(--text-base);
+      }
+
+      .section-title {
+        font-size: var(--text-xl);
+      }
+
+      .form-header,
+      .form-content {
+        padding: var(--space-6);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      .hero-section {
+        position: static;
+        min-height: auto;
+        padding: var(--space-6);
+      }
+
+      .form-section {
+        min-height: auto;
+        border-left: none;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      .form-header {
+        position: static;
+      }
+
+      .header-content {
+        padding: 0 var(--space-4);
+      }
+
+      .form-content {
+        padding: var(--space-6) var(--space-4);
+      }
+
+      .devices-header,
+      .device-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: var(--space-3);
+      }
+      
+      .device-info {
+        justify-content: center;
+      }
+
+      .device-actions {
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: var(--text-2xl);
+      }
+
+      .breadcrumb {
+        display: none;
+      }
+
+      .notification {
+        right: var(--space-4);
+        left: var(--space-4);
+        max-width: none;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content {
+        padding: var(--space-6);
+      }
+
+      .form-title {
+        font-size: var(--text-2xl);
+      }
+
+      .btn {
+        padding: var(--space-3) var(--space-4);
+      }
+    }
+
+    /* Scrollbar Styling */
+    .devices-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .devices-list::-webkit-scrollbar-track {
+      background: var(--gray-100);
+    }
+
+    .devices-list::-webkit-scrollbar-thumb {
+      background: var(--primary-300);
+      border-radius: var(--radius-full);
+    }
+
+    .devices-list::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-500);
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* High contrast mode */
+    @media (prefers-contrast: high) {
+      .input-field {
+        border-width: 3px;
+      }
+      
+      .device-item {
+        border-width: 2px;
+      }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --gray-50: #1f2937;
+        --gray-100: #374151;
+        --gray-200: #4b5563;
+        --gray-900: #f9fafb;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      .loading-overlay,
+      .notification,
+      .modal-overlay {
+        display: none !important;
+      }
+      
+      .hero-section {
+        display: none;
+      }
+      
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+@media screen and (max-width: 1380px) and (max-height: 800px){
+
+  html {
+    font-size: 85%; 
+  }
+
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  .main-container {
+    gap: 0.8rem; 
+  }
+  section,
+  .hero-section,
+  .stats-grid,
+  .content-container {
+    padding: 0.8em; 
+  }
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+}
+
+
+
+  </style>
 </head>
 
 <body>
-  <div class="main-container">
-    <!-- Left Section -->
-    <div class="left-section">
-      <div class="connect-screen-box">
-        <img src="./images/connect_screen_left.png" alt="connect" class="connect-image">
-        <div class="subtitle-text">
-          Turn Any Screen Into a <span class="highlight">Digital Billboard</span>
+  <!-- Skip to Content -->
+  <!-- <a href="#main-content" class="skip-to-content">Skip to main content</a> -->
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="header-content">
+      <a href="/" class="logo" aria-label="CHESNEY Signage Home">
+                    <div class="logo-icon"><img src="./images/chesney_logo.png" alt=""></div>
+                    <span class="logo-text">CHESNEY</span>
+                </a>
+      
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/service.html">Dashboard</a>
+        <i class="fas fa-chevron-right " aria-hidden="true"></i>
+        <span aria-current="page">Connect Devices</span>
+      </nav>
+      
+      <button class="close-btn" onclick="window.location.href='service.html'" aria-label="Close and return to dashboard">
+        <i class="fas fa-times" aria-hidden="true"></i>
+        <span>Close</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-container">
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-content">
+          <!-- <div class="hero-badge">
+            <i class="fas fa-plug" aria-hidden="true"></i>
+            <span>Device Management</span>
+          </div> -->
+          
+          <!-- <h1 id="hero-title" class="hero-title">
+            Connect Your Digital Displays
+          </h1>
+          
+          <p class="hero-description">
+            Transform any screen into a powerful digital signage display. Connect devices using their unique code and start broadcasting your content instantly.
+          </p> -->
+        
+        <div class="hero-image">
+          <img src="./images/connect_screen_left.png" alt="Digital signage device connection illustration" class="connect-image" loading="lazy">
+        </div>
+        
+        <!-- <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Active Devices</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support</div>
+          </div>
+        </div> -->
+      </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" aria-labelledby="form-title">
+      <!-- <div class="form-header">
+        <h2 id="form-title" class="form-title">Connect New Device</h2>
+        <p class="form-subtitle">
+          Enter your device code or ID to establish a secure connection to your CHESNEY signage network.
+        </p>
+      </div> -->
+      
+      <div class="form-content">
+        <form id="connect-form" class="connect-form" novalidate>
+          <div class="input-group">
+            <label for="device-id" class="input-label">Device Code / ID</label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="device-id" 
+                class="input-field"
+                placeholder="Enter 7-digit code or device ID"
+                required
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="device-help"
+              >
+              <i class="fas fa-qrcode input-icon" aria-hidden="true"></i>
+            </div>
+            
+            <div id="device-help" class="input-help">
+              <i class="fas fa-info-circle" aria-hidden="true"></i>
+              <span>Find the device code on your display screen or device settings</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="connect-btn">
+            <i class="fas fa-link" aria-hidden="true"></i>
+            <span>Connect Device</span>
+          </button>
+          
+          
+        </form>
+
+        <!-- Device Management -->
+        <div class="devices-section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">Connected Devices</h3>
+              <p class="section-subtitle">Manage your active digital signage displays</p>
+            </div>
+          </div>
+          
+          <div class="devices-header" role="row">
+            <div role="columnheader">Device Information</div>
+            <div role="columnheader">Connected Date</div>
+            <div role="columnheader">Actions</div>
+          </div>
+          
+          <div id="device-list" class="devices-list" role="table" aria-label="Connected devices list">
+            <!-- Devices will be populated here -->
+            <div class="empty-state" id="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-tv" aria-hidden="true"></i>
+              </div>
+              <h4 class="empty-title">No Devices Connected</h4>
+              <p class="empty-description">
+                Connect your first device using the form above to start managing your digital signage network.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+  </main>
 
-    <!-- Right Section -->
-    <div class="right-section">
-      <span id="close-view-popup" class="close-modal">&times;</span>
-      <h2>Connect Your Device</h2> 
-      
-      <form id="connect-form">
-        <input 
-          type="text" 
-          id="device-id" 
-          placeholder="Enter 7-digit code (e.g., ABC1234)" 
-          required 
-          class="connectform"
-          maxlength="20"
-          pattern="[A-Za-z0-9\s\-]+"
-          title="Please enter letters and numbers only"
-          aria-describedby="device-id-error"
-        />
-        <span id="device-id-error" class="hidden" role="alert">Please enter letters and numbers only</span>
-        <button type="submit">
-          <i class="fas fa-link" style="margin-right: 8px;"></i>
-          Connect Device
-        </button>
-      </form>
-
-      <div class="header-container">
-        <h3>Device Name</h3>
-        <h3>Status</h3>
-        <h3>Connected Date</h3>
-        <h3>Action</h3>
+  <!-- Notification Toast -->
+  <div id="notification" class="notification hidden" role="alert" aria-live="polite">
+    <div class="notification-content">
+      <i id="notification-icon" class="notification-icon" aria-hidden="true"></i>
+      <div class="notification-text">
+        <div id="notification-title" class="notification-title"></div>
+        <div id="notification-message" class="notification-message"></div>
       </div>
-       
-      <!-- List of Connected Devices -->
-      <div id="device-list">
-        <!-- Device items will be dynamically populated here -->
+      <button class="notification-close" onclick="closeNotification()" aria-label="Close notification">
+        <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmation-modal" class="modal-overlay hidden" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">Confirm Action</h3>
+        <p id="modal-description" class="modal-description">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="modal-confirm" class="btn btn-danger">Confirm</button>
       </div>
     </div>
   </div>
 
-  <!-- Alert Box -->
-  <div id="custom-alert" class="alert hidden">
-    <span id="alert-message"></span>
-  </div>
-
-  <!-- Confirm Dialog -->
-  <div id="custom-confirm" class="confirm hidden">
-    <div class="confirm-message" id="confirm-message"></div>
-    <div class="confirm-actions">
-      <button id="confirm-yes">Yes</button>
-      <button id="confirm-no">No</button>
-    </div>
-  </div>
-
-  <!-- Loading Spinner -->
-  <div id="loading-spinner" class="loading-overlay hidden">
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden" role="status" aria-live="polite">
     <div class="loading-content">
-      <div class="spinner"></div>
-      <div class="loading-text" id="loading-text">Loading...</div>
+      <div class="spinner" aria-hidden="true"></div>
+      <h3 id="loading-title" class="loading-title">Processing...</h3>
+      <p id="loading-description" class="loading-description">Please wait while we connect your device.</p>
     </div>
   </div>
 
@@ -878,113 +1381,183 @@
     const db = getFirestore(app);
     const auth = getAuth();
 
-    // Connect Device Function with validation
+    // Global state
+    let currentUser = null;
+    let confirmationResolver = null;
+
+    // Utility Functions
+    function showNotification(type, title, message) {
+      const notification = document.getElementById('notification');
+      const icon = document.getElementById('notification-icon');
+      const titleEl = document.getElementById('notification-title');
+      const messageEl = document.getElementById('notification-message');
+      
+      // Set icon based on type
+      const icons = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        warning: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+      };
+      
+      icon.className = `notification-icon ${type} ${icons[type]}`;
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      
+      notification.classList.remove('hidden');
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        notification.classList.add('hidden');
+      }, 5000);
+    }
+
+    function closeNotification() {
+      document.getElementById('notification').classList.add('hidden');
+    }
+
+    function showLoading(title, description) {
+      const overlay = document.getElementById('loading-overlay');
+      const titleEl = document.getElementById('loading-title');
+      const descEl = document.getElementById('loading-description');
+      
+      titleEl.textContent = title;
+      descEl.textContent = description;
+      overlay.classList.remove('hidden');
+    }
+
+    function hideLoading() {
+      document.getElementById('loading-overlay').classList.add('hidden');
+    }
+
+    function showConfirmation(title, description) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('confirmation-modal');
+        const titleEl = document.getElementById('modal-title');
+        const descEl = document.getElementById('modal-description');
+        const confirmBtn = document.getElementById('modal-confirm');
+        const cancelBtn = document.getElementById('modal-cancel');
+        
+        titleEl.textContent = title;
+        descEl.textContent = description;
+        
+        confirmationResolver = resolve;
+        modal.classList.remove('hidden');
+        
+        // Focus management
+        confirmBtn.focus();
+      });
+    }
+
+    // Event listeners for modal
+    document.getElementById('modal-confirm').addEventListener('click', () => {
+      document.getElementById('confirmation-modal').classList.add('hidden');
+      if (confirmationResolver) {
+        confirmationResolver(true);
+        confirmationResolver = null;
+      }
+    });
+
+    document.getElementById('modal-cancel').addEventListener('click', () => {
+      document.getElementById('confirmation-modal').classList.add('hidden');
+      if (confirmationResolver) {
+        confirmationResolver(false);
+        confirmationResolver = null;
+      }
+    });
+
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('confirmation-modal');
+        if (!modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+          if (confirmationResolver) {
+            confirmationResolver(false);
+            confirmationResolver = null;
+          }
+        }
+      }
+    });
+
+    // Device connection function
     async function connectDevice(userId, deviceId) {
       try {
-        // Show loading immediately
-        showLoader("Validating device...");
+        showLoading('Connecting Device', 'Searching for device in our network...');
         
         let deviceRef;
         let deviceSnapshot;
+        const upperDeviceId = deviceId.toUpperCase().trim();
 
-        // Normalize input to uppercase and remove spaces
-        const normalizedId = deviceId.toUpperCase().trim().replace(/\s/g, '');
-
-        // Validate input format
-        if (normalizedId.length !== 7 && normalizedId.length < 10) {
-          hideLoader();
-          showAlert("Invalid format. Please enter a 7-character code or valid device ID.");
-          return;
-        }
-
-        updateLoaderText("Searching for device...");
-
-        if (normalizedId.length === 7) {
+        if (upperDeviceId.length === 7) {
           // Handle device code lookup
           const devicesCollection = collection(db, "devices");
-          const q = query(devicesCollection, where("deviceCode", "==", normalizedId));
+          const q = query(devicesCollection, where("deviceCode", "==", upperDeviceId));
           const querySnapshot = await getDocs(q);
 
           if (querySnapshot.empty) {
-            hideLoader();
-            showAlert("Device not found. Please check the code and try again.");
+            hideLoading();
+            showNotification('error', 'Device Not Found', 'The device code you entered was not found in our system. Please check and try again.');
             return;
           }
 
-          // Get the first matching document
           deviceSnapshot = querySnapshot.docs[0];
           deviceRef = deviceSnapshot.ref;
         } else {
-          // Handle direct device ID lookup (Firestore doc ID)
-          deviceRef = doc(db, "devices", normalizedId);
+          // Handle direct device ID lookup
+          deviceRef = doc(db, "devices", upperDeviceId);
           deviceSnapshot = await getDoc(deviceRef);
 
           if (!deviceSnapshot.exists()) {
-            hideLoader();
-            showAlert("Device not found. Please check the ID and try again.");
+            hideLoading();
+            showNotification('error', 'Device Not Found', 'The device ID you entered was not found in our system. Please check and try again.');
             return;
           }
         }
 
         const deviceData = deviceSnapshot.data();
 
-        // Check if device is already connected
-        if (deviceData.connectedBy) {
-          if (deviceData.connectedBy === userId) {
-            hideLoader();
-            showAlert("This device is already connected to your account.");
-            return;
-          } else {
-            hideLoader();
-            showAlert("This device is registered to another account.");
-            return;
-          }
+        if (deviceData.connectedBy && deviceData.connectedBy !== userId) {
+          hideLoading();
+          showNotification('warning', 'Device Already Connected', 'This device is already connected by another administrator.');
+          return;
         }
 
-        updateLoaderText("Connecting device...");
+        // Update loading message
+        document.getElementById('loading-description').textContent = 'Establishing secure connection...';
 
-        // Connect the device
         await updateDoc(deviceRef, {
           connectedBy: userId,
           status: "active",
           connectedAt: new Date().toISOString(),
-          lastUpdated: new Date().toISOString(),
-          deviceName: deviceData.deviceName || deviceData.deviceCode || "Unnamed Device"
         });
 
-        hideLoader();
-        showAlert("✅ Device connected successfully!");
-        document.getElementById("device-id").value = "";
+        hideLoading();
+        showNotification('success', 'Device Connected', `Device "${deviceData.deviceCode || 'Unnamed Device'}" has been successfully connected to your account.`);
         
-        // Add success animation to the new device
-        setTimeout(() => {
-          const newDevice = document.querySelector('.device-item:last-child');
-          if (newDevice) {
-            newDevice.classList.add('new-connection');
-          }
-        }, 100);
-
+        // Clear form
+        document.getElementById('device-id').value = '';
+        
       } catch (error) {
         console.error("Error connecting device:", error);
-        hideLoader();
-        showAlert("❌ Connection failed. Please try again.");
+        hideLoading();
+        showNotification('error', 'Connection Failed', 'An error occurred while connecting the device. Please try again or contact support.');
       }
     }
 
-    // Disconnect Device Function with enhanced cleanup
-    async function disconnectDevice(deviceId) {
+    // Device disconnection function
+    async function disconnectDevice(deviceId, deviceName) {
       try {
-        const deviceRef = doc(db, "devices", deviceId);
+        const confirmed = await showConfirmation(
+          'Disconnect Device',
+          `Are you sure you want to disconnect "${deviceName}"? This will stop all content playback on this device.`
+        );
         
-        // First get device data for cleanup
-        const deviceSnap = await getDoc(deviceRef);
-        if (!deviceSnap.exists()) {
-          throw new Error("Device not found");
-        }
+        if (!confirmed) return;
 
-        updateLoaderText("Removing device connection...");
-
-        // Update device document
+        showLoading('Disconnecting Device', 'Removing device from your network...');
+        
+        const deviceRef = doc(db, "devices", deviceId);
         await updateDoc(deviceRef, {
           connectedBy: null,
           status: "inactive",
@@ -993,50 +1566,83 @@
           webUrl: null,
           isGridView: false,
           deviceGroup: null,
-          lastDisconnected: new Date().toISOString()
         });
 
-        updateLoaderText("Cleaning up device data...");
+        hideLoading();
+        showNotification('success', 'Device Disconnected', `"${deviceName}" has been successfully disconnected.`);
         
       } catch (error) {
         console.error("Error disconnecting device:", error);
-        throw error;
+        hideLoading();
+        showNotification('error', 'Disconnection Failed', 'An error occurred while disconnecting the device. Please try again.');
       }
     }
 
-    // Load Devices Function
+    // Load devices function
     function loadDevices(userId) {
       const devicesRef = collection(db, "devices");
       const deviceList = document.getElementById("device-list");
+      const emptyState = document.getElementById("empty-state");
 
       onSnapshot(devicesRef, (snapshot) => {
+        // Clear existing content
         deviceList.innerHTML = "";
-
+        
+        const connectedDevices = [];
+        
         snapshot.forEach((doc) => {
           const deviceData = doc.data();
           if (deviceData.connectedBy === userId) {
-            const deviceItem = document.createElement("div");
-            deviceItem.classList.add("device-item");
-            deviceItem.innerHTML = `
-              <div class="device-name-wrapper">
-                <p>${deviceData.deviceName || deviceData.deviceCode || "Unnamed Device"}</p>
-                <span class="device-info">
-                  <i class="fas fa-info-circle"></i>
-                  <span class="tooltip">Device ID: ${doc.id}</span>
-                </span>
+            connectedDevices.push({ id: doc.id, ...deviceData });
+          }
+        });
+
+        if (connectedDevices.length === 0) {
+          deviceList.appendChild(emptyState);
+          return;
+        }
+
+        // Sort devices by connection date (newest first)
+        connectedDevices.sort((a, b) => new Date(b.connectedAt) - new Date(a.connectedAt));
+
+        connectedDevices.forEach((device) => {
+          const deviceItem = document.createElement("div");
+          deviceItem.classList.add("device-item");
+          deviceItem.setAttribute("role", "row");
+          
+          const connectedDate = new Date(device.connectedAt);
+          const formattedDate = connectedDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          deviceItem.innerHTML = `
+            <div class="device-info" role="gridcell">
+              <div class="device-icon">
+                <i class="fas fa-tv" aria-hidden="true"></i>
               </div>
-              <div class="device-status ${deviceData.status === 'active' ? 'active' : 'inactive'}">
-                <span class="status-dot"></span>
-                ${deviceData.status === 'active' ? 'Active' : 'Inactive'}
+              <div class="device-details">
+                <h4>${device.deviceCode || "Unnamed Device"}</h4>
+              <!--  <div class="device-id">ID: ${device.id}</div> -->
               </div>
-              <h4>${deviceData.connectedAt ? new Date(deviceData.connectedAt).toLocaleDateString() : 'N/A'}</h4>
-              <button class="disconnect-btn" data-id="${doc.id}">
-                <i class="fas fa-unlink" style="margin-right: 4px;"></i>
+            </div>
+            <div class="device-date" role="gridcell">${formattedDate}</div>
+            <div class="device-actions" role="gridcell">
+              <button class="btn btn-secondary" onclick="manageDevice('${device.id}')" aria-label="Manage ${device.deviceCode || 'device'}">
+                <i class="fas fa-cog" aria-hidden="true"></i>
+                Manage
+              </button>
+              <button class="btn btn-danger disconnect-btn" data-id="${device.id}" data-name="${device.deviceCode || 'Unnamed Device'}" aria-label="Disconnect ${device.deviceCode || 'device'}">
+                <i class="fas fa-unlink" aria-hidden="true"></i>
                 Disconnect
               </button>
-            `;
-            deviceList.appendChild(deviceItem);
-          }
+            </div>
+          `;
+          
+          deviceList.appendChild(deviceItem);
         });
 
         // Attach event listeners to disconnect buttons
@@ -1044,214 +1650,99 @@
         disconnectButtons.forEach((button) => {
           button.addEventListener("click", async () => {
             const deviceId = button.getAttribute("data-id");
-            const deviceName = button.closest('.device-item').querySelector('p').textContent;
-            
-            if (await confirm(`Are you sure you want to disconnect "${deviceName}"?`)) {
-              showLoader(`Disconnecting device "${deviceName}"...`);
-              try {
-                await disconnectDevice(deviceId);
-                showAlert("✅ Device disconnected successfully!");
-              } catch (error) {
-                console.error("Error disconnecting device:", error);
-                showAlert("❌ Failed to disconnect device. Please try again.");
-              } finally {
-                hideLoader();
-              }
-            }
+            const deviceName = button.getAttribute("data-name");
+            await disconnectDevice(deviceId, deviceName);
           });
         });
       });
+    }
+
+    // Global function for manage device (placeholder)
+    window.manageDevice = function(deviceId) {
+      showNotification('info', 'Feature Coming Soon', 'Device management features will be available in the next update.');
+    };
+
+    // Form validation
+    function validateDeviceId(value) {
+      const trimmed = value.trim();
+      if (!trimmed) {
+        return { valid: false, message: 'Device ID is required' };
+      }
+      if (trimmed.length < 3) {
+        return { valid: false, message: 'Device ID must be at least 3 characters' };
+      }
+      if (!/^[A-Za-z0-9]+$/.test(trimmed)) {
+        return { valid: false, message: 'Device ID can only contain letters and numbers' };
+      }
+      return { valid: true };
     }
 
     // Initialize app
     document.addEventListener("DOMContentLoaded", () => {
+      const deviceInput = document.getElementById('device-id');
+      const connectBtn = document.getElementById('connect-btn');
+      const connectForm = document.getElementById('connect-form');
+      
+      // Real-time input validation
+      deviceInput.addEventListener('input', (e) => {
+        const value = e.target.value;
+        const validation = validateDeviceId(value);
+        
+        if (value && !validation.valid) {
+          deviceInput.style.borderColor = 'var(--error)';
+          deviceInput.setAttribute('aria-invalid', 'true');
+        } else {
+          deviceInput.style.borderColor = 'var(--gray-200)';
+          deviceInput.removeAttribute('aria-invalid');
+        }
+      });
+
+      // Auto-uppercase for device codes
+      deviceInput.addEventListener('input', (e) => {
+        const cursorPosition = e.target.selectionStart;
+        e.target.value = e.target.value.toUpperCase();
+        e.target.setSelectionRange(cursorPosition, cursorPosition);
+      });
+
+      // Auth state management
       onAuthStateChanged(auth, (user) => {
         if (user) {
+          currentUser = user;
           const userId = user.uid;
-
+          
           // Load connected devices
           loadDevices(userId);
 
-          // Handle device connection
-          const connectForm = document.getElementById("connect-form");
+          // Handle form submission
           connectForm.addEventListener("submit", async (event) => {
             event.preventDefault();
-            const deviceId = document.getElementById("device-id").value.trim();
-            if (deviceId) {
-              showLoader("Connecting device...");
-              try {
-                await connectDevice(userId, deviceId);
-              } catch (error) {
-                console.error("Error:", error);
-              } finally {
-                hideLoader();
-              }
+            
+            const deviceId = deviceInput.value.trim();
+            const validation = validateDeviceId(deviceId);
+            
+            if (!validation.valid) {
+              showNotification('error', 'Invalid Input', validation.message);
+              deviceInput.focus();
+              return;
             }
+
+            connectBtn.disabled = true;
+            await connectDevice(userId, deviceId);
+            connectBtn.disabled = false;
           });
+          
         } else {
           // Redirect to login if not authenticated
-          window.location.href = "login.html";
+          showNotification('error', 'Authentication Required', 'Please log in to access this page.');
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
         }
       });
     });
 
-    // Close button functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const closeButton = document.getElementById('close-view-popup');
-      
-      if (closeButton) {
-        closeButton.addEventListener('click', function() {
-          window.location.href = 'service.html';
-        });
-      }
-    });
-
-    // Alert functions with icons
-    function showAlert(message, type = 'info') {
-      const alertBox = document.getElementById("custom-alert");
-      const alertMessage = document.getElementById("alert-message");
-      
-      // Add icon based on message content
-      if (message.includes('✅')) {
-        alertBox.style.borderLeftColor = 'var(--success)';
-      } else if (message.includes('❌')) {
-        alertBox.style.borderLeftColor = 'var(--error)';
-      } else {
-        alertBox.style.borderLeftColor = 'var(--primary-600)';
-      }
-      
-      alertMessage.textContent = message;
-      alertBox.classList.remove("hidden");
-
-      // Auto-close after 3 seconds
-      setTimeout(() => {
-        alertBox.classList.add("hidden");
-      }, 3000);
-    }
-
-    function closeAlert() {
-      document.getElementById("custom-alert").classList.add("hidden");
-    }
-
-    // Confirm dialog function
-    function confirm(message) {
-      return new Promise((resolve) => {
-        const confirmBox = document.getElementById("custom-confirm");
-        const messageBox = document.getElementById("confirm-message");
-        const yesBtn = document.getElementById("confirm-yes");
-        const noBtn = document.getElementById("confirm-no");
-
-        // Set message
-        messageBox.textContent = message;
-
-        // Show the confirm box
-        confirmBox.classList.remove("hidden");
-
-        let resolved = false;
-
-        const handleResponse = (response) => {
-          if (resolved) return;
-          resolved = true;
-
-          confirmBox.classList.add("hidden");
-          cleanup();
-          resolve(response);
-        };
-
-        const keyHandler = (e) => {
-          if (e.key === "Escape") {
-            handleResponse(false);
-          } else if (e.key === "Enter") {
-            handleResponse(true);
-          }
-        };
-
-        const cleanup = () => {
-          document.removeEventListener("keydown", keyHandler);
-        };
-
-        yesBtn.addEventListener("click", () => handleResponse(true), { once: true });
-        noBtn.addEventListener("click", () => handleResponse(false), { once: true });
-        document.addEventListener("keydown", keyHandler);
-      });
-    }
-
-    // Loading spinner functions
-    function showLoader(message = "Loading...") {
-      const spinner = document.getElementById("loading-spinner");
-      const textElement = document.getElementById("loading-text");
-
-      textElement.textContent = message;
-      spinner.classList.remove("hidden");
-    }
-
-    function hideLoader() {
-      const spinner = document.getElementById("loading-spinner");
-      spinner.classList.add("hidden");
-    }
-
-    function updateLoaderText(message) {
-      const textElement = document.getElementById("loading-text");
-      textElement.textContent = message;
-    }
-
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      // Ctrl/Cmd + K to focus on device input
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        document.getElementById('device-id').focus();
-      }
-      
-      // Escape to close alerts/modals
-      if (e.key === 'Escape') {
-        const alert = document.getElementById('custom-alert');
-        const confirm = document.getElementById('custom-confirm');
-        
-        if (!alert.classList.contains('hidden')) {
-          alert.classList.add('hidden');
-        }
-        if (!confirm.classList.contains('hidden')) {
-          document.getElementById('confirm-no').click();
-        }
-      }
-    });
-
-    // Add device search functionality
-    function addDeviceSearch() {
-      const searchContainer = document.createElement('div');
-      searchContainer.style.marginBottom = 'var(--space-4)';
-      searchContainer.innerHTML = `
-        <input 
-          type="text" 
-          id="device-search" 
-          placeholder="Search connected devices..." 
-          class="connectform"
-          style="width: 100%; margin-bottom: var(--space-4);"
-        />
-      `;
-      
-      const deviceListContainer = document.querySelector('.header-container');
-      deviceListContainer.parentNode.insertBefore(searchContainer, deviceListContainer);
-      
-      const searchInput = document.getElementById('device-search');
-      searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        const deviceItems = document.querySelectorAll('.device-item');
-        
-        deviceItems.forEach(item => {
-          const deviceName = item.querySelector('p').textContent.toLowerCase();
-          if (deviceName.includes(searchTerm)) {
-            item.style.display = 'grid';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      });
-    }
-
-    // Initialize search after DOM is loaded
-    setTimeout(addDeviceSearch, 1000);
+    // Global notification closer
+    window.closeNotification = closeNotification;
   </script>
 </body>
 </html>
