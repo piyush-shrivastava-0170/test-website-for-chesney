@@ -20,13 +20,14 @@ const auth = getAuth();
 
 let userId = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // DOM Elements
-  const playlistGrid = document.getElementById('playlist-grid');
-  const mediaViewPopup = document.getElementById('media-view-popup');
-  const mediaViewGrid = document.getElementById('media-view-grid');
-  const closeViewPopupBtn = document.getElementById('close-view-popup');
-  const deleteSelectedMediaBtn = document.getElementById('delete-selected-media');
+  const playlistGrid = document.getElementById("playlist-grid");
+  const mediaViewPopup = document.getElementById("media-view-popup");
+  const mediaViewGrid = document.getElementById("media-view-grid");
+  const closeViewPopupBtn = document.getElementById("close-view-popup");
+  const deleteSelectedMediaBtn = document.getElementById("delete-selected-media");
+  const closeBtn = document.querySelector(".close-btn");
 
   // State variables
   let selectedMediaUrls = [];
@@ -38,82 +39,77 @@ document.addEventListener('DOMContentLoaded', () => {
       userId = user.uid;
       loadPlaylists(userId);
     } else {
-      showAlert("Please log in to view and manage your playlists.");
-      window.location.href = 'login.html';
+      showNotification("error", "Authentication Error", "Please log in to view and manage your playlists.");
+      window.location.href = "login.html";
     }
   });
 
-  /**
-   * Load all playlists for a user
-   */
   async function loadPlaylists(userId) {
-    playlistGrid.innerHTML = '';
-    const playlistsRef = collection(db, 'users', userId, 'playlists');
+    playlistGrid.innerHTML = "";
+    const playlistsRef = collection(db, "users", userId, "playlists");
     const playlistsSnapshot = await getDocs(playlistsRef);
 
     playlistsSnapshot.forEach((doc) => {
       const playlistData = doc.data();
-      const playlistBox = document.createElement('div');
-      playlistBox.classList.add('playlist-box');
+      const playlistBox = document.createElement("div");
+      playlistBox.classList.add("playlist-box");
       playlistBox.innerHTML = `
         <h4>${playlistData.name}</h4>
         <p class="item-count" data-id="${doc.id}">${playlistData.media?.length || 0} Items</p>
-        <button class="view-playlist-btn" data-id="${doc.id}">View</button>
-        <button class="delete-playlist-btn" data-id="${doc.id}">Delete</button>
+        <button class="btn btn-primary view-playlist-btn" data-id="${doc.id}">
+          <i class="fas fa-eye" aria-hidden="true"></i>
+          
+        </button>
+        <button class="btn btn-danger delete-playlist-btn" data-id="${doc.id}">
+          <i class="fas fa-trash" aria-hidden="true"></i>
+          
+        </button>
       `;
-      playlistBox.querySelector('.view-playlist-btn').addEventListener('click', () => viewPlaylist(doc.id));
-      playlistBox.querySelector('.delete-playlist-btn').addEventListener('click', () => deletePlaylist(doc.id, playlistData.name));
+      playlistBox.querySelector(".view-playlist-btn").addEventListener("click", () => viewPlaylist(doc.id));
+      playlistBox.querySelector(".delete-playlist-btn").addEventListener("click", () => deletePlaylist(doc.id, playlistData.name));
       playlistGrid.appendChild(playlistBox);
     });
   }
- 
+
   async function viewPlaylist(playlistId) {
     currentPlaylistId = playlistId;
-    const playlistRef = doc(db, 'users', userId, 'playlists', playlistId);
+    const playlistRef = doc(db, "users", userId, "playlists", playlistId);
     const playlistSnap = await getDoc(playlistRef);
     const playlistData = playlistSnap.data();
-  
-    mediaViewGrid.innerHTML = '';
+
+    mediaViewGrid.innerHTML = "";
     selectedMediaUrls = [];
-  
+
     if (playlistData.media?.length > 0) {
       playlistData.media.forEach((mediaUrl) => {
-        const mediaItem = document.createElement('div');
-        mediaItem.classList.add('media-view-item');
-  
-        const urlParts = mediaUrl.split('%2F');
-        const fileName = decodeURIComponent(urlParts[urlParts.length - 1].split('?')[0]);
-  
+        const mediaItem = document.createElement("div");
+        mediaItem.classList.add("media-view-item");
+
+        const fileName = extractFileName(mediaUrl);
         const isImage = fileName.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
         const isVideo = fileName.match(/\.(mp4|webm|mov|avi|wmv)$/i);
-  
-        let fileIcon = '';
-        if (isImage) {
-          fileIcon = '<span class="material-icons file-icon">image</span>';
-        } else if (isVideo) {
-          fileIcon = '<span class="material-icons file-icon">video_library</span>';
-        } else {
-          fileIcon = '<img src="https://cdn-icons-png.flaticon.com/128/10278/10278992.png" class="file-icon" />';
-        }
-  
-        // Add placeholder with a click-to-load handler
+
+        const placeholderIcon = isImage ? "image" : isVideo ? "video" : "file-pdf";
+        const placeholderText = isImage ? "Image" : isVideo ? "Video" : "File";
+
         mediaItem.innerHTML = `
-          <div class="media-content lazy-load" data-url="${mediaUrl}" data-type="${isImage ? 'image' : isVideo ? 'video' : 'other'}">
-            <div class="media-placeholder">Click to Load</div>
+          <div class="media-content lazy-load" data-url="${mediaUrl}" data-type="${isImage ? "image" : isVideo ? "video" : "other"}">
+            <div class="media-placeholder click-to-load-overlay">
+              <i class="fas fa-${placeholderIcon} placeholder-icon"></i>
+              <span>Click to Load</span>
+            </div>
           </div>
           <div class="file-item">
-             <input type="checkbox" class="select-media-checkbox" data-url="${mediaUrl}" />
-            <span class="file-name">${fileName}</span>
+            <input type="checkbox" class="select-media-checkbox" data-url="${mediaUrl}" />
+            <span class="file-name" title="${fileName}">${truncateFileName(fileName)}</span>
           </div>
-          
         `;
-  
+
         mediaViewGrid.appendChild(mediaItem);
       });
-  
-      // Handle checkbox selection
-      document.querySelectorAll('.select-media-checkbox').forEach((checkbox) => {
-        checkbox.addEventListener('change', (e) => {
+
+      document.querySelectorAll(".select-media-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", (e) => {
           const mediaUrl = e.target.dataset.url;
           if (e.target.checked) {
             selectedMediaUrls.push(mediaUrl);
@@ -122,46 +118,45 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       });
-  
-      // Handle click-to-load
-      document.querySelectorAll('.lazy-load').forEach((container) => {
-        container.addEventListener('click', () => {
+
+      document.querySelectorAll(".lazy-load").forEach((container) => {
+        container.addEventListener("click", () => {
           const mediaUrl = container.dataset.url;
           const type = container.dataset.type;
-  
-          if (type === 'image') {
+
+          if (type === "image") {
             container.innerHTML = `<img src="${mediaUrl}" alt="Media" class="media-thumbnail" />`;
-          } else if (type === 'video') {
+          } else if (type === "video") {
             container.innerHTML = `<video src="${mediaUrl}" class="media-thumbnail" controls preload="metadata"></video>`;
           } else {
-            container.innerHTML = `<p>Unsupported media type.</p>`;
+            container.innerHTML = `
+              <div class="file-preview">
+                <i class="fas fa-file-pdf file-preview-icon"></i>
+                <span class="file-preview-text">File loaded</span>
+              </div>
+            `;
           }
         });
       });
-  
     } else {
       mediaViewGrid.innerHTML = '<p>No media in this playlist.</p>';
     }
-  
-    mediaViewPopup.style.display = 'block';
+
+    mediaViewPopup.classList.remove("hidden");
   }
-  
-  /**
-   * Delete selected media from playlist
-   */
+
   async function deleteSelectedMedia() {
     if (selectedMediaUrls.length === 0) {
-      showAlert('Please select at least one media item to delete.');
+      showNotification("warning", "No Media Selected", "Please select at least one media item to delete.");
       return;
     }
 
-    const confirmDelete = await confirm('Are you sure you want to delete the selected media items?');
+    const confirmDelete = await confirm("Are you sure you want to delete the selected media items?");
     if (!confirmDelete) return;
 
-    // Show loading spinner
     showLoader("Removing media from playlist...");
 
-    const playlistRef = doc(db, 'users', userId, 'playlists', currentPlaylistId);
+    const playlistRef = doc(db, "users", userId, "playlists", currentPlaylistId);
 
     try {
       updateLoaderText("Fetching playlist data...");
@@ -171,129 +166,118 @@ document.addEventListener('DOMContentLoaded', () => {
       if (playlistData && playlistData.media) {
         updateLoaderText("Updating playlist...");
         const updatedMedia = playlistData.media.filter((url) => !selectedMediaUrls.includes(url));
-        
+
         await updateDoc(playlistRef, { media: updatedMedia });
 
         updateLoaderText("Refreshing interface...");
-        
-        // Update the media count in the UI
         const itemCountElement = document.querySelector(`.item-count[data-id="${currentPlaylistId}"]`);
         if (itemCountElement) {
           itemCountElement.textContent = `${updatedMedia.length} Items`;
         }
 
-        showAlert('Selected media items deleted from playlist.');
+        showNotification("success", "Media Deleted", "Selected media items deleted from playlist.");
         viewPlaylist(currentPlaylistId);
       }
     } catch (error) {
-      console.error('Error deleting selected media:', error);
-      showAlert('Failed to delete selected media. Please try again.');
+      console.error("Error deleting selected media:", error);
+      showNotification("error", "Deletion Failed", "Failed to delete selected media. Please try again.");
     } finally {
-      // Always hide the loader
       hideLoader();
     }
   }
 
-  /**
-   * Delete a playlist
-   */
   async function deletePlaylist(playlistId, playlistName) {
     const confirmDelete = await confirm(`Are you sure you want to delete the playlist "${playlistName}"?`);
     if (!confirmDelete) return;
 
-    // Show loading spinner
     showLoader(`Deleting playlist "${playlistName}"...`);
 
     try {
       updateLoaderText("Removing playlist from database...");
-      const playlistRef = doc(db, 'users', userId, 'playlists', playlistId);
+      const playlistRef = doc(db, "users", userId, "playlists", playlistId);
       await deleteDoc(playlistRef);
-      
+
       updateLoaderText("Refreshing playlists...");
-      showAlert(`Playlist "${playlistName}" deleted.`);
+      showNotification("success", "Playlist Deleted", `Playlist "${playlistName}" deleted.`);
       loadPlaylists(userId);
-      
     } catch (error) {
-      console.error('Error deleting playlist:', error);
-      showAlert('Failed to delete playlist. Please try again.');
+      console.error("Error deleting playlist:", error);
+      showNotification("error", "Deletion Failed", "Failed to delete playlist. Please try again.");
     } finally {
-      // Always hide the loader
       hideLoader();
     }
   }
 
   // Event Listeners
-  deleteSelectedMediaBtn.addEventListener('click', deleteSelectedMedia);
+  deleteSelectedMediaBtn.addEventListener("click", deleteSelectedMedia);
 
-  closeViewPopupBtn.addEventListener('click', () => {
-    mediaViewPopup.style.display = 'none';
-    mediaViewGrid.innerHTML = ''; // Clear the media view grid
+  closeViewPopupBtn.addEventListener("click", () => {
+    mediaViewPopup.classList.add("hidden");
+    mediaViewGrid.innerHTML = "";
   });
 
-  mediaViewPopup.addEventListener('click', (e) => {
+  mediaViewPopup.addEventListener("click", (e) => {
     if (e.target === mediaViewPopup) {
-      mediaViewPopup.style.display = 'none';
-      mediaViewGrid.innerHTML = ''; // Reset media view grid
+      mediaViewPopup.classList.add("hidden");
+      mediaViewGrid.innerHTML = "";
     }
   });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      window.location.href = "service.html";
+    });
+  } else {
+    console.error('Close button element with class "close-btn" not found');
+  }
 });
 
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the close button element by its ID
-    const closeButton = document.getElementById('close-view-popupp');
-    
-    // Add a click event listener to the close button
-    if (closeButton) {
-        closeButton.addEventListener('click', function() {
-            // Navigate to the home page
-            window.location.href = 'service.html';
-            
-            // Alternative approaches:
-            // window.location.replace('/'); // Replaces current history entry
-            // window.location.assign('/');  // Same as window.location.href = '/'
-        });
-    } else {
-        console.error('Close button element with ID "close-view-popup" not found');
-    }
-});
+function extractFileName(url) {
+  try {
+    const urlParts = url.split("%2F");
+    return decodeURIComponent(urlParts[urlParts.length - 1].split("?")[0]);
+  } catch (error) {
+    return "Unknown file";
+  }
+}
 
-// Disable right click in the page
-// document.addEventListener('contextmenu', event => event.preventDefault());
-// document.onkeydown = function (e) {
-//   if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-//     return false;
-//   }
-// };
+function truncateFileName(fileName, maxLength = 20) {
+  if (fileName.length <= maxLength) return fileName;
+  const extension = fileName.substring(fileName.lastIndexOf("."));
+  const name = fileName.substring(0, fileName.lastIndexOf("."));
+  const truncatedName = name.substring(0, maxLength - extension.length - 3) + "...";
+  return truncatedName + extension;
+}
 
-function showAlert(message) {
-  const alertBox = document.getElementById("custom-alert");
-  const alertMessage = document.getElementById("alert-message");
-  alertMessage.textContent = message;
-  alertBox.classList.remove("hidden");
+function showNotification(type, title, message) {
+  const notification = document.getElementById("notification");
+  const icon = document.getElementById("notification-icon");
+  const titleElement = document.getElementById("notification-title");
+  const messageElement = document.getElementById("notification-message");
 
-  // Auto-close after 3 seconds
+  icon.className = `notification-icon fas fa-${type === "success" ? "check-circle" : type === "error" ? "exclamation-circle" : "exclamation-triangle"} ${type}`;
+  titleElement.textContent = title;
+  messageElement.textContent = message;
+
+  notification.classList.remove("hidden");
+
   setTimeout(() => {
-    alertBox.classList.add("hidden");
+    notification.classList.add("hidden");
   }, 3000);
 }
 
-function closeAlert() {
-  document.getElementById("custom-alert").classList.add("hidden");
-
+function closeNotification() {
+  document.getElementById("notification").classList.add("hidden");
 }
 
 function confirm(message) {
-  return new Promise((resolve) => {  // ← This return was missing!
-    const confirmBox = document.getElementById("custom-confirm");
-    const messageBox = document.getElementById("confirm-message");
+  return new Promise((resolve) => {
+    const confirmBox = document.getElementById("confirmation-modal");
+    const messageBox = document.getElementById("modal-description");
     const yesBtn = document.getElementById("confirm-yes");
     const noBtn = document.getElementById("confirm-no");
 
-    // Set message
     messageBox.textContent = message;
-
-    // Show the confirm box
     confirmBox.classList.remove("hidden");
 
     let resolved = false;
@@ -325,48 +309,20 @@ function confirm(message) {
   });
 }
 
-// Loading Spinner Utility
-const LoadingSpinner = {
-  element: null,
-  textElement: null,
-
-  init() {
-    this.element = document.getElementById("loading-spinner");
-    this.textElement = document.getElementById("loading-text");
-  },
-
-  show(message = "Loading...") {
-    if (!this.element) this.init();
-    this.textElement.textContent = message;
-    this.element.classList.remove("hidden");
-  },
-
-  hide() {
-    if (!this.element) this.init();
-    this.element.classList.add("hidden");
-  },
-
-  updateText(message) {
-    if (!this.textElement) this.init();
-    this.textElement.textContent = message;
-  }
-};
-
-// Alternative: Simple functions
 function showLoader(message = "Loading...") {
-  const spinner = document.getElementById("loading-spinner");
-  const textElement = document.getElementById("loading-text");
+  const spinner = document.getElementById("loading-overlay");
+  const textElement = document.getElementById("loading-title");
 
   textElement.textContent = message;
   spinner.classList.remove("hidden");
 }
 
 function hideLoader() {
-  const spinner = document.getElementById("loading-spinner");
+  const spinner = document.getElementById("loading-overlay");
   spinner.classList.add("hidden");
 }
 
 function updateLoaderText(message) {
-  const textElement = document.getElementById("loading-text");
+  const textElement = document.getElementById("loading-title");
   textElement.textContent = message;
 }
